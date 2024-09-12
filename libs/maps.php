@@ -95,7 +95,7 @@
                     die("can write request.");
                 fclose($file);
                 $mapas=glob("processed/*");
-                if(count($mapas)>10) unlink($mapas[0]);
+                if(count($mapas)>=12) unlink($mapas[0]);
                 ///////////
                 if(substr($map, 0, 1)=="("){
                     $jcj=substr(explode(")", $map)[0],1); 
@@ -195,11 +195,11 @@
         ]);
         $response = curl_exec( $ch );
         curl_close( $ch );
-        /*
+        
         $fp = fopen('results.json', 'w');
         fwrite($fp, $hookObject);
         fclose($fp);
-        */
+        
     }
 
     

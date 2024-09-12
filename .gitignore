@@ -1,0 +1,12 @@
+maps/*
+pending/*
+processed/*
+log.txt
+composer.lock
+*.w3m.png
+*.w3m.blp
+*.w3x.blp
+*.w3x.png
+*.tga
+*.w3x
+*.w3m

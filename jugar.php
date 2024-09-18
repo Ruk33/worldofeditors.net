@@ -93,7 +93,7 @@
                 <div class="mapas">
                     <input type="file" name="map" id="map">
                     <label for="map" class="mapnamespan">
-                        <img src="./img/path.png" alt=""><span for="map" id="mapnombre">No hay ningun mapa cargado.</span>
+                        <img src="./img/path.png" alt=""><span for="map" id="mapnombre">Subir un mapa desde mi ordenador.</span>
                     </label>
                     <select name="mapname" id="mapname" size="5" class="wcsc" >
                         <?php $files = scandir("maps");

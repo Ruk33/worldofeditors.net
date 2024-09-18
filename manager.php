@@ -8,7 +8,7 @@
     }
     fclose($file);
     if($DATA==null){
-        header("Location: new.php");
+        header("Location: jugar.php");
         die();
     }
 ?>

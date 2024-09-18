@@ -104,7 +104,7 @@ window.onload= function(){
                 */
             }        
         }else{
-            document.querySelector("#mapnombre").innerHTML="No hay ningun mapa cargado.";
+            document.querySelector("#mapnombre").innerHTML="Subir un mapa desde mi ordenador.";
             document.querySelector(".mapnamespan").classList.remove("mapnameselect"); 
         }
     });
@@ -113,7 +113,7 @@ window.onload= function(){
     ///////////////////////////////////////////////
     document.querySelector("#mapname").addEventListener('change', function(){        
         document.querySelector("#map").value="";
-        document.querySelector("#mapnombre").innerHTML="No hay ningun mapa cargado.";
+        document.querySelector("#mapnombre").innerHTML="Subir un mapa desde mi ordenador.";
         document.querySelector(".mapnamespan").classList.remove("mapnameselect"); 
 
         var selectedOption = this.options[this.selectedIndex];

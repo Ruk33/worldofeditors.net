@@ -64,6 +64,8 @@
                 
             </div>
             <div class="marco acciones">
+                <a  class="btngreen" onclick="cargar()">CARGAR DATOS DESDE ARCHIVO</a>
+                <br><br>
                 <input type="submit" class="btnblue" value="GUARDAR CAMBIOS">
                 <a  class="btnred" onclick="eliminar()">ELIMINAR MAPA</a>
             </div>
@@ -125,7 +127,7 @@
         height: 100%;
         display: inline-flex;
         flex-direction: column;
-        gap: 3px;
+        gap: 25px;
         padding: 5px 0px;
         align-items: center;
     }
@@ -134,21 +136,31 @@
     }
     .acciones{
         color: white;
-        display: inline-flex;
+        /*display: inline-flex;*/
         gap: 3px;
     }
     .cabecera{
         display: flex;
         align-items: center;
+        margin-bottom: 15px;
+    }
+    .cabecera>img{
+        border: 1px solid #c0c0c0;
     }
     .metadata{
         text-align: left;
         display: grid;
         width: 100%;
+        padding: 10px 0px 0px 10px;
+    }
+    #desc{
+        height: 90px;
+        resize: none;
     }
     .datos{
         display: flex;
         align-items: center;
+        gap: 10px;
     }
     .cabecera>img{
         width: 256px;
@@ -244,13 +256,17 @@
         border-radius: 29px;
     }
     .entrada {
-        width: 75%;
+        width: 95%;
         border: 2.5px solid grey;
         border-radius: 4px;
         background: #000000;
         color: white;
         padding: 8px 5px;
         font-size: 1em;
+        
+    }
+    .metadata>.entrada{
+        margin-bottom: 8px;
     }
     .btnred{
         background-image: url(./img/btnred.png);
@@ -265,6 +281,19 @@
         font-family: inherit;
         font-size: 1em;
     }
+    .btngreen{
+        background-image: url(./img/btng.png);
+        background-repeat: round;
+        background-size: cover;
+        color: #eff14c;
+        display: block;
+        padding: 10px 30px;
+        text-decoration: none;
+        text-transform: uppercase;
+        font-family: inherit;
+        font-size: 1em;
+        margin-bottom: -23px;
+    }
     .btnblue{
         background-image: url(./img/btn.png);
         background-repeat: round;
@@ -278,7 +307,7 @@
         border: none;
         background-color: inherit;
         font-family: inherit;
-        font-size: 1em;
+        font-size: 1em;        
     }
 </style>
 <script>
@@ -326,6 +355,35 @@
         });        
         consulta.open("GET","./libs/administrador.php?funcion=borrar&mapa=<?php echo $DATA[9] ?>");
         consulta.send();       
+    }
+    function cargar(){
+        /*
+        let consulta=new XMLHttpRequest();
+        consulta.addEventListener("readystatechange",(e)=>{
+            if(consulta.readyState !== 4) return;
+            console.log(consulta);
+            if (consulta.status>=200 && consulta.status<300) {
+                let data=JSON.parse(consulta.responseText);                        
+                if(data.length>0){
+                    data.forEach((mapa) => {
+
+                        
+                                           
+                    });
+                }             
+            }
+        });        
+        consulta.open("GET","https://worldofeditors.net/PHP-MPQ/map_info.php?map=<?php echo str_replace(" ","%20",$DATA[0]); ?>");
+        consulta.send();   */ 
+        const request = new XMLHttpRequest();
+        request.open("GET", "https://worldofeditors.net/PHP-MPQ/map_info.php?map=<?php echo str_replace(" ","%20",$DATA[0]); ?>");   
+        request.responseType = "json";
+        request.send();
+        request.onload = function () {
+            const superHeroes = request.response;
+            console.log(superHeroes);
+        };
+
     }
 </script>
 </html>

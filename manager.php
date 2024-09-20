@@ -67,7 +67,7 @@
                 <a  class="btngreen" onclick="cargar()">CARGAR DATOS DESDE ARCHIVO</a>
                 <br><br>
                 <input type="submit" class="btnblue" value="GUARDAR CAMBIOS">
-                <a  class="btnred" onclick="eliminar()">ELIMINAR MAPA</a>
+                <a  class="btnred" onclick="AbrirModal()">ELIMINAR MAPA</a>
             </div>
         </form>
     </center>
@@ -83,9 +83,9 @@
         </div>
         <div class="modalalert marco delete"> 
             <h1>ELIMINAR</h1>
-            <p>Esta seguro que desea eliminar <span id="mapaname">MAPA</span> del servidor permanentemente?</p>
-            <a id="cerrar" class="btnblue">CANCELAR</a>
-            <a id="delok" class="btnred">ELIMINAR</a>        
+            <p>Esta seguro que desea eliminar <span id="mapaname"><?php echo $DATA[1]; ?></span> del servidor permanentemente?</p>
+            <a id="cerrar" class="btnblue" onclick="cancelar()">CANCELAR</a>
+            <a id="delok" class="btnred" onclick="eliminar()">ELIMINAR</a>        
         </div>
     </div>
 
@@ -350,11 +350,23 @@
             if(consulta.readyState !== 4) return;
             //console.log(consulta);
             if (consulta.status>=200 && consulta.status<300) {
-                window.location.href = './new.php';              
+                document.querySelector(".delete").style.display = "none";  
+                document.getElementById("ventanaModal").style.display = "none"; 
+                window.location.href = './jugar.php';              
             }
         });        
         consulta.open("GET","./libs/administrador.php?funcion=borrar&mapa=<?php echo $DATA[9] ?>");
         consulta.send();       
+    }
+    function AbrirModal() { 
+        document.querySelector(".upload").style.display = "none"; 
+        document.querySelector(".delete").style.display = "block";  
+        document.getElementById("ventanaModal").style.display = "block";               
+    }
+    function cancelar() {
+        document.querySelector(".upload").style.display = "none"; 
+        document.querySelector(".delete").style.display = "none";  
+        document.getElementById("ventanaModal").style.display = "none"; 
     }
     function cargar(){
         /*
@@ -367,8 +379,6 @@
                 if(data.length>0){
                     data.forEach((mapa) => {
 
-                        
-                                           
                     });
                 }             
             }
@@ -380,8 +390,11 @@
         request.responseType = "json";
         request.send();
         request.onload = function () {
-            const superHeroes = request.response;
-            console.log(superHeroes);
+            const datamap = JSON.parse(request.response);
+            document.querySelector("#nombre").value=""+datamap.name;
+            document.querySelector("#autor").value=""+datamap.author;
+            document.querySelector("#desc").value=""+datamap.description;
+            document.querySelector("#jp").value=""+datamap.players_recommended;
         };
 
     }

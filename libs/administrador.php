@@ -109,10 +109,13 @@
                         $peso=$_FILES["archivo"]['size'];
                         if (file_exists("maps/".$fila[0])){
                             unlink("maps/".$fila[0]);
-                        }                        
+                        }  
+                        echo $nueval= "".$mapa.";".$nombre.";".$jcj.";".$peso.";".$autor.";".$jp.";".$desc.";".$tipo.";".$preview.";".$id;                      
                     }else{
                         $mapa=$fila[0];
                         $peso=$fila[3];
+                        echo $nueval= "".$mapa.";".$nombre.";".$jcj.";".$peso.";".$autor.";".$jp.";".$desc.";".$tipo.";".$preview.";".$id;
+                        $datos[] = $fila;
                     }
                 }else{
                     $datos[] = $fila; 
@@ -127,22 +130,17 @@
             $Upload_Path = "maps/". $UniqueName;
             move_uploaded_file($tmp_name, $Upload_Path);
         }
-        echo $nueval= "".$mapa.";".$nombre.";".$jcj.";".$peso.";".$autor.";".$jp.";".$desc.";".$tipo.";".$preview.";".$id;
-        
+                
         if (($gestor = fopen("mapas.csv", 'w')) !== FALSE) {
-            fputs($gestor, $nueval.PHP_EOL);
+            if(isset($_FILES["archivo"]) && $_FILES['archivo']['name'] != null){
+                fputs($gestor, $nueval.PHP_EOL);
+            }
             foreach ($datos as $fila) {
                 $linea= $fila[0].";".$fila[1].";".$fila[2].";".$fila[3].";".$fila[4].";".$fila[5].";".$fila[6].";".$fila[7].";".$fila[8].";".$fila[9];
                 fputs($gestor, $linea.PHP_EOL);
             }
             fclose($gestor);
         }
-
-
-
-
-
-
     }
 
 

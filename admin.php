@@ -145,6 +145,11 @@
     ul>li>span{
         margin-right: auto;
     }
+    ul>li>label{
+        color: #575757;
+        font-size: 15px;
+        padding-left: 20px;
+    }
     li{
         list-style-type: none;
         text-align: left;
@@ -333,6 +338,9 @@ window.onload= function(){
                             li_mapa.classList.add("nunicon");
                             li_mapa.classList.add("ni"+mapa.jcj);
                         }
+                        const label_fecha=document.createElement("label");
+                        label_fecha.innerHTML=mapa.fecha;
+                        li_mapa.appendChild(label_fecha);
                         const a_link=document.createElement("a");
                         a_link.href="manager.php?map="+mapa.id;
                         a_link.target="_blank";

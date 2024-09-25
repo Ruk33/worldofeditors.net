@@ -1,4 +1,5 @@
 <?php 
+    header('Access-Control-Allow-Origin: *');
     $funcion=$_GET['funcion'];
     
     if($funcion=="similar"){
@@ -126,12 +127,16 @@
             if (fwrite($file, "\nbot_map = " . $map . "\nbot_owner = " . strtolower($owner) . "\nbot_game = " . $name . "\n") === false)
                 die("can write request.");
             fclose($file);
+            echo "create pending<br>";
             $mapas=glob("processed/*");
             if(count($mapas)>10) unlink($mapas[0]);
+            echo "unlink processed<br>";
             //////////////////
             webhookdisc($map,$_POST["nombre"],$name,$owner,$_POST["description"]);
+            echo "Discord enviado<br>";
             //////////////////
-            Reg_Log("[SUCCEED][SELECT]",$name,$owner,$map,date('d/m/Y H:i:s'));            
+            Reg_Log("[SUCCEED][SELECT]",$name,$owner,$map,date('d/m/Y H:i:s')); 
+            echo "Log creado<br>";           
         }        
     }
     function Reg_Log($estado,$partida,$user,$mapa,$fecha){

@@ -286,8 +286,8 @@
         background-repeat: round;
         background-size: cover;
         color: #eff14c;
-        display: block;
-        padding: 10px 30px;
+        display: inline-flex;
+        padding: 10px 79px;
         text-decoration: none;
         text-transform: uppercase;
         font-family: inherit;
@@ -368,35 +368,18 @@
         document.querySelector(".delete").style.display = "none";  
         document.getElementById("ventanaModal").style.display = "none"; 
     }
-    function cargar(){
-        /*
-        let consulta=new XMLHttpRequest();
-        consulta.addEventListener("readystatechange",(e)=>{
-            if(consulta.readyState !== 4) return;
-            console.log(consulta);
-            if (consulta.status>=200 && consulta.status<300) {
-                let data=JSON.parse(consulta.responseText);                        
-                if(data.length>0){
-                    data.forEach((mapa) => {
-
-                    });
-                }             
-            }
-        });        
-        consulta.open("GET","https://worldofeditors.net/PHP-MPQ/map_info.php?map=<?php echo str_replace(" ","%20",$DATA[0]); ?>");
-        consulta.send();   */ 
+    function cargar(){  
         const request = new XMLHttpRequest();
-        request.open("GET", "https://worldofeditors.net/PHP-MPQ/map_info.php?map=<?php echo str_replace(" ","%20",$DATA[0]); ?>");   
+        request.open("GET", "PHP-MPQ/map_info.php?map=<?php echo str_replace(" ","%20",$DATA[0]); ?>");   
         request.responseType = "json";
         request.send();
         request.onload = function () {
-            const datamap = JSON.parse(request.response);
-            document.querySelector("#nombre").value=""+datamap.name;
-            document.querySelector("#autor").value=""+datamap.author;
-            document.querySelector("#desc").value=""+datamap.description;
-            document.querySelector("#jp").value=""+datamap.players_recommended;
+            const datamap = request.response;            
+            document.querySelector("#nombre").value=""+datamap["name"];
+            document.querySelector("#autor").value=""+datamap["author"];
+            document.querySelector("#desc").value=""+datamap["description"];
+            document.querySelector("#jp").value=""+datamap["players_recommended"];
         };
-
     }
 </script>
 </html>

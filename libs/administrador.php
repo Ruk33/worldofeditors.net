@@ -20,7 +20,8 @@
                     $jsar["autor"]=$mapa[4];
                     $jsar["minimap"]=$mapa[8]; 
                     $jsar["jp"]=$mapa[5];   
-                    $jsar["id"]=$mapa[9];         
+                    $jsar["id"]=$mapa[9]; 
+                    if(file_exists("maps/".$mapa[0])) $jsar["fecha"]=date("d-m-Y H:i:s",filectime("maps/".$mapa[0])); else $jsar["fecha"]="DESCONOCIDO"; 
                     array_push($array, $jsar);
                 }elseif (preg_match("/{$nombre}/i", $mapa[1])) {
                     $jsar=[];                
@@ -32,7 +33,8 @@
                     $jsar["autor"]=$mapa[4];
                     $jsar["minimap"]=$mapa[8];   
                     $jsar["jp"]=$mapa[5]; 
-                    $jsar["id"]=$mapa[9];   
+                    $jsar["id"]=$mapa[9];  
+                    if(file_exists("maps/".$mapa[0])) $jsar["fecha"]=date("d-m-Y H:i:s",filectime("maps/".$mapa[0])); else $jsar["fecha"]="DESCONOCIDO"; 
                     array_push($array, $jsar);
                 }
             }elseif($mapa[7]==$tipo){
@@ -46,7 +48,8 @@
                     $jsar["autor"]=$mapa[4];
                     $jsar["minimap"]=$mapa[8]; 
                     $jsar["jp"]=$mapa[5]; 
-                    $jsar["id"]=$mapa[9];           
+                    $jsar["id"]=$mapa[9];
+                    if(file_exists("maps/".$mapa[0])) $jsar["fecha"]=date("d-m-Y H:i:s",filectime("maps/".$mapa[0])); else $jsar["fecha"]="DESCONOCIDO";           
                     array_push($array, $jsar);
                 }elseif (preg_match("/{$nombre}/i", $mapa[1])) {
                     $jsar=[];                
@@ -58,7 +61,8 @@
                     $jsar["autor"]=$mapa[4];
                     $jsar["minimap"]=$mapa[8];   
                     $jsar["jp"]=$mapa[5];  
-                    $jsar["id"]=$mapa[9];  
+                    $jsar["id"]=$mapa[9];
+                    if(file_exists("maps/".$mapa[0])) $jsar["fecha"]=date("d-m-Y H:i:s",filectime("maps/".$mapa[0])); else $jsar["fecha"]="DESCONOCIDO";  
                     array_push($array, $jsar);
                 }
             }

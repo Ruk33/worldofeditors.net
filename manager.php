@@ -329,9 +329,11 @@
             let fileLoaded = ((loaded / total) * 100).toFixed(2);
             let fileTotal = Math.floor(total / 1000);
             //console.log(fileLoaded,fileTotal);
-            document.querySelector(".upload").style.display = "block"; 
-            document.querySelector(".upload>p").innerHTML="maps/"+document.querySelector("#archivo").files[0].name;
-            document.querySelector("#ventanaModal").style.display = "block"; 
+            if(document.querySelector("#archivo").value!=""){
+                document.querySelector(".upload").style.display = "block"; 
+                document.querySelector(".upload>p").innerHTML="maps/"+document.querySelector("#archivo").files[0].name;
+                document.querySelector("#ventanaModal").style.display = "block"; 
+            }
 
             document.querySelector(".progressbar div").style.width=fileLoaded+"%";
             document.querySelector(".progressbar h4").innerHTML=fileLoaded+"%";

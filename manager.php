@@ -372,7 +372,7 @@
     }
     function cargar(){  
         const request = new XMLHttpRequest();
-        request.open("GET", "PHP-MPQ/map_info.php?map=<?php echo str_replace(" ","%20",$DATA[0]); ?>");   
+        request.open("GET", "https://worldofeditors.net/PHP-MPQ/map_info.php?map=<?php echo str_replace(" ","%20",$DATA[0]); ?>");   
         request.responseType = "json";
         request.send();
         request.onload = function () {
@@ -381,6 +381,7 @@
             document.querySelector("#autor").value=""+datamap["author"];
             document.querySelector("#desc").value=""+datamap["description"];
             document.querySelector("#jp").value=""+datamap["players_recommended"];
+            document.querySelector("#jcj").value=""+datamap["max_players"];
         };
     }
 </script>

@@ -118,8 +118,19 @@
                     }else{
                         $mapa=$fila[0];
                         $peso=$fila[3];
-                        echo $nueval= "".$mapa.";".$nombre.";".$jcj.";".$peso.";".$autor.";".$jp.";".$desc.";".$tipo.";".$preview.";".$id;
-                        $datos[] = $fila;
+                        $nfila=array();
+                        $nfila[0]=$mapa;
+                        $nfila[1]=$nombre;
+                        $nfila[2]=$jcj;
+                        $nfila[3]=$peso;
+                        $nfila[4]=$autor;
+                        $nfila[5]=$jp;
+                        $nfila[6]=$desc;
+                        $nfila[7]=$tipo;
+                        $nfila[8]=$preview;
+                        $nfila[9]=$id;
+                        print_r( $nfila);
+                        $datos[] = $nfila;
                     }
                 }else{
                     $datos[] = $fila; 

@@ -43,6 +43,50 @@ if ($info_needs_to_be_generated) {
         while (($s = FileStream::byte($w3i, $x)) != 0)
                 $players_recommended .= chr($s);
 
+        $x += 4 * 8; // camera bounds;
+        $x += 4 * 4; // camera bounds complemenets
+        $x += 4; // map playable area w
+        $x += 4; // map playable area h
+        $x += 4; // map flags
+        $x += 1; // main ground type
+        $x += 4; // campaign background number
+
+        // custom loading screen model
+        while (($s = FileStream::byte($w3i, $x)) != 0);
+
+        // loading screen text
+        while (($s = FileStream::byte($w3i, $x)) != 0);
+
+        // loading screen title
+        while (($s = FileStream::byte($w3i, $x)) != 0);
+
+        // loading screen subtitle
+        while (($s = FileStream::byte($w3i, $x)) != 0);
+
+        $x += 4; // loading screen number
+
+        // prologue screen path
+        while (($s = FileStream::byte($w3i, $x)) != 0);
+
+        // prologue text
+        while (($s = FileStream::byte($w3i, $x)) != 0);
+
+        // prologue title
+        while (($s = FileStream::byte($w3i, $x)) != 0);
+
+        // prologue subtitle
+        while (($s = FileStream::byte($w3i, $x)) != 0);
+
+        $x += 6 * 4; // uses terrain fog, fog start z h, fog end z h, fog density, fog r g b a, global weather
+
+        // custom sound environment
+        while (($s = FileStream::byte($w3i, $x)) != 0);
+
+        $x += 5; // tileset id, water tinting r g b a
+
+        // max number of players
+        $max_players = FileStream::UInt32($w3i, $x);
+
         $map_name_escaped = escapeshellarg($map_name);
         $map_path_escaped = escapeshellarg($map_path);
         $command = "./MPQExtractor -e war3map.wts -o out $map_path_escaped";
@@ -76,6 +120,7 @@ if ($info_needs_to_be_generated) {
                 "author" => $author,
                 "description" => $description,
                 "players_recommended" => $players_recommended,
+                "max_players" => $max_players,
         );
 
         $json_result = json_encode($result);

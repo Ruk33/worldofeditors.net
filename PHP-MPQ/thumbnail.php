@@ -9,7 +9,7 @@ require __DIR__ . "/vendor/autoload.php";
 use TriggerHappy\MPQ\MPQArchive;
 
 $map = $_GET['map'];
-$preview = "thumbnails/" . $map . ".png";
+$preview = "./thumbnails/" . $map . ".png";
 $thumbnail_generated = file_exists($preview);
 $thumbnail_needs_to_be_generated = !$thumbnail_generated;
 

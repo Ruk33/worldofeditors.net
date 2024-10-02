@@ -89,7 +89,7 @@ if ($info_needs_to_be_generated) {
 
         $map_name_escaped = escapeshellarg($map_name);
         $map_path_escaped = escapeshellarg($map_path);
-        $command = "./MPQExtractor -e war3map.wts -o out $map_path_escaped";
+        $command = "../MPQExtractor/build/bin/MPQExtractor -e war3map.wts -o out $map_path_escaped";
         $output = [];
         $return_var = 0;
         exec($command, $output, $return_var);

@@ -17,7 +17,7 @@ RUN cd MPQExtractor && git submodule init && git submodule update && mkdir build
 
 COPY ./ /var/www/html/
 
-COPY MPQExtractor/build/bin/MPQExtractor /var/www/html/PHP-MPQ/MPQExtractor
+COPY ./MPQExtractor/build/bin/MPQExtractor /var/www/html/PHP-MPQ/MPQExtractor
 # Allow MPQExtractor to be executed
 RUN chmod +x /var/www/html/PHP-MPQ/MPQExtractor
 

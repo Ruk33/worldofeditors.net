@@ -13,7 +13,7 @@ use TriggerHappy\MPQ\Stream\FileStream;
 // $map = "(2)EchoIsles.w3x";
 $map = $_GET["map"];
 $map_path = "../maps/" . $map;
-$map_info = $map . ".json";
+$map_info = "map_info/" . $map . ".json";
 $info_needs_to_be_generated = !file_exists($map_info);
 
 if ($info_needs_to_be_generated) {

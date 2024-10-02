@@ -1,8 +1,10 @@
 FROM php:8.2-apache
 
 # Imagemagic (convert)
+# Git (required by composer)
+# Lib C++ required by MPQExtractor
 RUN apt-get update && apt-get install -y \
-    git imagemagick libmagickwand-dev --no-install-recommends \
+    git libstdc++6 libstdc++-12-dev imagemagick libmagickwand-dev --no-install-recommends \
     && pecl install imagick \
     && docker-php-ext-enable imagick
 

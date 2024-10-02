@@ -2,7 +2,7 @@ FROM php:8.2-apache
 
 # Imagemagic (convert)
 RUN apt-get update && apt-get install -y \
-    imagemagick libmagickwand-dev --no-install-recommends \
+    git imagemagick libmagickwand-dev --no-install-recommends \
     && pecl install imagick \
     && docker-php-ext-enable imagick
 

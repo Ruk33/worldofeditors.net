@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://worldofeditors.foroactivo.com&size=16" type="image/x-icon">
-    <title>World of Editors</title>
+    <title>World of Editors.</title>
     <link rel="stylesheet" href="libs/global.css">
     <script src="libs/entorno.js"></script>
     <script>

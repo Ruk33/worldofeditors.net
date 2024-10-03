@@ -4,6 +4,9 @@ header('Access-Control-Allow-Origin: *');
 // ini_set('display_startup_errors', 1);
 // ini_set('display_errors', 1);
 // error_reporting(-1);
+ini_set('display_startup_errors', 0);
+ini_set('display_errors', 0);
+error_reporting(0);
 
 require __DIR__ . "/vendor/autoload.php";
 
@@ -13,8 +16,9 @@ use TriggerHappy\MPQ\Stream\FileStream;
 // $map = "(2)EchoIsles.w3x";
 $map = $_GET["map"];
 $map_path = "../maps/" . $map;
-$map_info = "map_info/" . $map . ".json";
+$map_info = "./map_info/" . $map . ".json";
 $info_needs_to_be_generated = !file_exists($map_info);
+// $info_needs_to_be_generated = true;
 
 if ($info_needs_to_be_generated) {
         $mpq_debug = false;
@@ -89,7 +93,7 @@ if ($info_needs_to_be_generated) {
 
         $map_name_escaped = escapeshellarg($map_name);
         $map_path_escaped = escapeshellarg($map_path);
-        $command = "../MPQExtractor/build/bin/MPQExtractor -e war3map.wts -o ../storage $map_path_escaped";
+        $command = "MPQExtractor -e war3map.wts -o ../storage $map_path_escaped 2>&1";
         $output = [];
         $return_var = 0;
         exec($command, $output, $return_var);

@@ -12,8 +12,16 @@ RUN apt-get update && apt-get install -y \
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # MPQExtractor
-RUN git clone https://github.com/Kanma/MPQExtractor.git
-RUN cd MPQExtractor && git submodule init && git submodule update && mkdir build && cd build && cmake .. && cmake --build . && cd /
+RUN git clone https://github.com/Kanma/MPQExtractor.git && \
+    cd MPQExtractor && \
+    git submodule init && \
+    git submodule update && \
+    mkdir build && \
+    cd build && \
+    cmake .. && \
+    cmake --build . && \
+    mv bin/MPQExtractor /usr/bin/ && \
+    chmod +x /usr/bin/MPQExtractor
 
 COPY ./ /var/www/html/
 

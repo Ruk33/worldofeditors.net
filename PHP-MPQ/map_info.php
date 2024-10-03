@@ -89,7 +89,7 @@ if ($info_needs_to_be_generated) {
 
         $map_name_escaped = escapeshellarg($map_name);
         $map_path_escaped = escapeshellarg($map_path);
-        $command = "../MPQExtractor/build/bin/MPQExtractor -e war3map.wts -o out $map_path_escaped";
+        $command = "../MPQExtractor/build/bin/MPQExtractor -e war3map.wts -o ../storage $map_path_escaped";
         $output = [];
         $return_var = 0;
         exec($command, $output, $return_var);
@@ -99,7 +99,7 @@ if ($info_needs_to_be_generated) {
         $description_string = "STRING " . intval(str_replace("TRIGSTR_", "", $description));
         $players_recommended_string = "STRING " . intval(str_replace("TRIGSTR_", "", $players_recommended));
 
-        $wts = file_get_contents("out/war3map.wts");
+        $wts = file_get_contents("../storage/war3map.wts");
 
         $map_name_value = strstr($wts, $map_name_string);
         $author_value = strstr($wts, $author_string);

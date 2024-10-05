@@ -3,6 +3,11 @@
 // ini_set('display_startup_errors', 1);
 // ini_set('display_errors', 1);
 // error_reporting(-1);
+ini_set('display_startup_errors', 0);
+ini_set('display_errors', 0);
+error_reporting(0);
+
+header("Content-Type: image/png");
 
 require __DIR__ . "/vendor/autoload.php";
 
@@ -33,13 +38,11 @@ if ($thumbnail_needs_to_be_generated) {
             $blp_thumbnail = $map . ".blp";
             file_put_contents($blp_thumbnail, $thumbnail);
             $blp_thumbnail_escaped = escapeshellarg($blp_thumbnail);
-            $command = "BLPConverter $blp_thumbnail_escaped";
+            $command = "BLPConverter -o thumbnails $blp_thumbnail_escaped 2>&1";
             $output = [];
             $return_var = 0;
-            exec($command, $output, $return_var);
         }
     }
 }
 
-header("Content-Type: image/png");
 readfile($preview);

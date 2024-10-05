@@ -98,7 +98,7 @@
         $peso="";
         $autor=$_POST['autor'];  
         $jp=$_POST['jp'];  
-        $desc=$_POST['desc'];  
+        $desc=str_replace("\r"," ",str_replace("\n",' ',$_POST['desc']));  
         $tipo=$_POST['tipo']; 
         $preview="minimap.png"; 
         $id=preg_quote(urlencode($_GET["mapa"])); 

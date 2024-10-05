@@ -6,7 +6,7 @@
     // Check if the form was submitted with a map to upload.
     if (isset($_POST["submit"]) && isset($_FILES["map"]) && $_FILES["map"]["name"]) {
         // Specify the directory where you want to store uploaded files
-        $uploadDirectory = "/var/www/html/maps/";
+        $uploadDirectory = "maps/";
 
         // Get the uploaded file's name and temporary location
         $fileName = $_FILES["map"]["name"];
@@ -26,7 +26,7 @@
             // $owner = $_POST["owner"];
             $name = $_POST["name"];
 
-            $file = fopen("/var/www/html/pending/pending" . time(), "w");
+            $file = fopen("pending/pending" . time(), "w");
             if ($file === false)
                     die("can't create request." . var_dump(error_get_last()));
             if (fwrite($file, "\nbot_map = " . $map . "\nbot_owner = " . $owner . "\nbot_game = " . $name . "\n") === false)
@@ -40,7 +40,7 @@
     } else if (isset($_POST["submit"]) && isset($_POST["mapname"]) && $_POST["mapname"]) {
         $name = $_POST["name"];
         $map = $_POST["mapname"];
-        $file = fopen("/var/www/html/pending/pending" . time(), "w");
+        $file = fopen("pending/pending" . time(), "w");
         if ($file === false)
             die("can't create request." . var_dump(error_get_last()));
         if (fwrite($file, "\nbot_map = " . $map . "\nbot_owner = " . $owner . "\nbot_game = " . $name . "\n") === false)

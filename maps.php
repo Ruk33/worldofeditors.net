@@ -4,8 +4,7 @@
 
         $file_name = $_FILES['map']['name'];
         $tmp_name = $_FILES['map']['tmp_name'];
-        $Upload_Directory = "/var/www/html/maps/";
-        //$Upload_Directory = "maps/";
+        $Upload_Directory = "maps/";
 
         $UniqueName = $file_name;
         $Upload_Path = $Upload_Directory . $UniqueName;
@@ -16,7 +15,7 @@
             $name = $_POST["name"];
             $owner = $_POST["owner"];
 
-            $file = fopen("/var/www/html/pending/pending" . time(), "w");
+            $file = fopen("pending/pending" . time(), "w");
             //$file = fopen("pending" . time(), "w");
             if ($file === false)
                     die("can't create request." . var_dump(error_get_last()));
@@ -36,7 +35,7 @@
         $name = $_POST["name"];
         $map = $_POST["mapname"];
         $owner = $_POST["owner"];
-        $file = fopen("/var/www/html/pending/pending" . time(), "w");
+        $file = fopen("pending/pending" . time(), "w");
         if ($file === false)
             die("can't create request." . var_dump(error_get_last()));
         if (fwrite($file, "\nbot_map = " . $map . "\nbot_owner = " . strtolower($owner) . "\nbot_game = " . $name . "\n") === false)

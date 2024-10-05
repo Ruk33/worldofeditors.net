@@ -81,7 +81,7 @@
         if(isset($_FILES["map"]) && $_FILES['map']['name'] != null){
             $file_name = $_FILES['map']['name'];
             $tmp_name = $_FILES['map']['tmp_name'];
-            $Upload_Directory = "/var/www/html/maps/";
+            $Upload_Directory = "maps/";
             $UniqueName = $file_name;
             $Upload_Path = $Upload_Directory . $UniqueName;
             $valor=file_exists("maps/".$file_name);
@@ -89,7 +89,7 @@
                 $map = $file_name;
                 $name = $_POST["name"];
                 $owner = $_POST["owner"];    
-                $file = fopen("/var/www/html/pending/pending" . time(), "w");
+                $file = fopen("pending/pending" . time(), "w");
                 if ($file === false)
                     die("0@can't create request." . var_dump(error_get_last()));
                 if (fwrite($file, "\nbot_map = " . $map . "\nbot_owner = " . strtolower($owner) . "\nbot_game = " . $name . "\n") === false)

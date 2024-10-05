@@ -29,7 +29,7 @@ RUN cd BLPConverter && \
     cd build && \
     cmake .. && \
     make && \
-    mv build/bin/BLPConverter /usr/bin/ && \
+    mv bin/BLPConverter /usr/bin/ && \
     chmod +x /usr/bin/BLPConverter
 
 COPY ./php.ini /usr/local/etc/php/conf.d/

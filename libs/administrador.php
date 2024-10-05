@@ -7,7 +7,7 @@
 
         $array = array();
         chdir("../");
-        $file = fopen("mapas.csv", 'r');        
+        $file = fopen("storage/mapas.csv", 'r');        
         while ((($mapa = fgetcsv($file, 1000, ';')) !== FALSE)) {
             if($tipo=="ALL") {
                 if($nombre==""){                      
@@ -74,7 +74,7 @@
         chdir("../");
         //echo $mapa;
         $datos = [];
-        if (($gestor = fopen("mapas.csv", 'r')) !== FALSE) {
+        if (($gestor = fopen("storage/mapas.csv", 'r')) !== FALSE) {
             while (($fila = fgetcsv($gestor, 1000, ';')) !== FALSE) {
                 if($fila[9]!=$mapa){                                       
                     $datos[] = $fila; 
@@ -82,7 +82,7 @@
             }
             fclose($gestor);
         }
-        if (($gestor = fopen("mapas.csv", 'w')) !== FALSE) {
+        if (($gestor = fopen("storage/mapas.csv", 'w')) !== FALSE) {
             foreach ($datos as $fila) {
                 $linea= $fila[0].";".$fila[1].";".$fila[2].";".$fila[3].";".$fila[4].";".$fila[5].";".$fila[6].";".$fila[7].";".$fila[8].";".$fila[9];
                 fputs($gestor, $linea.PHP_EOL);
@@ -105,7 +105,7 @@
 
         $datos = [];
         $nueval ="";
-        if (($gestor = fopen("mapas.csv", 'r')) !== FALSE) {
+        if (($gestor = fopen("storage/mapas.csv", 'r')) !== FALSE) {
             while (($fila = fgetcsv($gestor, 1000, ';')) !== FALSE) {
                 if($fila[9]==$id){  
                     if(isset($_FILES["archivo"]) && $_FILES['archivo']['name'] != null){
@@ -146,7 +146,7 @@
             move_uploaded_file($tmp_name, $Upload_Path);
         }
                 
-        if (($gestor = fopen("mapas.csv", 'w')) !== FALSE) {
+        if (($gestor = fopen("storage/mapas.csv", 'w')) !== FALSE) {
             if(isset($_FILES["archivo"]) && $_FILES['archivo']['name'] != null){
                 fputs($gestor, $nueval.PHP_EOL);
             }

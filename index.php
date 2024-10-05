@@ -7,7 +7,6 @@
     <title>World of Editors</title>
     <link rel="stylesheet" href="libs/index.css">
     <script src="libs/index.js" type="module"></script>
-
 </head>
 <body>
     <img src="./img/InicioBG.png" alt="Carggando..." class="load">

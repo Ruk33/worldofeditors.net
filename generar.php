@@ -1,5 +1,5 @@
 <?php   
-    $CSVA=fopen("mapas.csv","w"); 
+    $CSVA=fopen("storage/mapas.csv","w"); 
     chdir("maps/");
     array_multisort(array_map("filemtime", ($Archivos = glob("*.{w3x,w3m}",GLOB_BRACE))), SORT_DESC, $Archivos);      
     foreach($Archivos as $mapa){

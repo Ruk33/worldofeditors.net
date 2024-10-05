@@ -17,7 +17,7 @@
     
 </style>
 <body>
-    <img src="./img/InicioBG.png" alt="Carggando..." class="load">
+    <img src="./img/InicioBG.png" alt="Cargando..." class="load">
     <center id="ventanaModal" class="modal">
         <div class="modal-content">            
             <div id="alert-igual" >

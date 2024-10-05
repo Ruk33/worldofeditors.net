@@ -22,7 +22,7 @@
 
         $array = array();
         chdir("../");
-        $file = fopen("mapas.csv", 'r');        
+        $file = fopen("storage/mapas.csv", 'r');        
         while ((($mapa = fgetcsv($file, 1000, ';')) !== FALSE)) {
             if($tipo=="ALL") {
                 if($nombre==""){                      
@@ -147,7 +147,7 @@
     function Agregarcsv($mapa,$nombre,$jcj,$peso,$autor,$jp,$desc,$tipo,$preview,$id,$valor){
         $datos = [];
         $nueval ="";
-        if (($gestor = fopen("mapas.csv", 'r')) !== FALSE) {
+        if (($gestor = fopen("storage/mapas.csv", 'r')) !== FALSE) {
             while (($fila = fgetcsv($gestor, 1000, ';')) !== FALSE) {
                 if($valor== true && $fila[0]==$mapa){
                     $nombre=$fila[1]; $jcj=$fila[2]; $peso=$fila[3]; $autor=$fila[4]; $jp=$fila[5]; $desc=$fila[6]; $tipo=$fila[7]; $preview=$fila[8]; $id=$fila[9];
@@ -157,7 +157,7 @@
             }
             fclose($gestor);
         }
-        if (($gestor = fopen("mapas.csv", 'w')) !== FALSE) {
+        if (($gestor = fopen("storage/mapas.csv", 'w')) !== FALSE) {
             $nueval= "".$mapa.";".$nombre.";".$jcj.";".$peso.";".$autor.";".$jp.";".$desc.";".$tipo.";".$preview.";".$id;
             fputs($gestor, $nueval.PHP_EOL);
             foreach ($datos as $fila) {

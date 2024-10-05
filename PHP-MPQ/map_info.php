@@ -4,6 +4,9 @@ header('Access-Control-Allow-Origin: *');
 // ini_set('display_startup_errors', 1);
 // ini_set('display_errors', 1);
 // error_reporting(-1);
+ini_set('display_startup_errors', 0);
+ini_set('display_errors', 0);
+error_reporting(0);
 
 require __DIR__ . "/vendor/autoload.php";
 
@@ -13,8 +16,9 @@ use TriggerHappy\MPQ\Stream\FileStream;
 // $map = "(2)EchoIsles.w3x";
 $map = $_GET["map"];
 $map_path = "../maps/" . $map;
-$map_info = $map . ".json";
+$map_info = "./map_info/" . $map . ".json";
 $info_needs_to_be_generated = !file_exists($map_info);
+// $info_needs_to_be_generated = true;
 
 if ($info_needs_to_be_generated) {
         $mpq_debug = false;
@@ -43,9 +47,53 @@ if ($info_needs_to_be_generated) {
         while (($s = FileStream::byte($w3i, $x)) != 0)
                 $players_recommended .= chr($s);
 
+        $x += 4 * 8; // camera bounds;
+        $x += 4 * 4; // camera bounds complemenets
+        $x += 4; // map playable area w
+        $x += 4; // map playable area h
+        $x += 4; // map flags
+        $x += 1; // main ground type
+        $x += 4; // campaign background number
+
+        // custom loading screen model
+        while (($s = FileStream::byte($w3i, $x)) != 0);
+
+        // loading screen text
+        while (($s = FileStream::byte($w3i, $x)) != 0);
+
+        // loading screen title
+        while (($s = FileStream::byte($w3i, $x)) != 0);
+
+        // loading screen subtitle
+        while (($s = FileStream::byte($w3i, $x)) != 0);
+
+        $x += 4; // loading screen number
+
+        // prologue screen path
+        while (($s = FileStream::byte($w3i, $x)) != 0);
+
+        // prologue text
+        while (($s = FileStream::byte($w3i, $x)) != 0);
+
+        // prologue title
+        while (($s = FileStream::byte($w3i, $x)) != 0);
+
+        // prologue subtitle
+        while (($s = FileStream::byte($w3i, $x)) != 0);
+
+        $x += 6 * 4; // uses terrain fog, fog start z h, fog end z h, fog density, fog r g b a, global weather
+
+        // custom sound environment
+        while (($s = FileStream::byte($w3i, $x)) != 0);
+
+        $x += 5; // tileset id, water tinting r g b a
+
+        // max number of players
+        $max_players = FileStream::UInt32($w3i, $x);
+
         $map_name_escaped = escapeshellarg($map_name);
         $map_path_escaped = escapeshellarg($map_path);
-        $command = "./MPQExtractor -e war3map.wts -o out $map_path_escaped";
+        $command = "MPQExtractor -e war3map.wts -o ../storage $map_path_escaped 2>&1";
         $output = [];
         $return_var = 0;
         exec($command, $output, $return_var);
@@ -55,7 +103,7 @@ if ($info_needs_to_be_generated) {
         $description_string = "STRING " . intval(str_replace("TRIGSTR_", "", $description));
         $players_recommended_string = "STRING " . intval(str_replace("TRIGSTR_", "", $players_recommended));
 
-        $wts = file_get_contents("out/war3map.wts");
+        $wts = file_get_contents("../storage/war3map.wts");
 
         $map_name_value = strstr($wts, $map_name_string);
         $author_value = strstr($wts, $author_string);
@@ -76,6 +124,7 @@ if ($info_needs_to_be_generated) {
                 "author" => $author,
                 "description" => $description,
                 "players_recommended" => $players_recommended,
+                "max_players" => $max_players,
         );
 
         $json_result = json_encode($result);

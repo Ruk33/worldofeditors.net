@@ -24,7 +24,7 @@ if ($thumbnail_needs_to_be_generated) {
 
     $thumbnail = $mpq->readFile("war3mapPreview.tga") or $mpq->readFile("war3mapMap.tga");
     if ($thumbnail) {
-        $tga_thumbnail = $map . ".tga";
+        $tga_thumbnail = "../storage/" . $map . ".tga";
         file_put_contents($tga_thumbnail, $thumbnail);
         $tga_thumbnail_escaped = escapeshellarg($tga_thumbnail);
         $preview_escaped = escapeshellarg($preview);
@@ -32,15 +32,16 @@ if ($thumbnail_needs_to_be_generated) {
         $output = [];
         $return_var = 0;
         exec($command, $output, $return_var);
-    }else{
+    } else {
         $thumbnail = $mpq->readFile("war3mapMap.blp");
         if ($thumbnail) {
-            $blp_thumbnail = $map . ".blp";
+            $blp_thumbnail = "../storage/" . $map . ".blp";
             file_put_contents($blp_thumbnail, $thumbnail);
             $blp_thumbnail_escaped = escapeshellarg($blp_thumbnail);
-            $command = "BLPConverter -o thumbnails $blp_thumbnail_escaped 2>&1";
+            $command = "BLPConverter -o ./thumbnails $blp_thumbnail_escaped 2>&1";
             $output = [];
             $return_var = 0;
+            exec($command, $output, $return_var);
         }
     }
 }

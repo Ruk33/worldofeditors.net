@@ -2,7 +2,7 @@ FROM php:8.2-apache
 
 # Imagemagic (convert)
 # Git (required by composer)
-# Lib C++ required by MPQExtractor
+# Build essential/cmake for C++ projects
 RUN apt-get update && apt-get install -y \
     git build-essential cmake imagemagick libmagickwand-dev --no-install-recommends \
     && pecl install imagick \
@@ -23,13 +23,18 @@ RUN git clone https://github.com/Kanma/MPQExtractor.git && \
     mv bin/MPQExtractor /usr/bin/ && \
     chmod +x /usr/bin/MPQExtractor
 
+# BLPConverter
+RUN cd BLPConverter && \
+    mkdir build && \
+    cd build && \
+    cmake .. && \
+    make && \
+    mv build/bin/BLPConverter /usr/bin/ && \
+    chmod +x /usr/bin/BLPConverter
+
 COPY ./php.ini /usr/local/etc/php/conf.d/
 
 COPY ./ /var/www/html/
-
-# COPY ./MPQExtractor/build/bin/MPQExtractor /var/www/html/PHP-MPQ/MPQExtractor
-# Allow MPQExtractor to be executed
-# RUN chmod +x /var/www/html/PHP-MPQ/MPQExtractor
 
 EXPOSE 80
 

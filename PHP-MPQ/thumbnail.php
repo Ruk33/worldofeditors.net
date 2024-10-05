@@ -33,7 +33,7 @@ if ($thumbnail_needs_to_be_generated) {
             $blp_thumbnail = $map . ".blp";
             file_put_contents($blp_thumbnail, $thumbnail);
             $blp_thumbnail_escaped = escapeshellarg($blp_thumbnail);
-            $command = "../BLPConverter/build/bin/BLPConverter $blp_thumbnail_escaped";
+            $command = "BLPConverter $blp_thumbnail_escaped";
             $output = [];
             $return_var = 0;
             exec($command, $output, $return_var);

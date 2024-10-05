@@ -23,18 +23,18 @@ RUN git clone https://github.com/Kanma/MPQExtractor.git && \
     mv bin/MPQExtractor /usr/bin/ && \
     chmod +x /usr/bin/MPQExtractor
 
+COPY ./php.ini /usr/local/etc/php/conf.d/
+
+COPY ./ /var/www/html/
+
 # BLPConverter
-RUN cd BLPConverter && \
+RUN cd /var/www/html/BLPConverter && \
     mkdir build && \
     cd build && \
     cmake .. && \
     make && \
     mv bin/BLPConverter /usr/bin/ && \
     chmod +x /usr/bin/BLPConverter
-
-COPY ./php.ini /usr/local/etc/php/conf.d/
-
-COPY ./ /var/www/html/
 
 EXPOSE 80
 

@@ -38,7 +38,7 @@
                 <div class="datos">
                     <label>TIPO:</label>
                     <SELECT class="entrada" id="tipo" name="tipo">
-                        <option value="meele" <?php if($DATA[7]=="meele") echo "selected"; ?>>MEELE</option>
+                        <option value="melee" <?php if($DATA[7]=="melee") echo "selected"; ?>>MEELE</option>
                         <option value="custom" <?php if($DATA[7]=="custom") echo "selected"; ?>>CUSTOM</option>
                     </SELECT>
                     <label>JUGADORES:</label>

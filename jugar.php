@@ -77,7 +77,7 @@
                         <!-- TIPO -->
                         <input type="radio" id="r1" name="tipo" value="ALL" checked>
                         <label for="r1" class="btnazul lblbtn no-seleccionable" >All</label>
-                        <input type="radio" id="r2" name="tipo" value="Meele">
+                        <input type="radio" id="r2" name="tipo" value="melee">
                         <label for="r2" class="btnazul lblbtn no-seleccionable" >melee</label>
                         <input type="radio" id="r3" name="tipo" value="custom">
                         <label for="r3" class="btnazul lblbtn no-seleccionable" >custom</label>

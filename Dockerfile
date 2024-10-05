@@ -23,6 +23,8 @@ RUN git clone https://github.com/Kanma/MPQExtractor.git && \
     mv bin/MPQExtractor /usr/bin/ && \
     chmod +x /usr/bin/MPQExtractor
 
+COPY ./php.ini /usr/local/etc/php/conf.d/
+
 COPY ./ /var/www/html/
 
 # COPY ./MPQExtractor/build/bin/MPQExtractor /var/www/html/PHP-MPQ/MPQExtractor

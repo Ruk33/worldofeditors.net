@@ -1,4 +1,4 @@
-<?php $file = fopen("mapas.csv", 'r');  
+<?php $file = fopen("storage/mapas.csv", 'r');  
     $DATA=[];  
     while ((($mapa = fgetcsv($file, 1000, ';')) !== FALSE)) {
         if ($mapa[9]==urlencode($_GET['map'])) {

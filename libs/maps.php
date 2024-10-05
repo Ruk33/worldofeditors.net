@@ -121,7 +121,7 @@
             $name = $_POST["name"];
             $map = $_POST["mapname"];
             $owner = $_POST["owner"];
-            $file = fopen("/var/www/html/pending/pending" . time(), "w");
+            $file = fopen("pending/pending" . time(), "w");
             if ($file === false)
                 die("can't create request." . var_dump(error_get_last()));
             if (fwrite($file, "\nbot_map = " . $map . "\nbot_owner = " . strtolower($owner) . "\nbot_game = " . $name . "\n") === false)

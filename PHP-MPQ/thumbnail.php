@@ -28,7 +28,7 @@ if ($thumbnail_needs_to_be_generated) {
         file_put_contents($tga_thumbnail, $thumbnail);
         $tga_thumbnail_escaped = escapeshellarg($tga_thumbnail);
         $preview_escaped = escapeshellarg($preview);
-        $command = "convert $tga_thumbnail $preview_escaped";
+        $command = "convert $tga_thumbnail -flip $preview_escaped";
         $output = [];
         $return_var = 0;
         exec($command, $output, $return_var);

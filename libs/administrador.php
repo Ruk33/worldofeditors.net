@@ -93,13 +93,13 @@
         chdir("../");
         
         $mapa="";
-        $nombre=$_POST['nombre']; 
-        $jcj=$_POST['jcj']; 
+        $nombre=str_replace(";",",",$_POST['nombre']); 
+        $jcj=str_replace(";",",",$_POST['jcj']); 
         $peso="";
-        $autor=$_POST['autor'];  
-        $jp=$_POST['jp'];  
-        $desc=str_replace("\r"," ",str_replace("\n",' ',$_POST['desc']));  
-        $tipo=$_POST['tipo']; 
+        $autor=str_replace(";",",",$_POST['autor']);  
+        $jp=str_replace(";",",",$_POST['jp']);  
+        $desc=str_replace(";",",",str_replace("\r"," ",str_replace("\n",' ',$_POST['desc'])));  
+        $tipo=str_replace(";",",",$_POST['tipo']); 
         $preview="minimap.png"; 
         $id=preg_quote(urlencode($_GET["mapa"])); 
 
@@ -109,7 +109,7 @@
             while (($fila = fgetcsv($gestor, 1000, ';')) !== FALSE) {
                 if($fila[9]==$id){  
                     if(isset($_FILES["archivo"]) && $_FILES['archivo']['name'] != null){
-                        $mapa=$_FILES["archivo"]['name'];
+                        $mapa=str_replace(";",",",$_FILES["archivo"]['name']);
                         $peso=$_FILES["archivo"]['size'];
                         if (file_exists("maps/".$fila[0])){
                             unlink("maps/".$fila[0]);
@@ -120,14 +120,14 @@
                         $peso=$fila[3];
                         $nfila=array();
                         $nfila[0]=$mapa;
-                        $nfila[1]=$nombre;
-                        $nfila[2]=$jcj;
+                        $nfila[1]=str_replace(";",",",$nombre);
+                        $nfila[2]=str_replace(";",",",$jcj);
                         $nfila[3]=$peso;
-                        $nfila[4]=$autor;
-                        $nfila[5]=$jp;
-                        $nfila[6]=$desc;
-                        $nfila[7]=$tipo;
-                        $nfila[8]=$preview;
+                        $nfila[4]=str_replace(";",",",$autor);
+                        $nfila[5]=str_replace(";",",",$jp);
+                        $nfila[6]=str_replace(";",",",$desc);
+                        $nfila[7]=str_replace(";",",",$tipo);
+                        $nfila[8]=str_replace(";",",",$preview);
                         $nfila[9]=$id;
                         print_r( $nfila);
                         $datos[] = $nfila;

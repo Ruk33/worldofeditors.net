@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://worldofeditors.foroactivo.com&size=16" type="image/x-icon">
     <title>World of Editors</title>
+    <meta name="description" content="Comunidad Latina de Warcraft 3 donde podras encontrar recursos y tutoriales para aprender a crear tus propios mapas usando el editor de mundos, World Edit.">
     <link rel="stylesheet" href="libs/index.css">
     <script src="libs/index.js" type="module"></script>
 </head>

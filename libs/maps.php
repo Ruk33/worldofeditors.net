@@ -36,7 +36,7 @@ if($funcion=="similar"){
     $results = array();
 
     foreach (glob("../maps/*.w3x") as $map_name) {
-        $map_info = get_map_info($map_name);
+        $map_info = get_map_info(basename($map_name));
         
         $map_is_invalid = !$map_info;
         
@@ -56,7 +56,7 @@ if($funcion=="similar"){
         if ($does_not_matches_query)
             continue;
     
-        $map_thumbnail = get_map_thumbnail($map_name);
+        $map_thumbnail = get_map_thumbnail(basename($map_name));
         
         $entry = array(
             "mapa" => basename($map_name),

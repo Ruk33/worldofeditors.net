@@ -36,7 +36,7 @@ if($funcion=="similar"){
     $results = array();
 
     foreach (glob("../maps/*.w3x") as $map_name) {
-        $map_file_size = filesize($map_file);
+        $map_file_size = filesize($map_name);
 
         $map_info = get_map_info(basename($map_name));
         

@@ -8,6 +8,7 @@ ini_set('display_errors', 0);
 error_reporting(0);
 
 include "../PHP-MPQ/get_map_info.php";
+include "parse_color_tags.php";
 
 header("Cache-Control: public, max-age=5, stale-while-revalidate=60");
 $funcion=$_GET['funcion'];
@@ -39,9 +40,9 @@ if($funcion=="similar"){
         if (!$map_info)
             continue;
 
-        $mapa[1] = $map_info["name"];
+        $mapa[1] = parse_color_tags($map_info["name"]);
         $mapa[2] = $map_info["max_players"];
-        $mapa[6] = $map_info["description"];
+        $mapa[6] = parse_color_tags($map_info["description"]);
         $mapa[4] = $map_info["author"];
         $mapa[5] = $map_info["players_recommended"];
 

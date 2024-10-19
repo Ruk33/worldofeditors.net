@@ -55,6 +55,12 @@ if($funcion=="similar"){
 
         if ($does_not_matches_query)
             continue;
+
+        if ($tipo == "melee" && !$map_info["is_melee"])
+            continue;
+
+        if ($tipo == "custom" && $map_info["is_melee"])
+            continue;
     
         $map_thumbnail = get_map_thumbnail(basename($map_name));
         
@@ -67,6 +73,7 @@ if($funcion=="similar"){
             "autor" => parse_color_tags($map_info["author"]),
             "minimap" => $map_thumbnail ? "/PHP-MPQ/thumbnail.php?map=" . basename($map_name) : "minmap.png",
             "jp" => parse_color_tags($map_info["players_recommended"]),
+            "is_melee" => $map_info["is_melee"],
         );
 
         array_push($results, $entry);

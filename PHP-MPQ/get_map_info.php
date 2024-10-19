@@ -45,7 +45,7 @@ function get_map_info($map) {
             $x += 4 * 4; // camera bounds complemenets
             $x += 4; // map playable area w
             $x += 4; // map playable area h
-            $x += 4; // map flags
+            $map_flags = FileStream::UInt32($w3i, $x); // map flags
             $x += 1; // main ground type
             $x += 4; // campaign background number
 
@@ -120,6 +120,7 @@ function get_map_info($map) {
                 "description" => $description,
                 "players_recommended" => $players_recommended,
                 "max_players" => $max_players,
+                "is_melee" => ($map_flags & 0x0004) == 0x0004,
             );
 
             $json_result = json_encode($result);

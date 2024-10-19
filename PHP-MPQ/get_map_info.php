@@ -7,8 +7,8 @@ use TriggerHappy\MPQ\Stream\FileStream;
 
 function get_map_info($map) {
     // $map = "(2)EchoIsles.w3x";
-    $map_path = __DIR__ . "../maps/" . $map;
-    $map_info = __DIR__ . "./map_info/" . $map . ".json";
+    $map_path = __DIR__ . "/../maps/" . $map;
+    $map_info = __DIR__ . "/map_info/" . $map . ".json";
     $info_needs_to_be_generated = !file_exists($map_info);
     // $info_needs_to_be_generated = true;
 
@@ -83,7 +83,7 @@ function get_map_info($map) {
         // max number of players
         $max_players = FileStream::UInt32($w3i, $x);
 
-        $store_path_escaped = escapeshellarg(__DIR__ . "../storage");
+        $store_path_escaped = escapeshellarg(__DIR__ . "/../storage");
         $map_name_escaped = escapeshellarg($map_name);
         $map_path_escaped = escapeshellarg($map_path);
         $command = "MPQExtractor -e war3map.wts -o $store_path_escaped $map_path_escaped 2>&1";
@@ -96,7 +96,7 @@ function get_map_info($map) {
         $description_string = "STRING " . intval(str_replace("TRIGSTR_", "", $description));
         $players_recommended_string = "STRING " . intval(str_replace("TRIGSTR_", "", $players_recommended));
 
-        $wts = file_get_contents(__DIR__ . "../storage/war3map.wts");
+        $wts = file_get_contents(__DIR__ . "/../storage/war3map.wts");
 
         $map_name_value = strstr($wts, $map_name_string);
         $author_value = strstr($wts, $author_string);

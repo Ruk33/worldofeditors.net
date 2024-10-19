@@ -23,11 +23,8 @@ RUN git clone https://github.com/Kanma/MPQExtractor.git && \
     mv bin/MPQExtractor /usr/bin/ && \
     chmod +x /usr/bin/MPQExtractor
 
-COPY ./php.ini /usr/local/etc/php/conf.d/
-
-COPY ./ /var/www/html/
-
 # BLPConverter
+COPY ./BLPConverter /var/www/html/BLPConverter
 RUN cd /var/www/html/BLPConverter && \
     mkdir build && \
     cd build && \
@@ -36,9 +33,16 @@ RUN cd /var/www/html/BLPConverter && \
     mv bin/BLPConverter /usr/bin/ && \
     chmod +x /usr/bin/BLPConverter
 
-EXPOSE 80
-
 # Run composer
-RUN cd /var/www/html/PHP-MPQ && composer install
+COPY ./PHP-MPQ /var/www/html/PHP-MPQ
+RUN cd /var/www/html/PHP-MPQ && \
+    composer install
 
-RUN cp /etc/apache2/mods-available/rewrite.load /etc/apache2/mods-enabled/ && cp /etc/apache2/mods-available/headers.load /etc/apache2/mods-enabled/
+RUN cp /etc/apache2/mods-available/rewrite.load /etc/apache2/mods-enabled/ && \
+    cp /etc/apache2/mods-available/headers.load /etc/apache2/mods-enabled/
+
+COPY ./php.ini /usr/local/etc/php/conf.d/
+
+COPY ./ /var/www/html/
+
+EXPOSE 80

@@ -1,7 +1,5 @@
 <?php
 
-header("Cache-Control: public, max-age=5, stale-while-revalidate=60");
-    
 if(isset($_FILES["map"]) && $_FILES['map']['name'] != null){
 
     $file_name = $_FILES['map']['name'];

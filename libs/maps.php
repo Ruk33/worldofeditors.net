@@ -43,8 +43,8 @@ if($funcion=="similar"){
         $mapa[1] = parse_color_tags($map_info["name"]);
         $mapa[2] = $map_info["max_players"];
         $mapa[6] = parse_color_tags($map_info["description"]);
-        $mapa[4] = $map_info["author"];
-        $mapa[5] = $map_info["players_recommended"];
+        $mapa[4] = parse_color_tags($map_info["author"]);
+        $mapa[5] = parse_color_tags($map_info["players_recommended"]);
 
         if($tipo=="ALL") {
             if($nombre==""){                      

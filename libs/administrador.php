@@ -1,5 +1,7 @@
 <?php
 
+include "../PHP-MPQ/get_map_info.php";
+
 header("Cache-Control: public, max-age=5, stale-while-revalidate=60");
 
 $funcion=$_GET['funcion'];
@@ -12,17 +14,26 @@ if($funcion=="listar"){
     chdir("../");
     $file = fopen("storage/mapas.csv", 'r');        
     while ((($mapa = fgetcsv($file, 1000, ';')) !== FALSE)) {
+        // $raw_map_info = file_get_contents("../PHP-MPQ/map_info/" . $mapa[0] . ".json");
+        // $map_info = $raw_map_info ? json_decode($raw_map_info, true) : array(
+        //     "name" => $mapa[1],
+        //     "author" => $mapa[4],
+        //     "description" => $mapa[6],
+        //     "players_recommended" => $mapa[5],
+        //     "max_players" => $mapa[2],
+        // );
+        $map_info = get_map_info($mapa[0]);
         if($tipo=="ALL") {
             if($nombre==""){                      
                 $jsar=[];                
                 $jsar["mapa"]=$mapa[0];
                 $jsar["peso"]=$mapa[3];
-                $jsar["nombre"]=$mapa[1];
-                $jsar["jcj"]=$mapa[2];    
-                $jsar["desc"]=$mapa[6];    
-                $jsar["autor"]=$mapa[4];
-                $jsar["minimap"]=$mapa[8]; 
-                $jsar["jp"]=$mapa[5];   
+                $jsar["nombre"]=$map_info["name"];
+                $jsar["jcj"]=$map_info["max_players"];
+                $jsar["desc"]=$map_info["description"];
+                $jsar["autor"]=$map_info["author"];
+                $jsar["minimap"]=$mapa[8];
+                $jsar["jp"]=$map_info["players_recommended"];
                 $jsar["id"]=$mapa[9]; 
                 if(file_exists("maps/".$mapa[0])) $jsar["fecha"]=date("d-m-Y H:i:s",filectime("maps/".$mapa[0])); else $jsar["fecha"]="DESCONOCIDO"; 
                 array_push($array, $jsar);
@@ -30,13 +41,13 @@ if($funcion=="listar"){
                 $jsar=[];                
                 $jsar["mapa"]=$mapa[0];
                 $jsar["peso"]=$mapa[3];
-                $jsar["nombre"]=$mapa[1];
-                $jsar["jcj"]=$mapa[2];  
-                $jsar["desc"]=$mapa[6]; 
-                $jsar["autor"]=$mapa[4];
+                $jsar["nombre"]=$map_info["name"];
+                $jsar["jcj"]=$map_info["max_players"];
+                $jsar["desc"]=$map_info["description"];
+                $jsar["autor"]=$map_info["author"];
                 $jsar["minimap"]=$mapa[8];   
-                $jsar["jp"]=$mapa[5]; 
-                $jsar["id"]=$mapa[9];  
+                $jsar["jp"]=$map_info["players_recommended"];
+                $jsar["id"]=$mapa[9];
                 if(file_exists("maps/".$mapa[0])) $jsar["fecha"]=date("d-m-Y H:i:s",filectime("maps/".$mapa[0])); else $jsar["fecha"]="DESCONOCIDO"; 
                 array_push($array, $jsar);
             }
@@ -45,12 +56,12 @@ if($funcion=="listar"){
                 $jsar=[];                
                 $jsar["mapa"]=$mapa[0];
                 $jsar["peso"]=$mapa[3];
-                $jsar["nombre"]=$mapa[1];
-                $jsar["jcj"]=$mapa[2];    
-                $jsar["desc"]=$mapa[6];    
-                $jsar["autor"]=$mapa[4];
-                $jsar["minimap"]=$mapa[8]; 
-                $jsar["jp"]=$mapa[5]; 
+                $jsar["nombre"]=$map_info["name"];
+                $jsar["jcj"]=$map_info["max_players"];
+                $jsar["desc"]=$map_info["description"];
+                $jsar["autor"]=$map_info["author"];
+                $jsar["minimap"]=$mapa[8];
+                $jsar["jp"]=$map_info["players_recommended"];
                 $jsar["id"]=$mapa[9];
                 if(file_exists("maps/".$mapa[0])) $jsar["fecha"]=date("d-m-Y H:i:s",filectime("maps/".$mapa[0])); else $jsar["fecha"]="DESCONOCIDO";           
                 array_push($array, $jsar);
@@ -58,12 +69,12 @@ if($funcion=="listar"){
                 $jsar=[];                
                 $jsar["mapa"]=$mapa[0];
                 $jsar["peso"]=$mapa[3];
-                $jsar["nombre"]=$mapa[1];
-                $jsar["jcj"]=$mapa[2];  
-                $jsar["desc"]=$mapa[6]; 
-                $jsar["autor"]=$mapa[4];
+                $jsar["nombre"]=$map_info["name"];
+                $jsar["jcj"]=$map_info["max_players"];
+                $jsar["desc"]=$map_info["description"];
+                $jsar["autor"]=$map_info["author"];
                 $jsar["minimap"]=$mapa[8];   
-                $jsar["jp"]=$mapa[5];  
+                $jsar["jp"]=$map_info["players_recommended"];
                 $jsar["id"]=$mapa[9];
                 if(file_exists("maps/".$mapa[0])) $jsar["fecha"]=date("d-m-Y H:i:s",filectime("maps/".$mapa[0])); else $jsar["fecha"]="DESCONOCIDO";  
                 array_push($array, $jsar);

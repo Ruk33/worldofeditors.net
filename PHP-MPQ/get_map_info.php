@@ -7,8 +7,8 @@ use TriggerHappy\MPQ\Stream\FileStream;
 
 function get_map_info($map) {
     // $map = "(2)EchoIsles.w3x";
-    $map_path = "../maps/" . $map;
-    $map_info = "./map_info/" . $map . ".json";
+    $map_path = __DIR__ . "../maps/" . $map;
+    $map_info = __DIR__ . "./map_info/" . $map . ".json";
     $info_needs_to_be_generated = !file_exists($map_info);
     // $info_needs_to_be_generated = true;
 
@@ -95,7 +95,7 @@ function get_map_info($map) {
         $description_string = "STRING " . intval(str_replace("TRIGSTR_", "", $description));
         $players_recommended_string = "STRING " . intval(str_replace("TRIGSTR_", "", $players_recommended));
 
-        $wts = file_get_contents("../storage/war3map.wts");
+        $wts = file_get_contents(__DIR__ . "../storage/war3map.wts");
 
         $map_name_value = strstr($wts, $map_name_string);
         $author_value = strstr($wts, $author_string);

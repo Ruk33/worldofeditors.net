@@ -5,6 +5,8 @@ require __DIR__ . "/vendor/autoload.php";
 use TriggerHappy\MPQ\MPQArchive;
 
 function get_map_thumbnail($map) {
+    return false;
+
     try {
         $preview = __DIR__ . "/thumbnails/" . $map . ".png";
         $thumbnail_generated = file_exists($preview);

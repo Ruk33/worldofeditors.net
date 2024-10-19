@@ -61,7 +61,7 @@ if($funcion=="similar"){
         $entry = array(
             "mapa" => basename($map_name),
             "peso" => filesize($map_file),
-            "nombre" => parse_color_tags($map_info["name"]),
+            "nombre" => parse_color_tags($map_info["name"] ? $map_info["name"] : basename($map_name)),
             "jcj" => parse_color_tags($map_info["max_players"]),
             "desc" => parse_color_tags($map_info["description"]),
             "autor" => parse_color_tags($map_info["author"]),

@@ -83,9 +83,10 @@ function get_map_info($map) {
         // max number of players
         $max_players = FileStream::UInt32($w3i, $x);
 
+        $store_path_escaped = escapeshellarg(__DIR__ . "../storage");
         $map_name_escaped = escapeshellarg($map_name);
         $map_path_escaped = escapeshellarg($map_path);
-        $command = "MPQExtractor -e war3map.wts -o ../storage $map_path_escaped 2>&1";
+        $command = "MPQExtractor -e war3map.wts -o $store_path_escaped $map_path_escaped 2>&1";
         $output = [];
         $return_var = 0;
         exec($command, $output, $return_var);

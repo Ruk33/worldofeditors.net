@@ -132,4 +132,5 @@ if ($info_needs_to_be_generated) {
 }
 
 header("Content-Type: text/json");
+header("Cache-Control: public, max-age=604800, immutable");
 readfile($map_info);

@@ -23,6 +23,8 @@ if($funcion=="listar"){
         //     "max_players" => $mapa[2],
         // );
         $map_info = get_map_info($mapa[0]);
+        if (!$map_info) 
+            continue;
         if($tipo=="ALL") {
             if($nombre==""){                      
                 $jsar=[];                

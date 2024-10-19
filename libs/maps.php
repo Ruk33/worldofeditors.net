@@ -29,6 +29,9 @@ if($funcion=="similar"){
     while ((($mapa = fgetcsv($file, 1000, ';')) !== FALSE)) {
         $map_info = get_map_info($mapa[0]);
 
+        if (!$map_info)
+            continue;
+
         $mapa[1] = $map_info["name"];
         $mapa[2] = $map_info["max_players"];
         $mapa[6] = $map_info["description"];

@@ -8,6 +8,12 @@ use TriggerHappy\MPQ\Stream\FileStream;
 function get_map_info($map) {
     // $map = "(2)EchoIsles.w3x";
     $map_path = __DIR__ . "/../maps/" . $map;
+    
+    $map_does_not_exists = !file_exists($map_path);
+
+    if ($map_does_not_exists)
+        return false;
+
     $map_info = __DIR__ . "/map_info/" . $map . ".json";
     $info_needs_to_be_generated = !file_exists($map_info);
     // $info_needs_to_be_generated = true;
@@ -123,7 +129,7 @@ function get_map_info($map) {
         $json_result = json_encode($result);
         file_put_contents($map_info, $json_result);
 
-        return $json_result;
+        return $result;
     }
 
     $raw_map_info = file_get_contents($map_info);

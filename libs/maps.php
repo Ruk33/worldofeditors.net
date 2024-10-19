@@ -8,9 +8,11 @@ ini_set('display_errors', 0);
 error_reporting(0);
 
 include "../PHP-MPQ/get_map_info.php";
+include "../PHP-MPQ/get_map_thumbnail.php";
 include "parse_color_tags.php";
 
 header("Cache-Control: public, max-age=5, stale-while-revalidate=60");
+
 $funcion=$_GET['funcion'];
 
 if($funcion=="similar"){
@@ -31,73 +33,114 @@ if($funcion=="similar"){
     $tipo=preg_quote($_GET["tipo"]);
     $orden=preg_quote($_GET["orden"]);
 
-    $array = array();
-    chdir("../");
-    $file = fopen("storage/mapas.csv", 'r');        
-    while ((($mapa = fgetcsv($file, 1000, ';')) !== FALSE)) {
-        $map_info = get_map_info($mapa[0]);
+    $results = array();
 
-        if (!$map_info)
+    foreach (glob("../maps/*.w3x") as $map_name) {
+        $map_info = get_map_info($map_name);
+        
+        $map_is_invalid = !$map_info;
+        
+        if ($map_is_invalid)
             continue;
 
-        $mapa[1] = parse_color_tags($map_info["name"]);
-        $mapa[2] = $map_info["max_players"];
-        $mapa[6] = parse_color_tags($map_info["description"]);
-        $mapa[4] = parse_color_tags($map_info["author"]);
-        $mapa[5] = parse_color_tags($map_info["players_recommended"]);
+        $matches_query = 
+            $nombre == "" || 
+            preg_match("/{$nombre}/i", $map_info["name"]) || 
+            preg_match("/{$nombre}/i", $map_info["description"]) ||
+            preg_match("/{$nombre}/i", $map_info["author"]) ||
+            preg_match("/{$nombre}/i", $map_info["players_recommended"]) ||
+            preg_match("/{$nombre}/i", basename($map_name));
 
-        if($tipo=="ALL") {
-            if($nombre==""){                      
-                $jsar=[];                
-                $jsar["mapa"]=$mapa[0];
-                $jsar["peso"]=$mapa[3];
-                $jsar["nombre"]=$mapa[1];
-                $jsar["jcj"]=$mapa[2];    
-                $jsar["desc"]=$mapa[6];    
-                $jsar["autor"]=$mapa[4];
-                $jsar["minimap"]=$mapa[8]; 
-                $jsar["jp"]=$mapa[5];           
-                array_push($array, $jsar);
-            }elseif (preg_match("/{$nombre}/i", $mapa[1])) {
-                $jsar=[];                
-                $jsar["mapa"]=$mapa[0];
-                $jsar["peso"]=$mapa[3];
-                $jsar["nombre"]=$mapa[1];
-                $jsar["jcj"]=$mapa[2];  
-                $jsar["desc"]=$mapa[6]; 
-                $jsar["autor"]=$mapa[4];
-                $jsar["minimap"]=$mapa[8];   
-                $jsar["jp"]=$mapa[5];   
-                array_push($array, $jsar);
-            }
-        }elseif($mapa[7]==$tipo){
-            if($nombre==""){                      
-                $jsar=[];                
-                $jsar["mapa"]=$mapa[0];
-                $jsar["peso"]=$mapa[3];
-                $jsar["nombre"]=$mapa[1];
-                $jsar["jcj"]=$mapa[2];    
-                $jsar["desc"]=$mapa[6];    
-                $jsar["autor"]=$mapa[4];
-                $jsar["minimap"]=$mapa[8]; 
-                $jsar["jp"]=$mapa[5];           
-                array_push($array, $jsar);
-            }elseif (preg_match("/{$nombre}/i", $mapa[1])) {
-                $jsar=[];                
-                $jsar["mapa"]=$mapa[0];
-                $jsar["peso"]=$mapa[3];
-                $jsar["nombre"]=$mapa[1];
-                $jsar["jcj"]=$mapa[2];  
-                $jsar["desc"]=$mapa[6]; 
-                $jsar["autor"]=$mapa[4];
-                $jsar["minimap"]=$mapa[8];   
-                $jsar["jp"]=$mapa[5];   
-                array_push($array, $jsar);
-            }
-        }
+        $does_not_matches_query = !$matches_query;
+
+        if ($does_not_matches_query)
+            continue;
+    
+        $map_thumbnail = get_map_thumbnail($map_name);
+        
+        $entry = array(
+            "mapa" => basename($map_name),
+            "peso" => filesize($map_file),
+            "nombre" => parse_color_tags($map_info["name"]),
+            "jcj" => parse_color_tags($map_info["max_players"]),
+            "desc" => parse_color_tags($map_info["description"]),
+            "autor" => parse_color_tags($map_info["author"]),
+            "minimap" => $map_thumbnail ? "/PHP-MPQ/thumbnail.php?map=" . basename($map_name) : "minmap.png",
+            "jp" => parse_color_tags($map_info["players_recommended"]),
+        );
+
+        array_push($results, $entry);
     }
-    fclose($file);
-    echo json_encode($array);
+
+    echo json_encode($results);
+
+    // $array = array();
+    // chdir("../");
+    // $file = fopen("storage/mapas.csv", 'r');        
+    // while ((($mapa = fgetcsv($file, 1000, ';')) !== FALSE)) {
+    //     $map_info = get_map_info($mapa[0]);
+
+    //     if (!$map_info)
+    //         continue;
+
+    //     $mapa[1] = parse_color_tags($map_info["name"]);
+    //     $mapa[2] = $map_info["max_players"];
+    //     $mapa[6] = parse_color_tags($map_info["description"]);
+    //     $mapa[4] = parse_color_tags($map_info["author"]);
+    //     $mapa[5] = parse_color_tags($map_info["players_recommended"]);
+
+    //     if($tipo=="ALL") {
+    //         if($nombre==""){                      
+    //             $jsar=[];                
+    //             $jsar["mapa"]=$mapa[0];
+    //             $jsar["peso"]=$mapa[3];
+    //             $jsar["nombre"]=$mapa[1];
+    //             $jsar["jcj"]=$mapa[2];    
+    //             $jsar["desc"]=$mapa[6];    
+    //             $jsar["autor"]=$mapa[4];
+    //             $jsar["minimap"]=$mapa[8]; 
+    //             $jsar["jp"]=$mapa[5];           
+    //             array_push($array, $jsar);
+    //         }elseif (preg_match("/{$nombre}/i", $mapa[1])) {
+    //             $jsar=[];                
+    //             $jsar["mapa"]=$mapa[0];
+    //             $jsar["peso"]=$mapa[3];
+    //             $jsar["nombre"]=$mapa[1];
+    //             $jsar["jcj"]=$mapa[2];  
+    //             $jsar["desc"]=$mapa[6]; 
+    //             $jsar["autor"]=$mapa[4];
+    //             $jsar["minimap"]=$mapa[8];   
+    //             $jsar["jp"]=$mapa[5];   
+    //             array_push($array, $jsar);
+    //         }
+    //     }elseif($mapa[7]==$tipo){
+    //         if($nombre==""){                      
+    //             $jsar=[];                
+    //             $jsar["mapa"]=$mapa[0];
+    //             $jsar["peso"]=$mapa[3];
+    //             $jsar["nombre"]=$mapa[1];
+    //             $jsar["jcj"]=$mapa[2];    
+    //             $jsar["desc"]=$mapa[6];    
+    //             $jsar["autor"]=$mapa[4];
+    //             $jsar["minimap"]=$mapa[8]; 
+    //             $jsar["jp"]=$mapa[5];           
+    //             array_push($array, $jsar);
+    //         }elseif (preg_match("/{$nombre}/i", $mapa[1])) {
+    //             $jsar=[];                
+    //             $jsar["mapa"]=$mapa[0];
+    //             $jsar["peso"]=$mapa[3];
+    //             $jsar["nombre"]=$mapa[1];
+    //             $jsar["jcj"]=$mapa[2];  
+    //             $jsar["desc"]=$mapa[6]; 
+    //             $jsar["autor"]=$mapa[4];
+    //             $jsar["minimap"]=$mapa[8];   
+    //             $jsar["jp"]=$mapa[5];   
+    //             array_push($array, $jsar);
+    //         }
+    //     }
+    // }
+    // fclose($file);
+    // echo json_encode($array);
 }if($funcion=="crear"){
     chdir("../");
     if(isset($_FILES["map"]) && $_FILES['map']['name'] != null){

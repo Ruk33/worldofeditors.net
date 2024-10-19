@@ -2,7 +2,7 @@
 
 function parse_color_tags($text) {
     // Regular expression to match the custom color format
-    $pattern = '/\|.{3}([0-9a-fA-F]{6})(.*?)\|r/i';
+    $pattern = '/\|.{3}([0-9a-fA-F]{6})(.*?)(\|r|$)/i';
     
     // Replace the custom format with a span element with inline CSS color
     $parsed_text = preg_replace_callback($pattern, function($matches) {

@@ -36,6 +36,8 @@ if($funcion=="similar"){
     $results = array();
 
     foreach (glob("../maps/*.w3x") as $map_name) {
+        $map_file_size = filesize($map_file);
+
         $map_info = get_map_info(basename($map_name));
         
         $map_is_invalid = !$map_info;
@@ -66,7 +68,7 @@ if($funcion=="similar"){
         
         $entry = array(
             "mapa" => basename($map_name),
-            "peso" => filesize($map_file),
+            "peso" => $map_file_size,
             "nombre" => parse_color_tags($map_info["name"] ? $map_info["name"] : basename($map_name)),
             "jcj" => parse_color_tags($map_info["max_players"]),
             "desc" => parse_color_tags($map_info["description"]),

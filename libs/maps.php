@@ -1,5 +1,7 @@
 <?php 
 
+include "../PHP-MPQ/get_map_info.php";
+
 header("Cache-Control: public, max-age=5, stale-while-revalidate=60");
 $funcion=$_GET['funcion'];
 
@@ -25,6 +27,14 @@ if($funcion=="similar"){
     chdir("../");
     $file = fopen("storage/mapas.csv", 'r');        
     while ((($mapa = fgetcsv($file, 1000, ';')) !== FALSE)) {
+        $map_info = get_map_info($mapa[0]);
+
+        $mapa[1] = $map_info["name"];
+        $mapa[2] = $map_info["max_players"];
+        $mapa[6] = $map_info["description"];
+        $mapa[4] = $map_info["author"];
+        $mapa[5] = $map_info["players_recommended"];
+
         if($tipo=="ALL") {
             if($nombre==""){                      
                 $jsar=[];                

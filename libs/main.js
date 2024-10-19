@@ -17,18 +17,30 @@ window.onload= function(){
     // BUSCAR /////////////////////////////////////
     ///////////////////////////////////////////////
     function Listar() {
+        if (!this.consulta)
+            this.consulta = new XMLHttpRequest();
+
+        this.consulta.abort();
+        this.consulta.removeEventListener("readystatechange", this.callback);
+
+        let consulta = this.consulta;
+
         let nombre= document.getElementById("buscar").value;
         let tipo= document.querySelector('input[name="tipo"]:checked').value;
         let orden= document.getElementById("orden").checked;
-        let consulta=new XMLHttpRequest();
-        document.getElementById("mapname").innerHTML="";
-        consulta.addEventListener("readystatechange",(e)=>{
+        
+        let container = document.getElementById("mapname");
+        container.innerHTML="";
+        
+        this.callback = (e) => {
             if(consulta.readyState !== 4) return;
             //console.log(consulta);
             if (consulta.status>=200 && consulta.status<300) {
                 let data;
-                if(orden==true) data=JSON.parse(consulta.responseText); else data = sortJSON(JSON.parse(consulta.responseText), 'nombre', 'asc');
-                let fragmento=document.createDocumentFragment();
+                if(orden==true)
+                    data=JSON.parse(consulta.responseText);
+                else
+                    data = sortJSON(JSON.parse(consulta.responseText), 'nombre', 'asc');
                 if(data.length>0){
                     data.forEach((mapa) => {
                         const opciones=document.createElement("option");
@@ -45,12 +57,13 @@ window.onload= function(){
                         opciones.dataset.descripcion=""+mapa.desc;
                         opciones.dataset.minimap=""+mapa.minimap;
                         opciones.dataset.jp=""+mapa.jp;
-                        fragmento.appendChild(opciones);                    
+                        container.appendChild(opciones);
                     });
-                    document.getElementById("mapname").appendChild(fragmento);
                 }
             }
-        });        
+        };
+
+        consulta.addEventListener("readystatechange", this.callback);        
         consulta.open("GET","./libs/maps.php?funcion=listar&nombre="+nombre+"&tipo="+tipo+"&orden="+orden+"");
         consulta.send();        
     }

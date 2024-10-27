@@ -248,12 +248,12 @@ function webhookdisc(string $mapa,string $nombre,string $partida,string $user,st
         "content" => "Partida creada <@&854822908874326026> !",
         "embeds"=> [
             [
-                "title" => "$nombre",
-                "description"=> "$descripcion",
+                "title" => strip_tags($nombre),
+                "description"=> strip_tags($descripcion),
                 "url" => "https://worldofeditors.net/maps/".str_replace(" ","%20",$mapa),
                 "color" => 1422025,
                 "author" => [
-                    "name" => "$partida"
+                    "name" => strip_tags($partida)
                 ],
                 "image" => [
                     "url" => "https://worldofeditors.net/PHP-MPQ/thumbnail.php?map=".str_replace(" ","%20",$mapa)

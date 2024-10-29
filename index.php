@@ -115,7 +115,7 @@
                         Warcraft 3 Loader aplica un parche a Warcraft III para permitir conexiones a servidores PvPGN.                        
                     </p>
                     <ul>
-                        <li>- <a href="http://cdn.pvpgn.pro/w3l/w3l_1_4_2_by_Keres.zip" target="_blanck">W3l 1.4.2</a> (13KB) <label style="color:#2885c9">Pass:</label> pvpgn</li>
+                        <li>- <a href="https://worldofeditors.net/storage/w3l_127b_pg3.zip" target="_blanck">W3l 1.4.2</a> (36KB)
                     </ul>
                     <h4>BATTLENET EDITOR</h4>
                     <p>Pequeña herramienta para agregar y editar las direcciones IP de los servidores de Battlenet o PvPGN para el juego Warcraft III: The Frozen Throne, StarCraft: Brood War y Diablo II.</p>

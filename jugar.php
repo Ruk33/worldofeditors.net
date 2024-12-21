@@ -157,9 +157,10 @@ ob_start();
         <div style="position: relative; margin-bottom: 50px;">
             <img 
                 width="302px" 
-                src="./img/minmap.png" 
+                src="./img/minmap.png"
                 alt="Vista previa del mapa seleccionado"
-                x-bind:src="map_preview" 
+                x-on:error="event.target.src = './img/minmap.png'"
+                x-bind:src="map_preview"
                 x-effect="
                     // Set map preview when selected map gets updated
                     map_preview = selected_map.mapa ? './PHP-MPQ/thumbnail.php?map=' + selected_map.mapa : './img/minmap.png';

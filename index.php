@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>
         <?php if (isset($page_title)) { ?>
             <?php echo $page_title . " - World of Editors" ?>
@@ -12,6 +13,8 @@
     </title>
     <meta name="description" content="Comunidad Latina de Warcraft 3 donde podras encontrar recursos y tutoriales para aprender a crear tus propios mapas usando el editor de mundos, World Edit.">
     
+    <link rel="shortcut icon" href="./img/favicon.png" type="image/x-icon">
+
     <style>
         @font-face {
             font-family: "friz";

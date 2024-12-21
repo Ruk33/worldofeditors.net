@@ -28,69 +28,78 @@ if($funcion=="similar"){
         }            
     }        
     echo json_encode($array);
-}if($funcion=="listar"){
+}
+
+if ($funcion == "listar") {
     header("Cache-Control: public, max-age=5, stale-while-revalidate=60");
 
-    $nombre=preg_quote($_GET["nombre"]);
-    $tipo=preg_quote($_GET["tipo"]);
-    $orden=preg_quote($_GET["orden"]);
-
+    // Sanitize inputs early
+    $nombre = isset($_GET["nombre"]) ? preg_quote($_GET["nombre"], '/') : '';
+    $tipo = isset($_GET["tipo"]) ? $_GET["tipo"] : '';
+    $orden = isset($_GET["orden"]) ? $_GET["orden"] : '';
     $limit = 50;
 
-    $results = array();
+    // Use glob with GLOB_NOSORT for better performance
+    $maps = glob("../maps/*.w3x", GLOB_NOSORT);
+    if (!$maps) {
+        echo json_encode([]);
+        exit;
+    }
 
-    foreach (glob("../maps/*.w3x") as $map_name) {
-        if (count($results) >= $limit) {
+    $results = [];
+    $count = 0;
+
+    foreach ($maps as $map_name) {
+        if ($count >= $limit) {
             break;
         }
 
-        $map_file_size = filesize($map_name);
-
         $map_info = get_map_info(basename($map_name));
-        
-        $map_is_invalid = !$map_info;
-        
-        if ($map_is_invalid)
+        if (!$map_info) {
+            continue; // Skip invalid maps
+        }
+
+        // Skip if the map does not match the search query
+        if (
+            $nombre &&
+            !preg_match("/{$nombre}/i", $map_info["name"] ?? '') &&
+            !preg_match("/{$nombre}/i", $map_info["description"] ?? '') &&
+            !preg_match("/{$nombre}/i", $map_info["author"] ?? '') &&
+            !preg_match("/{$nombre}/i", $map_info["players_recommended"] ?? '') &&
+            !preg_match("/{$nombre}/i", basename($map_name))
+        ) {
             continue;
+        }
 
-        $matches_query = 
-            $nombre == "" || 
-            preg_match("/{$nombre}/i", $map_info["name"]) || 
-            preg_match("/{$nombre}/i", $map_info["description"]) ||
-            preg_match("/{$nombre}/i", $map_info["author"]) ||
-            preg_match("/{$nombre}/i", $map_info["players_recommended"]) ||
-            preg_match("/{$nombre}/i", basename($map_name));
-
-        $does_not_matches_query = !$matches_query;
-
-        if ($does_not_matches_query)
+        // Filter by type
+        $is_melee = $map_info["is_melee"] ?? false;
+        if (($tipo == "melee" && !$is_melee) || ($tipo == "custom" && $is_melee)) {
             continue;
+        }
 
-        if ($tipo == "melee" && !$map_info["is_melee"])
-            continue;
-
-        if ($tipo == "custom" && $map_info["is_melee"])
-            continue;
-    
+        // Prepare map data
+        $map_file_size = filesize($map_name);
         $map_thumbnail = get_map_thumbnail(basename($map_name));
-        
-        $entry = array(
+
+        $results[] = [
             "mapa" => basename($map_name),
             "peso" => $map_file_size,
-            "nombre" => parse_color_tags($map_info["name"] ? $map_info["name"] : basename($map_name)),
-            "jcj" => parse_color_tags($map_info["max_players"]),
-            "desc" => parse_color_tags($map_info["description"]),
-            "autor" => parse_color_tags($map_info["author"]),
+            "nombre" => parse_color_tags($map_info["name"] ?? basename($map_name)),
+            "jcj" => parse_color_tags($map_info["max_players"] ?? ''),
+            "desc" => parse_color_tags($map_info["description"] ?? ''),
+            "autor" => parse_color_tags($map_info["author"] ?? ''),
             "minimap" => $map_thumbnail ? "/PHP-MPQ/thumbnail.php?map=" . basename($map_name) : "minmap.png",
-            "jp" => parse_color_tags($map_info["players_recommended"]),
-            "is_melee" => $map_info["is_melee"],
-        );
+            "jp" => parse_color_tags($map_info["players_recommended"] ?? ''),
+            "is_melee" => $is_melee,
+        ];
 
-        array_push($results, $entry);
+        $count++;
     }
 
     echo json_encode($results);
-}if($funcion=="crear"){
+}
+
+if($funcion=="crear"){
     chdir("../");
     if(isset($_FILES["map"]) && $_FILES['map']['name'] != null){
         $file_name = $_FILES['map']['name'];

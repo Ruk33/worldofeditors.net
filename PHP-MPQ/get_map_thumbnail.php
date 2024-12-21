@@ -42,7 +42,7 @@ function get_map_thumbnail($map) {
         }
 
         return $preview;
-    } catch (Exception $e) {
+    } catch (Throwable $e) {
         return false;
     }
 }

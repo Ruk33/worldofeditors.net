@@ -131,7 +131,7 @@ function get_map_info($map) {
 
         $raw_map_info = file_get_contents($map_info);
         return json_decode($raw_map_info, true);
-    } catch (Exception $e) {
+    } catch (Throwable $e) {
         return false;
     }
 }

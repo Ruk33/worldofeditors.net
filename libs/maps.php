@@ -11,11 +11,11 @@ include "../PHP-MPQ/get_map_info.php";
 include "../PHP-MPQ/get_map_thumbnail.php";
 include "parse_color_tags.php";
 
-header("Cache-Control: public, max-age=5, stale-while-revalidate=60");
-
 $funcion=$_GET['funcion'];
 
 if($funcion=="similar"){
+    header("Cache-Control: public, max-age=5, stale-while-revalidate=60");
+    
     $nombre=preg_quote($_GET["nombre"]);
     $array = array();
     foreach (glob("../maps/*") as $mapa) {            
@@ -29,13 +29,21 @@ if($funcion=="similar"){
     }        
     echo json_encode($array);
 }if($funcion=="listar"){
+    header("Cache-Control: public, max-age=5, stale-while-revalidate=60");
+
     $nombre=preg_quote($_GET["nombre"]);
     $tipo=preg_quote($_GET["tipo"]);
     $orden=preg_quote($_GET["orden"]);
 
+    $limit = 50;
+
     $results = array();
 
     foreach (glob("../maps/*.w3x") as $map_name) {
+        if (count($results) >= $limit) {
+            break;
+        }
+
         $map_file_size = filesize($map_name);
 
         $map_info = get_map_info(basename($map_name));
@@ -82,74 +90,6 @@ if($funcion=="similar"){
     }
 
     echo json_encode($results);
-
-    // $array = array();
-    // chdir("../");
-    // $file = fopen("storage/mapas.csv", 'r');        
-    // while ((($mapa = fgetcsv($file, 1000, ';')) !== FALSE)) {
-    //     $map_info = get_map_info($mapa[0]);
-
-    //     if (!$map_info)
-    //         continue;
-
-    //     $mapa[1] = parse_color_tags($map_info["name"]);
-    //     $mapa[2] = $map_info["max_players"];
-    //     $mapa[6] = parse_color_tags($map_info["description"]);
-    //     $mapa[4] = parse_color_tags($map_info["author"]);
-    //     $mapa[5] = parse_color_tags($map_info["players_recommended"]);
-
-    //     if($tipo=="ALL") {
-    //         if($nombre==""){                      
-    //             $jsar=[];                
-    //             $jsar["mapa"]=$mapa[0];
-    //             $jsar["peso"]=$mapa[3];
-    //             $jsar["nombre"]=$mapa[1];
-    //             $jsar["jcj"]=$mapa[2];    
-    //             $jsar["desc"]=$mapa[6];    
-    //             $jsar["autor"]=$mapa[4];
-    //             $jsar["minimap"]=$mapa[8]; 
-    //             $jsar["jp"]=$mapa[5];           
-    //             array_push($array, $jsar);
-    //         }elseif (preg_match("/{$nombre}/i", $mapa[1])) {
-    //             $jsar=[];                
-    //             $jsar["mapa"]=$mapa[0];
-    //             $jsar["peso"]=$mapa[3];
-    //             $jsar["nombre"]=$mapa[1];
-    //             $jsar["jcj"]=$mapa[2];  
-    //             $jsar["desc"]=$mapa[6]; 
-    //             $jsar["autor"]=$mapa[4];
-    //             $jsar["minimap"]=$mapa[8];   
-    //             $jsar["jp"]=$mapa[5];   
-    //             array_push($array, $jsar);
-    //         }
-    //     }elseif($mapa[7]==$tipo){
-    //         if($nombre==""){                      
-    //             $jsar=[];                
-    //             $jsar["mapa"]=$mapa[0];
-    //             $jsar["peso"]=$mapa[3];
-    //             $jsar["nombre"]=$mapa[1];
-    //             $jsar["jcj"]=$mapa[2];    
-    //             $jsar["desc"]=$mapa[6];    
-    //             $jsar["autor"]=$mapa[4];
-    //             $jsar["minimap"]=$mapa[8]; 
-    //             $jsar["jp"]=$mapa[5];           
-    //             array_push($array, $jsar);
-    //         }elseif (preg_match("/{$nombre}/i", $mapa[1])) {
-    //             $jsar=[];                
-    //             $jsar["mapa"]=$mapa[0];
-    //             $jsar["peso"]=$mapa[3];
-    //             $jsar["nombre"]=$mapa[1];
-    //             $jsar["jcj"]=$mapa[2];  
-    //             $jsar["desc"]=$mapa[6]; 
-    //             $jsar["autor"]=$mapa[4];
-    //             $jsar["minimap"]=$mapa[8];   
-    //             $jsar["jp"]=$mapa[5];   
-    //             array_push($array, $jsar);
-    //         }
-    //     }
-    // }
-    // fclose($file);
-    // echo json_encode($array);
 }if($funcion=="crear"){
     chdir("../");
     if(isset($_FILES["map"]) && $_FILES['map']['name'] != null){
@@ -186,10 +126,10 @@ if($funcion=="similar"){
             webhookdisc($map,$detalles[1],$name,$owner,$detalles[6]);
             ///////////
             Reg_Log("[SUCCEED][UPLOAD]",$name,$owner,$map,date('d/m/Y H:i:s')); 
-            echo "1@subida exitosa";
+            // echo "1@subida exitosa";
         } else {
             Reg_Log("[ERROR][UPLOAD]",$_POST["name"],$_POST["owner"],$file_name,date('d/m/Y H:i:s'));
-            echo "0@Hubo un error al subir el mapa > ".var_dump($_FILES);
+            // echo "0@Hubo un error al subir el mapa > ".var_dump($_FILES);
         }
     }else if(isset($_POST["mapname"])){
         $name = $_POST["name"];
@@ -201,17 +141,34 @@ if($funcion=="similar"){
         if (fwrite($file, "\nbot_map = " . $map . "\nbot_owner = " . strtolower($owner) . "\nbot_game = " . $name . "\n") === false)
             die("can write request.");
         fclose($file);
-        echo "create pending<br>";
+        // echo "create pending<br>";
         $mapas=glob("processed/*");
         if(count($mapas)>10) unlink($mapas[0]);
-        echo "unlink processed<br>";
+        // echo "unlink processed<br>";
         //////////////////
-        webhookdisc($map,$_POST["nombre"],$name,$owner,$_POST["description"]);
-        echo "Discord enviado<br>";
+        
+        webhookdisc($map,$name,$name,$owner,"");
+
+        // echo "Discord enviado<br>";
         //////////////////
         Reg_Log("[SUCCEED][SELECT]",$name,$owner,$map,date('d/m/Y H:i:s')); 
-        echo "Log creado<br>";           
-    }        
+        // echo "Log creado<br>";           
+    }
+    
+    // Redirect to jugar.php
+    {
+        $nombre = htmlspecialchars($_POST["name"], ENT_QUOTES, 'UTF-8');
+        $owner = htmlspecialchars($_POST["owner"], ENT_QUOTES, 'UTF-8');
+
+        // Build the query string safely
+        $query_params = http_build_query([
+            'success' => 'true',
+            'name' => $nombre,
+            'owner' => $owner
+        ]);
+
+        header("Location: /jugar.php?$query_params");
+    }
 }
 function Reg_Log($estado,$partida,$user,$mapa,$fecha){
     $file = fopen("log.txt", "a");

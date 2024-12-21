@@ -1,179 +1,148 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="https://t0.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://worldofeditors.foroactivo.com&size=16" type="image/x-icon">
-    <title>World of Editors</title>
+    <title>
+        <?php if (isset($page_title)) { ?>
+            <?php echo $page_title . " - World of Editors" ?>
+        <?php } else { ?>
+            World of Editors
+        <?php } ?>
+    </title>
     <meta name="description" content="Comunidad Latina de Warcraft 3 donde podras encontrar recursos y tutoriales para aprender a crear tus propios mapas usando el editor de mundos, World Edit.">
-    <link rel="stylesheet" href="libs/index.css">
-    <script src="libs/index.js" type="module"></script>
+    
+    <style>
+        @font-face {
+            font-family: "friz";
+            src: url("./resources/friz.ttf") format("truetype");
+            font-style: normal;
+            font-weight: normal;
+        }
+
+        body {
+            font-family: friz;
+            background-image: url("./img/backlow.png");
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-attachment: fixed;
+            font-size: 18px;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 420px 1180px;
+            margin: 50px auto;
+            max-width: 1600px;
+            gap: 50px;
+        }
+
+        .chain {
+            background-image: url("./img/chain.png");
+            background-repeat: no-repeat;
+            width: 112px;
+            height: 233px;
+            position: absolute;
+            top: -230px;
+        }
+
+        nav {
+            text-align: center;
+            padding: 25px;
+            border: 35px solid;
+            border-image: url("./img/marco.png");
+            border-image-slice: 79;
+            border-image-repeat: round;
+            background: rgb(30 26 25 / 60%);
+            border-radius: 21px;
+            background-image: url("./img/bcmad2.png");
+            background-position: center;
+            background-repeat: repeat;
+            position: relative;
+            text-transform: uppercase;
+            font-size: 16px;
+        }
+
+        nav > a {
+            display: block;
+            background-image: url("./img/btn.png");
+            background-repeat: round;
+            border-radius: 5px;
+            color: gold;
+            text-decoration: none;
+            padding: 10px;
+            margin-top: 15px;
+            margin-bottom: 15px;
+            border: 1px solid #361515;
+            box-shadow: 0 0 5px black;
+            transition: all 300ms;
+        }
+
+        nav > a:hover {
+            color: white;
+        }
+
+        nav > p {
+            color: white;
+        }
+
+        main {
+            padding: 25px;
+            border: 35px solid;
+            border-image: url("./img/marco.png");
+            border-image-slice: 79;
+            border-image-repeat: round;
+            background: rgb(12 15 26 / 70%);
+            border-radius: 21px;
+            position: relative;
+            color: antiquewhite;
+        }
+
+        main a {
+            color: white;
+        }
+
+        h1 {
+            text-transform: uppercase;
+            color: gold;
+        }
+
+        h2 {
+            color: white;
+        }
+    </style>
 </head>
 <body>
-    <img src="./img/InicioBG.png" alt="Carggando..." class="load">
-    <div class="menu">
-        <img src="img/logo.png" alt="">
-        <a href="jugar.php" ><span class="btnblue">JUGAR</span></a>
-        <a id="help" ><span class="btnblue">¿COMO JUGAR?</span></a>
-        <a id="descargar" ><span class="btnblue">DESCARGAS</span></a>
-        <a id="mapas"><span class="btnblue">MAPAS</span></a>
-        <a href="https://www.youtube.com/@WorldOfEditorsOficial/videos" target="_blank"><span class="btnblue">CANAL</span></a>
-        <img src="./img/chain.png" class="cadenas">   
-        <img src="./img/chain.png" class="cadenas"> 
-        <p>
-            <?php echo  date("Y");?><a target="_blank" href="https://worldofeditors.foroactivo.com/"> @worldofeditors</a><span> comunidad</span>
-            <br>
-            <span>by shikuso</span>
-        </p> 
-    </div>
+    <div class="container">
+        <div>
+            <nav>
+                <div aria-hidden="true" class="chain" style="left: 0;"></div>
+                <div aria-hidden="true" class="chain" style="right: 0;"></div>
 
-    <!-- VENTANAS ////////////////////////////////////////////////////////////////////////////// -->
-    <div id="ventanaModal" class="modalcover">
-        <div class="clone">
-            <img src="./img/backtittle.png" alt="">
+                <header>
+                    <a href="/">
+                        <img width="250" src="./img/logo.png" alt="Logo de World of Editors">
+                    </a>
+                </header>
+
+                <a href="/jugar.php">Jugar</a>
+                <a href="/como-jugar.php">Como Jugar</a>
+                <a href="/descargas.php">Descargas</a>
+                <!-- <a href="/mapas.php">Mapas</a> -->
+                <a href="https://www.youtube.com/@WorldOfEditorsOficial/videos">Canal</a>
+                <p>
+                    World of Editors<br />
+                    <span style="font-size: 12px; color: gray;">Original design by Shikuso</span>
+                </p>
+            </nav>
         </div>
-        <div class="modalalert marco">            
-            <div class="modalcontent help">
-                <h2>¿COMO JUGAR?</h2>
-                <div class="wcsc auto-h"> 
-                    <h4>PASO 1</h4>
-                    <p>
-                        Descargar los archivos necesarios. (Lo encontraras en la seccion DESCARGAS)<br>
-                        Nesecitaremos el warcraft en la version 1.27b, el PVPGN para lograr la coneccion y el BattlenetEditor para agregar 
-                        los servidores.
-                    </p>
-                    <h4>PASO 2</h4>
-                    <p>
-                        Instalar el Warcraft III, si lo descargaste desde los vinculos de esta web, solo deberas extraer la carpeta 
-                        "Warcraft III 1.27b".
-                    </p>
-                    <h4>PASO 3</h4>
-                    <p>
-                        Extraer el contenido del archivo "W3l 1.4.2" y el archivo "BNetEditor" en la carpeta raiz del juego.
-                        <img src="./img/guias/tuto1.png" alt="folder w3l" width="300px">
-                    </p>
-                    <h4>PASO 4</h4>
-                    <p>
-                        Agregar nuestro servidor, para esto usaremos el "BNetEditor", con los datos correspondientes.
-                        IP: <span style="color: #b2e9a1" >worldofeditors.net</span> Zone:<label style="color: #b2e9a1"> 0</label>
-                        <img src="./img/guias/bne1.png" width="200">
-                        <img src="./img/guias/bne2.png" width="400">
-                    </p>
-                    <p>
-                        Si se te hace tedioso agregar IPs, tambien puedes usar nuestro registro, que agregara automaticamente 
-                        nuestro servidor y el de rubattle por si lo deseas.<br><br>
-                        REGISTRO: <a style="color: #2885c9" target="_blanck" href="https://www.mediafire.com/file/6kbpnun4ehdh9bs/All_BattleNet.reg/file">All BattleNet.reg</a> 
-                    </p>
-                    <h4>PASO 5</h4>
-                    <p>
-                        Dentro del juego en el apartado de "PUERTA DE BATTLENET " selecciona el servidor de WorldofEditors, al hacer 
-                        click en Battle net 
-                        ya podras entrar. Solo queda iniciar sesion o en todo caso registrar una cuenta nueva.
-                    </p>
-                    <h4>PASO 6</h4>
-                    <p>
-                        Para crear una partida dirigete a la parte JUGAR de la pagina, ahi podras escoger un mapa alojado en nuestro 
-                        servidor.
-                        <img src="./img/guias/tuto4.png" width="400">
-                    </p>
-                    <p>
-                        O puedes subir cualquier mapa que desees.
-                        <img src="./img/guias/tuto5.png" width="400">
-                    </p>
-                    <h4>PASO 7</h4>
-                    <p>
-                        Recuerda llenar los campos con los datos especificados.
-                        <img src="./img/guias/tuto6.png" width="400">
-                    </p>
-                    <h4>PASO 8</h4>
-                    <p>
-                        Una vez creada la partida, dirigete a tu juego e ingresa a la sala.
-                        <img src="./img/guias/tuto7.png" width="400">
-                    </p>
-                    <p>LISTO YA ESTAS ENTERADO DE LO ESCENCIAL. SI TIENES ALGUNA DUDA O INCONVENIENTE, PUEDES PEDIR AYUDA DESDE 
-                        EL SERVIDOR DE DISCORD DE LA COMUNIDAD</p>
-                </div>
-            </div>
-            <div class="modalcontent descargar">
-                <h2>DESCARGAS</h2>
-                <div class="wcsc auto-h">   
-                    <h4>WARCRAFT III</h4>
-                    <p>
-                        Warcraft III es un videojuego de estrategia en tiempo real creado por Blizzard Entertainment y es 
-                        la tercera parte de la serie Warcraft. Además de continuar la historia del mundo épico medieval de Warcraft se 
-                        distingue de sus predecesores por incorporar dos importantes cambios: el paso a los gráficos 3D y la aparición 
-                        de dos nuevas razas.
-                    </p>
-                    <ul>
-                        <li>- <a target="_blanck" href="https://drive.google.com/file/d/18_eRqRjodv_7CjxmFFlQ331_5RW784iO/view?usp=sharing">Warcraft III 1.26a ESP</a> (1.10GB)</li>
-                        <li>- <a  target="_blanck"  href="https://drive.google.com/file/d/1RG4ZB6H_5CReIPX8bQGmBm1_SVhAtwHM/view?usp=sharing">Warcraft III 1.27b ESP</a> (1.36GB)</li>
-                    </ul>                                            
-                    <h4>PVPGN</h4>
-                    <p>
-                        PvPGN es un software de servidor multiplataforma gratuito y de código abierto que admite clientes de juegos Battle.net 
-                        y Westwood Online.<br>
-                        Warcraft 3 Loader aplica un parche a Warcraft III para permitir conexiones a servidores PvPGN.                        
-                    </p>
-                    <ul>
-                        <li>- <a href="https://worldofeditors.net/storage/w3l_127b_pg3.zip" target="_blanck">W3l 1.4.2</a> (36KB)
-                    </ul>
-                    <h4>BATTLENET EDITOR</h4>
-                    <p>Pequeña herramienta para agregar y editar las direcciones IP de los servidores de Battlenet o PvPGN para el juego Warcraft III: The Frozen Throne, StarCraft: Brood War y Diablo II.</p>
-                    <ul>
-                        <li>- <a href="https://www.mediafire.com/file/gatgkquggt2hg0d/BNetEditor.rar/file" target="_blanck">BNetEditor</a> (13KB)</li>
-                    </ul> 
-                </div>  
-            </div>
-            <div class="modalcontent mapas">
-                <h2>MAPAS</h2>
-                <div class="wcsc auto-h"> 
-                    <div class="opciones">
-                        <input id="buscar" type="text" placeholder="Buscar un mapa..." >
-                        <!-- TIPO -->
-                        <input type="radio" id="r1" name="tipo" value="ALL" checked>
-                        <label for="r1" class="btnazul lblbtn no-seleccionable" >All</label>
-                        <input type="radio" id="r2" name="tipo" value="melee">
-                        <label for="r2" class="btnazul lblbtn no-seleccionable" >melee</label>
-                        <input type="radio" id="r3" name="tipo" value="custom">
-                        <label for="r3" class="btnazul lblbtn no-seleccionable" >custom</label>
-                        <!-- ORDEN -->
-                        <input type="checkbox" id="orden" checked>
-                        <label for="orden" class="btnazul lblbtn no-seleccionable"> </label>
-                        <!-- REFRESH -->
-                        <a class="btnazul btnrefresh no-seleccionable" id="Refresh">
-                            <svg fill="#f4d800" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="97px" height="97px" viewBox="0 0 388.409 388.409" xml:space="preserve"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <path d="M281.242,55.345c-9.18-65.484-132.804-33.66-168.3-14.076c-44.064,24.48-75.888,69.769-87.516,118.116 c-4.896,20.808-10.404,52.632,0.612,72.828c-11.016,0.611-20.808,3.06-23.868,9.18c-0.612,0.612,0,1.224,0,1.836l0,0 c-2.448,1.836-3.06,4.896-0.612,7.956c20.808,26.316,41.004,54.468,64.872,77.724c3.06,3.061,8.568,3.673,11.628,0 c20.196-23.256,29.988-53.243,44.676-79.56c2.448-0.612,4.284-1.224,6.12-2.448c3.672-2.448,3.672-7.956,0-10.403 c-7.956-4.896-17.748-3.061-26.316-3.061c-0.612,0-0.612,0-1.224,0c-9.18-33.66,5.508-72.216,24.48-100.368 c28.764-42.84,82.008-39.779,124.236-27.54c1.225,0.612,2.448,0,3.672,0c2.448,1.225,6.12-1.224,6.12-4.283 c0-3.061,3.061-7.345,4.284-9.792c2.448-4.896,6.12-9.181,9.18-13.464C278.794,71.869,287.362,63.301,281.242,55.345z"></path> <path d="M388.343,159.385c-0.612-3.672-2.448-6.12-4.896-7.956c-11.628-24.479-34.884-45.899-50.184-68.544 c-2.448-3.672-8.568-5.508-12.24-1.836c-22.032,23.256-42.229,47.736-63.036,72.216c-3.06,3.672,0,7.956,3.06,7.956l0,0 c10.404,6.732,26.929,5.508,41.005,4.284c3.672,44.063-14.076,82.008-52.633,106.487c-33.048,22.645-70.992,12.24-105.875,24.48 c-1.224,0-1.836,0.612-3.06,1.224c-1.224,0.612-1.836,0.612-3.06,1.225c-1.836,0.611-1.836,3.672-0.612,4.896 c-3.672,12.24-4.284,25.704-2.448,38.557c0,0,0,0,0,0.611l0,0c0,0.612,0,1.225,0,1.225c-1.836,1.836-2.448,4.896-0.612,6.731 c-0.612,4.284,3.672,7.344,7.344,7.956c1.224,0,1.836,0,3.06,0c47.124,30.601,115.056,3.672,155.448-28.152 c43.452-34.271,84.456-110.159,64.26-167.075c5.508,0.612,11.016,1.836,16.524,3.06 C385.282,169.177,388.954,163.669,388.343,159.385z"></path> </g> </g></svg>                
-                        </a>
 
-                    </div>
-                    <div class="lista wcsc">
-                        <ul id="lista1">
-                        </ul>   
-                    </div>  
-                </div>
-            </div>
-            <a class="cerrar btnblue2">ACEPTAR</a>
-            <img src="./img/chain.png" class="cadenas">   
-            <img src="./img/chain.png" class="cadenas">  
-        </div>       
+        <?php if (isset($content)) { ?>
+        <main>
+            <?php echo $content ?>
+        </main>
+        <?php } ?>
     </div>
-    <!-- ///////////////////////////////////////////////////////////////////////////////////// -->
 
-
-
-
-
-    <div class="animacion no-seleccionable">
-        <input type="checkbox" name="anim" id="anim" <?php if(!isset($_COOKIE["animated"]) || $_COOKIE["animated"]==1) echo "checked"; ?> >
-        <label for="anim">Animado</label>
-    </div>
-    <?php 
-        if (isset($_COOKIE["animated"])) {
-            if($_COOKIE["animated"]=="1") {
-                echo '<video class="fondo" src="screene.mp4" autoplay muted disablePictureInPicture loop>';
-            }else if($_COOKIE["animated"]=="0"){                
-                echo '<img src="img/screen.jpg" alt="FONDO SIN ANIMACION" class="fondo">';                
-            }  
-        }
-    ?>  
 </body>
 </html>

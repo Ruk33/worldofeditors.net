@@ -101,46 +101,7 @@ if ($funcion == "listar") {
 
 if($funcion=="crear"){
     chdir("../");
-    if(isset($_FILES["map"]) && $_FILES['map']['name'] != null){
-        $file_name = $_FILES['map']['name'];
-        $tmp_name = $_FILES['map']['tmp_name'];
-        $Upload_Directory = "maps/";
-        $UniqueName = $file_name;
-        $Upload_Path = $Upload_Directory . $UniqueName;
-        $valor=file_exists("maps/".$file_name);
-        if (move_uploaded_file($tmp_name, $Upload_Path)) {
-            $map = $file_name;
-            $name = $_POST["name"];
-            $owner = $_POST["owner"];    
-            $file = fopen("pending/pending" . time(), "w");
-            if ($file === false)
-                die("0@can't create request." . var_dump(error_get_last()));
-            if (fwrite($file, "\nbot_map = " . $map . "\nbot_owner = " . strtolower($owner) . "\nbot_game = " . $name . "\n") === false)
-                die("can write request.");
-            fclose($file);
-            $mapas=glob("processed/*");
-            if(count($mapas)>=12) unlink($mapas[0]);
-            ///////////
-            if(substr($map, 0, 1)=="("){
-                $jcj=substr(explode(")", $map)[0],1); 
-                $nombre=substr($map, strlen(explode(")", $map)[0])+1) ;
-            }else{
-                $nombre=$map;
-                $jcj=0;
-            }
-            $peso=filesize("maps/".$map);
-            $id=urlencode(openssl_encrypt($nombre,"AES-128-ECB", "woe"));
-            
-            $detalles = Agregarcsv($map,trim(substr($nombre,0,-4)),$jcj,$peso,"Desconocido","X vs X","Aun no se le ha asignado una descripcion.","custom","minmap.png",$id,$valor);
-            webhookdisc($map,$detalles[1],$name,$owner,$detalles[6]);
-            ///////////
-            Reg_Log("[SUCCEED][UPLOAD]",$name,$owner,$map,date('d/m/Y H:i:s')); 
-            // echo "1@subida exitosa";
-        } else {
-            Reg_Log("[ERROR][UPLOAD]",$_POST["name"],$_POST["owner"],$file_name,date('d/m/Y H:i:s'));
-            // echo "0@Hubo un error al subir el mapa > ".var_dump($_FILES);
-        }
-    }else if(isset($_POST["mapname"])){
+    if(isset($_POST["mapname"])){
         $name = $_POST["name"];
         $map = $_POST["mapname"];
         $owner = $_POST["owner"];
@@ -156,7 +117,7 @@ if($funcion=="crear"){
         // echo "unlink processed<br>";
         //////////////////
         
-        webhookdisc($map,$name,$name,$owner,"");
+        // webhookdisc($map,$name,$name,$owner,"");
 
         // echo "Discord enviado<br>";
         //////////////////

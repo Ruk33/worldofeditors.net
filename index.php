@@ -1,19 +1,19 @@
 <?php
 
 // Redirect to foroactivo if required.
-$requestUri = $_SERVER['REQUEST_URI'];
+$request_uri = $_SERVER['REQUEST_URI'];
 
 // Check if the URI matches the /t{number}- pattern
-if (preg_match('/^\/t(\d+)-(.+)$/', $requestUri, $matches)) {
+if (preg_match('/^\/t(\d+)-(.+)$/', $request_uri, $matches)) {
     // Extract the values from the pattern
     $id = $matches[1];
     $slug = $matches[2];
 
     // Build the redirection URL
-    $redirectUrl = "https://worldofeditors.foroactivo.com/t{$id}-{$slug}";
+    $redirect_url = "https://worldofeditors.foroactivo.com/t{$id}-{$slug}";
 
     // Redirect with a 301 status code
-    header("Location: $redirectUrl", true, 301);
+    header("Location: $redirect_url", true, 301);
     exit;
 }
 
@@ -46,7 +46,7 @@ if (preg_match('/^\/t(\d+)-(.+)$/', $requestUri, $matches)) {
 
         body {
             font-family: friz;
-            background-image: url("./img/backlow.png");
+            background-image: url("./img/backlow.webp");
             background-repeat: no-repeat;
             background-size: cover;
             background-attachment: fixed;
@@ -62,7 +62,7 @@ if (preg_match('/^\/t(\d+)-(.+)$/', $requestUri, $matches)) {
         }
 
         .chain {
-            background-image: url("./img/chain.png");
+            background-image: url("./img/chain.webp");
             background-repeat: no-repeat;
             width: 112px;
             height: 233px;
@@ -74,12 +74,12 @@ if (preg_match('/^\/t(\d+)-(.+)$/', $requestUri, $matches)) {
             text-align: center;
             padding: 25px;
             border: 35px solid;
-            border-image: url("./img/marco.png");
+            border-image: url("./img/marco.webp");
             border-image-slice: 79;
             border-image-repeat: round;
             background: rgb(30 26 25 / 60%);
             border-radius: 21px;
-            background-image: url("./img/bcmad2.png");
+            background-image: url("./img/bcmad2.webp");
             background-position: center;
             background-repeat: repeat;
             position: relative;
@@ -89,7 +89,7 @@ if (preg_match('/^\/t(\d+)-(.+)$/', $requestUri, $matches)) {
 
         nav > a {
             display: block;
-            background-image: url("./img/btn.png");
+            background-image: url("./img/btn.webp");
             background-repeat: round;
             border-radius: 5px;
             color: gold;
@@ -113,7 +113,7 @@ if (preg_match('/^\/t(\d+)-(.+)$/', $requestUri, $matches)) {
         main {
             padding: 25px;
             border: 35px solid;
-            border-image: url("./img/marco.png");
+            border-image: url("./img/marco.webp");
             border-image-slice: 79;
             border-image-repeat: round;
             background: rgb(12 15 26 / 70%);
@@ -145,7 +145,7 @@ if (preg_match('/^\/t(\d+)-(.+)$/', $requestUri, $matches)) {
 
                 <header>
                     <a href="/">
-                        <img width="250" src="./img/logo.png" alt="Logo de World of Editors">
+                        <img width="250" height="152" src="./img/logo-menu.webp" alt="Logo de World of Editors">
                     </a>
                 </header>
 

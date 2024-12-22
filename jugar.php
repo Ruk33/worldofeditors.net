@@ -46,7 +46,7 @@ ob_start();
 
     #jugar button {
         display: block;
-        background-image: url("./img/btn.png");
+        background-image: url("./img/btn.webp");
         background-repeat: round;
         border-radius: 5px;
         color: gold;

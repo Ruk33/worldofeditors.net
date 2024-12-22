@@ -34,12 +34,13 @@ file_put_contents($file_path . '.part' . $chunk_index, file_get_contents($chunk_
 // Check if all chunks are uploaded
 if ($chunk_index + 1 == $total_chunks) {
     // Combine the chunks into the final file
-    $final_file = fopen($file_path, 'wb');
+    $final_file_data = '';
     for ($i = 0; $i < $total_chunks; $i++) {
         $chunk_data = file_get_contents($file_path . '.part' . $i);
-        fwrite($final_file, $chunk_data);
+        $final_file_data .= $chunk_data;
         // Remove the chunk after merging
         unlink($file_path . '.part' . $i);
     }
-    fclose($final_file);
+    // Write the final merged data
+    file_put_contents($file_path, $final_file_data);
 }

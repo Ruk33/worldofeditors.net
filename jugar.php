@@ -148,7 +148,7 @@ ob_start();
                 is_uploading_map = true;
                 uploading_progress = 0;
                 
-                const chunk_size = 10 * 1024 * 1024;
+                const chunk_size = 5 * 1024 * 1024;
                 // const chunk_size = 1024;
                 const total_chunks = Math.ceil(file.size / chunk_size);
                 

@@ -42,6 +42,7 @@ if (preg_match('/^\/t(\d+)-(.+)$/', $request_uri, $matches)) {
             src: url("./resources/friz.ttf") format("truetype");
             font-style: normal;
             font-weight: normal;
+            font-display: swap;
         }
 
         body {

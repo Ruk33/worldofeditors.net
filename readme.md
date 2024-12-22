@@ -2,7 +2,7 @@
 
 1 - Descargar docker
 2 - Crear imagen con `docker build -t world-of-editors .`
-3 - Crear contenedor con `docker run -it --rm -p 3000:80 --name world-of-editors -v .:/var/www/html world-of-editors`
+3 - Crear contenedor con `docker run -it --rm -p 3000:8080 --name world-of-editors -v .:/var/www/html/public world-of-editors`
 
 ## Carpetas
 

@@ -186,12 +186,7 @@ function webhookdisc(string $mapa,string $nombre,string $partida,string $user,st
         ]
     ]);
     $response = curl_exec( $ch );
-    curl_close( $ch );
-    
-    $fp = fopen('results.json', 'w');
-    fwrite($fp, $hookObject);
-    fclose($fp);
-    
+    curl_close( $ch );    
 }
 
 ?>

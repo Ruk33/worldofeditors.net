@@ -11,9 +11,9 @@ include "../PHP-MPQ/get_map_info.php";
 include "../PHP-MPQ/get_map_thumbnail.php";
 include "parse_color_tags.php";
 
-$funcion=$_GET['funcion'];
+$funcion = $_GET['funcion'];
 
-if($funcion=="similar"){
+if($funcion == "similar"){
     header("Cache-Control: public, max-age=5, stale-while-revalidate=60");
     
     $nombre=preg_quote($_GET["nombre"]);
@@ -99,47 +99,32 @@ if ($funcion == "listar") {
     echo json_encode($results);
 }
 
-if($funcion=="crear"){
-    chdir("../");
-    if(isset($_POST["mapname"])){
-        $name = $_POST["name"];
-        $map = $_POST["mapname"];
-        $owner = $_POST["owner"];
-        $file = fopen("pending/pending" . time(), "w");
-        if ($file === false)
-            die("can't create request." . var_dump(error_get_last()));
-        if (fwrite($file, "\nbot_map = " . $map . "\nbot_owner = " . strtolower($owner) . "\nbot_game = " . $name . "\n") === false)
-            die("can write request.");
-        fclose($file);
-        // echo "create pending<br>";
-        $mapas=glob("processed/*");
-        if(count($mapas)>10) unlink($mapas[0]);
-        // echo "unlink processed<br>";
-        //////////////////
-        
-        // webhookdisc($map,$name,$name,$owner,"");
+if ($funcion == "crear" && $_POST["name"] && $_POST["owner"] && $_POST["mapname"]) {
+    $name  = $_POST["name"];
+    $owner = $_POST["owner"];
+    $map   = $_POST["mapname"];
 
-        // echo "Discord enviado<br>";
-        //////////////////
-        Reg_Log("[SUCCEED][SELECT]",$name,$owner,$map,date('d/m/Y H:i:s')); 
-        // echo "Log creado<br>";           
-    }
-    
-    // Redirect to jugar.php
-    {
-        $nombre = htmlspecialchars($_POST["name"], ENT_QUOTES, 'UTF-8');
-        $owner = htmlspecialchars($_POST["owner"], ENT_QUOTES, 'UTF-8');
+    $bot_request = 
+        "\nbot_map = " . $map . 
+        "\nbot_owner = " . strtolower($owner) . 
+        "\nbot_game = " . $name . "\n";
+    file_put_contents("../pending/pending" . time(), $bot_request);
 
-        // Build the query string safely
-        $query_params = http_build_query([
-            'success' => 'true',
-            'name' => $nombre,
-            'owner' => $owner
-        ]);
+    webhookdisc($map, $name, $name, $owner, "");
 
-        header("Location: /jugar.php?$query_params");
-    }
+    $safe_name  = htmlspecialchars($name, ENT_QUOTES, 'UTF-8');
+    $safe_owner = htmlspecialchars($owner, ENT_QUOTES, 'UTF-8');
+
+    // Build the query string safely
+    $query_params = http_build_query([
+        'success' => 'true',
+        'name' => $name,
+        'owner' => $owner
+    ]);
+
+    header("Location: /jugar.php?$query_params");
 }
+
 function Reg_Log($estado,$partida,$user,$mapa,$fecha){
     $file = fopen("log.txt", "a");
     fwrite($file, "".$estado." => ".$fecha." [ ".$partida." > ".$user." > ".$mapa." ] " . PHP_EOL);

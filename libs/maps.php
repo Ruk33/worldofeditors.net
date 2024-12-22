@@ -1,34 +1,9 @@
 <?php 
 
-// ini_set('display_startup_errors', 1);
-// ini_set('display_errors', 1);
-// error_reporting(-1);
-// ini_set('display_startup_errors', 0);
-// ini_set('display_errors', 0);
-// error_reporting(0);
-
-include "../PHP-MPQ/get_map_info.php";
-include "../PHP-MPQ/get_map_thumbnail.php";
+include "map_info.php";
 include "parse_color_tags.php";
 
 $funcion = $_GET['funcion'];
-
-if($funcion == "similar"){
-    header("Cache-Control: public, max-age=5, stale-while-revalidate=60");
-    
-    $nombre=preg_quote($_GET["nombre"]);
-    $array = array();
-    foreach (glob("../maps/*") as $mapa) {            
-        if (preg_match("/{$nombre}/i", $mapa)) {
-            $jsar=[];
-            $jsar["nombre"]=substr($mapa, 8);
-            $jsar["ruta"]=$mapa;
-            $jsar["peso"]=filesize($mapa);
-            array_push($array, $jsar);
-        }            
-    }        
-    echo json_encode($array);
-}
 
 if ($funcion == "listar") {
     header("Cache-Control: public, max-age=5, stale-while-revalidate=60");
@@ -79,7 +54,6 @@ if ($funcion == "listar") {
 
         // Prepare map data
         $map_file_size = filesize($map_name);
-        $map_thumbnail = get_map_thumbnail(basename($map_name));
 
         $results[] = [
             "mapa" => basename($map_name),
@@ -88,7 +62,7 @@ if ($funcion == "listar") {
             "jcj" => parse_color_tags($map_info["max_players"] ?? ''),
             "desc" => parse_color_tags($map_info["description"] ?? ''),
             "autor" => parse_color_tags($map_info["author"] ?? ''),
-            "minimap" => $map_thumbnail ? "/PHP-MPQ/thumbnail.php?map=" . basename($map_name) : "minmap.png",
+            "minimap" => $map_info["thumbnail"],
             "jp" => parse_color_tags($map_info["players_recommended"] ?? ''),
             "is_melee" => $is_melee,
         ];
@@ -126,35 +100,6 @@ if ($funcion == "crear" && $_POST["name"] && $_POST["owner"] && $_POST["mapname"
     exit();
 }
 
-function Reg_Log($estado,$partida,$user,$mapa,$fecha){
-    $file = fopen("log.txt", "a");
-    fwrite($file, "".$estado." => ".$fecha." [ ".$partida." > ".$user." > ".$mapa." ] " . PHP_EOL);
-    fclose($file);
-}
-function Agregarcsv($mapa,$nombre,$jcj,$peso,$autor,$jp,$desc,$tipo,$preview,$id,$valor){
-    $datos = [];
-    $nueval ="";
-    if (($gestor = fopen("storage/mapas.csv", 'r')) !== FALSE) {
-        while (($fila = fgetcsv($gestor, 1000, ';')) !== FALSE) {
-            if($valor== true && $fila[0]==$mapa){
-                $nombre=$fila[1]; $jcj=$fila[2]; $peso=$fila[3]; $autor=$fila[4]; $jp=$fila[5]; $desc=$fila[6]; $tipo=$fila[7]; $preview=$fila[8]; $id=$fila[9];
-            }else{
-                $datos[] = $fila; 
-            }                
-        }
-        fclose($gestor);
-    }
-    if (($gestor = fopen("storage/mapas.csv", 'w')) !== FALSE) {
-        $nueval= "".$mapa.";".$nombre.";".$jcj.";".$peso.";".$autor.";".$jp.";".$desc.";".$tipo.";".$preview.";".$id;
-        fputs($gestor, $nueval.PHP_EOL);
-        foreach ($datos as $fila) {
-            $linea= $fila[0].";".$fila[1].";".$fila[2].";".$fila[3].";".$fila[4].";".$fila[5].";".$fila[6].";".$fila[7].";".$fila[8].";".$fila[9];
-            fputs($gestor, $linea.PHP_EOL);
-        }
-        fclose($gestor);
-    }
-    return ["".$mapa,"".$nombre,"".$jcj,"".$peso,"".$autor,"".$jp,"".$desc,"".$tipo,"".$preview,"".$id];
-}
 function webhookdisc(string $mapa,string $nombre,string $partida,string $user,string $descripcion){
     $url = "https://discord.com/api/webhooks/1278484082879103026/MaImrkWKRW5DwQESI_jmWn0MovwsSoLp9iXI-phGW-pWr1YSCGveLj41tNthJN7SvJGz";
     $hookObject = json_encode([
@@ -188,5 +133,3 @@ function webhookdisc(string $mapa,string $nombre,string $partida,string $user,st
     $response = curl_exec( $ch );
     curl_close( $ch );    
 }
-
-?>

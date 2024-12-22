@@ -8,9 +8,6 @@ include "js.php";
 
 ?>
 
-<!-- <script src="//unpkg.com/alpinejs" defer></script> -->
-
-
 <style>
     #jugar form {
         display: grid;
@@ -231,7 +228,7 @@ include "js.php";
                 x-bind:src="map_preview"
                 x-effect="
                     // Set map preview when selected map gets updated
-                    map_preview = selected_map.mapa ? './PHP-MPQ/thumbnail.php?map=' + selected_map.mapa : './img/minmap.png';
+                    map_preview = selected_map.mapa ? './storage/' + selected_map.minimap : './img/minmap.png';
                 "
             >
             <button 

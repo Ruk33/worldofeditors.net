@@ -37,11 +37,6 @@ RUN cd /var/www/html/public/BLPConverter && \
     mv bin/BLPConverter /usr/bin/ && \
     chmod +x /usr/bin/BLPConverter
 
-# Run composer
-COPY ./PHP-MPQ /var/www/html/public/PHP-MPQ
-RUN cd /var/www/html/public/PHP-MPQ && \
-    composer install
-
 USER www-data
 
 COPY ./ /var/www/html/public

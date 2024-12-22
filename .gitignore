@@ -1,6 +1,7 @@
 maps/*
 pending/*
 processed/*
+storage/*
 log.txt
 composer.lock
 *.w3m.png

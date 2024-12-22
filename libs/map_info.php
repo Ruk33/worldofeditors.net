@@ -40,19 +40,17 @@ function get_map_info($map_file_name)
 
     $command =
         "
-        mkdir $map_info_path;
+        mkdir $map_info_result_path;
 
-        MPQExtractor -o $map_info_path -e war3mapPreview.tga $map_path_escaped;
-        MPQExtractor -o $map_info_path -e war3mapMap.tga     $map_path_escaped;
-        MPQExtractor -o $map_info_path -e war3mapMap.blp     $map_path_escaped;
-        MPQExtractor -o $map_info_path -e war3map.wts        $map_path_escaped;
-        MPQExtractor -o $map_info_path -e war3map.w3i        $map_path_escaped;
+        MPQExtractor -o $map_info_result_path -e war3mapPreview.tga $map_path_escaped;
+        MPQExtractor -o $map_info_result_path -e war3mapMap.tga     $map_path_escaped;
+        MPQExtractor -o $map_info_result_path -e war3mapMap.blp     $map_path_escaped;
+        MPQExtractor -o $map_info_result_path -e war3map.wts        $map_path_escaped;
+        MPQExtractor -o $map_info_result_path -e war3map.w3i        $map_path_escaped;
 
-        convert $map_info_path/war3mapMap.tga -flip $map_info_path/thumbnail.png;
-        BLPConverter -o $map_info_path $map_info_path/war3mapMap.blp;
-        mv $map_info_path/war3mapMap.png $map_info_path/thumbnail.png;
-
-        mv -f $map_info_path $map_info_result_path;
+        convert $map_info_result_path/war3mapMap.tga -flip $map_info_result_path/thumbnail.png;
+        BLPConverter -o $map_info_result_path $map_info_result_path/war3mapMap.blp;
+        mv $map_info_result_path/war3mapMap.png $map_info_result_path/thumbnail.png;
         ";
 
     $output     = [];

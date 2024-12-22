@@ -1,3 +1,24 @@
+<?php
+
+// Redirect to foroactivo if required.
+$requestUri = $_SERVER['REQUEST_URI'];
+
+// Check if the URI matches the /t{number}- pattern
+if (preg_match('/^\/t(\d+)-(.+)$/', $requestUri, $matches)) {
+    // Extract the values from the pattern
+    $id = $matches[1];
+    $slug = $matches[2];
+
+    // Build the redirection URL
+    $redirectUrl = "https://worldofeditors.foroactivo.com/t{$id}-{$slug}";
+
+    // Redirect with a 301 status code
+    header("Location: $redirectUrl", true, 301);
+    exit;
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>

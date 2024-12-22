@@ -109,16 +109,17 @@ ob_start();
         selected_map: { nombre: '', autor: '', desc: '', mapa: '', }, 
         map_preview: '',
         map_term: '',
+        is_uploading_map: false,
+        uploading_progress: 0,
 
         form: {
             name: '',
             owner: '',
-            map: '',
             mapname: '',
         },
     }"
     x-effect="
-        // Load maps when the page loads.
+        // Load maps when the page loads and/or the term changes.
         maps = await (await fetch('/libs/maps.php?funcion=listar&nombre=' + encodeURIComponent(map_term) + '&tipo=ALL&orden=false')).json();
     "
 >
@@ -135,8 +136,69 @@ ob_start();
 
         <label>
             Subi un mapa
-            <input type="file" id="map" name="map" x-model="form.map" />
+            <input
+                type="file"
+                :disabled="is_uploading_map"
+                x-on:change="
+                const files = event.target.files || [];
+                const file = files[0];
+                if (!file)
+                    return;
+
+                is_uploading_map = true;
+                uploading_progress = 0;
+                
+                // const chunk_size = 10 * 1024 * 1024;
+                const chunk_size = 1024;
+                const total_chunks = Math.ceil(file.size / chunk_size);
+                
+                for (let current_chunk = 0; current_chunk < total_chunks; current_chunk++) {
+                    const start = current_chunk * chunk_size;
+                    const end = Math.min(start + chunk_size, file.size);
+                    const chunk = file.slice(start, end);
+
+                    const form_data = new FormData();
+                    form_data.append('file_chunk', chunk);
+                    form_data.append('file_name', file.name);
+                    form_data.append('chunk', current_chunk);
+                    form_data.append('total_chunks', total_chunks);
+
+                    await fetch('./upload.php', {
+                        method: 'POST',
+                        body: form_data,
+                    });
+
+                    uploading_progress = (current_chunk + 1) * 100 / total_chunks;
+                }
+
+                is_uploading_map = false;
+                uploading_progress = 0;
+                form.mapname = file.name;
+                "
+            />
         </label>
+
+        <div>
+            <div 
+                style="
+                background-color: #9b9b9b;
+                height: 2px;
+                border: 1px solid black;
+                border-radius: 2px;
+                "
+            > 
+                <div
+                    :style="
+                    `transition: width 1s; 
+                    width: ${uploading_progress}%; 
+                    height: 2px; 
+                    background-color: gold;`
+                    "
+                    x-show="is_uploading_map"
+                >
+                </div>
+            </div>
+        </div>
         
         <label>
             O busca uno de nuestros mapas alojados:
@@ -170,7 +232,7 @@ ob_start();
                 "
             >
             <button 
-                :disabled="!(form.name && form.owner && (form.map || form.mapname))"
+                :disabled="!(form.name && form.owner && form.mapname) || is_uploading_map"
                 type="submit"
                 id="create_game_button"
             >

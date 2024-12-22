@@ -16,4 +16,3 @@ RewriteCond %{REQUEST_URI} ^/t(\d+)-(.+)$
 RewriteRule ^ https://worldofeditors.foroactivo.com/t%1-%2 [R=301,L]
 
 LimitRequestBody 1073741824
-Timeout 600

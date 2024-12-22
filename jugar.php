@@ -9,13 +9,13 @@ ob_start();
 <script src="//unpkg.com/alpinejs" defer></script>
 
 <style>
-    form {
+    #jugar form {
         display: grid;
         grid-template-columns: 700px 300px;
         gap: 20px;
     }
 
-    input, select {
+    #jugar input, select {
         background-color: black;
         border: 1px solid gray;
         padding: 10px;
@@ -29,22 +29,22 @@ ob_start();
         font-family: friz;
     }
 
-    select {
+    #jugar select {
         width: 100%;
     }
 
-    option {
+    #jugar option {
         padding: 10px;
         border-radius: 2px;
     }
 
-    label {
+    #jugar label {
         display: block;
         margin-top: 20px;
         margin-bottom: 20px;
     }
 
-    button {
+    #jugar button {
         display: block;
         background-image: url("./img/btn.png");
         background-repeat: round;
@@ -68,20 +68,22 @@ ob_start();
         cursor: pointer;
     }
 
-    button:hover {
+    #jugar button:hover {
         color: white;
     }
 
-    button:disabled {
+    #jugar button:disabled {
         filter: grayscale(100%);
     }
 
-    form img {
+    #jugar form img {
         border: 1px solid gray; 
         border-radius: 5px;
         box-shadow: 0px 0px 0px 1px black;
     }
 </style>
+
+<div id="jugar">
 
 <h1>Jugar</h1>
 
@@ -93,8 +95,8 @@ ob_start();
 
 <?php if ($game_created) { ?>
     <div style="margin-bottom: 50px;"> 
-        <h2>Partida creada!</h2>
-        <p>La partida <?php echo $game_created_name ?> ya ha sido creada. El usuario <?php echo $game_created_owner ?> puede iniciar el juego con el comando <code>!start</code>.</code></p>
+        <h2 id="partida_creada">Partida creada!</h2>
+        <p id="partida_creada_detalles">La partida <?php echo $game_created_name ?> ya ha sido creada. El usuario <?php echo $game_created_owner ?> puede iniciar el juego con el comando <code>!start</code>.</code></p>
     </div>
 <?php } ?>
 
@@ -133,12 +135,12 @@ ob_start();
 
         <label>
             Subi un mapa
-            <input type="file" name="map" id="map" x-model="form.map" />
+            <input type="file" id="map" name="map" x-model="form.map" />
         </label>
         
         <label>
-            O, busca uno de nuestros mapas alojados:
-            <input x-model.debounce="map_term" placeholder="Islas eco..." />
+            O busca uno de nuestros mapas alojados:
+            <input id="map_term" x-model.debounce="map_term" placeholder="Islas eco..." />
         </label>
         <select 
             name="mapname" 
@@ -148,14 +150,15 @@ ob_start();
             x-on:change="selected_map = maps.find(map => map.mapa === form.mapname)"
         >
             <template x-for="map in maps">
-                <option x-bind:value="map.mapa" x-html="map.nombre"></option>
+                <option x-bind:id="'mapa-' + map.mapa" x-bind:value="map.mapa" x-html="map.nombre"></option>
             </template>
         </select>
     </div>
     
     <div style="text-align: center;">
         <div style="position: relative; margin-bottom: 50px;">
-            <img 
+            <img
+                id="map_preview"
                 width="302px" 
                 src="./img/minmap.png"
                 alt="Vista previa del mapa seleccionado"
@@ -169,18 +172,21 @@ ob_start();
             <button 
                 :disabled="!(form.name && form.owner && (form.map || form.mapname))"
                 type="submit"
+                id="create_game_button"
             >
                 Crear
             </button>
         </div>
 
-        <h2 style="font-weight: normal;" x-html="selected_map.nombre"></h2>
-        <h3 style="font-weight: normal;" x-html="selected_map.autor"></h3>
+        <h2 id="selected_map_nombre" style="font-weight: normal;" x-html="selected_map.nombre"></h2>
+        <h3 id="selected_map_autor" style="font-weight: normal;" x-html="selected_map.autor"></h3>
 
-        <p style="text-align: left; font-size: 16px;" x-html="selected_map.desc"></p>
+        <p id="selected_map_desc" style="text-align: left; font-size: 16px;" x-html="selected_map.desc"></p>
     </div>
 </form>
-    
+
+</div>
+
 <?php
     $content = ob_get_clean();
     include "index.php";

@@ -128,11 +128,11 @@
                     </a>
                 </header>
 
-                <a href="/jugar.php">Jugar</a>
-                <a href="/como-jugar.php">Como Jugar</a>
-                <a href="/descargas.php">Descargas</a>
+                <a id="menu-jugar" href="/jugar.php">Jugar</a>
+                <a id="menu-como-jugar" href="/como-jugar.php">Como Jugar</a>
+                <a id="menu-descargas" href="/descargas.php">Descargas</a>
                 <!-- <a href="/mapas.php">Mapas</a> -->
-                <a href="https://www.youtube.com/@WorldOfEditorsOficial/videos">Canal</a>
+                <a id="menu-canal" href="https://www.youtube.com/@WorldOfEditorsOficial/videos">Canal</a>
                 <p>
                     World of Editors<br />
                     <span style="font-size: 12px; color: gray;">Original design by Shikuso</span>
@@ -146,6 +146,10 @@
         </main>
         <?php } ?>
     </div>
+
+    <?php if ($_SERVER['SERVER_NAME'] == "localhost") { ?>
+    <script src="https://raw.githack.com/Ruk33/dani/master/dani.js"></script>
+    <?php } ?>
 
 </body>
 </html>

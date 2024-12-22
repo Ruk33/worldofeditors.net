@@ -39,7 +39,7 @@ if (preg_match('/^\/t(\d+)-(.+)$/', $request_uri, $matches)) {
     <style>
         @font-face {
             font-family: "friz";
-            src: url("./resources/friz.ttf") format("truetype");
+            src: url("./resources/friz.woff2") format("woff2");
             font-style: normal;
             font-weight: normal;
             font-display: swap;

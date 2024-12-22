@@ -1,5 +1,7 @@
 Header set Access-Control-Allow-Origin "*"
 
+Header set Timeout "600"
+
 RewriteEngine on
 # The requested filename "/index" is not a directory
 RewriteCond %{REQUEST_FILENAME} !-d

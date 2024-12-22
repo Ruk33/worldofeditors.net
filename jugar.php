@@ -4,9 +4,12 @@ $page_title = "Jugar";
 
 ob_start();
 
+include "js.php";
+
 ?>
 
-<script src="//unpkg.com/alpinejs" defer></script>
+<!-- <script src="//unpkg.com/alpinejs" defer></script> -->
+
 
 <style>
     #jugar form {

@@ -108,7 +108,7 @@ function get_map_info($map_file_name)
     // loading screen subtitle
     while (($s = read_byte($w3i, $cursor)));
 
-    $x += 4; // loading screen number
+    $cursor += 4; // loading screen number
 
     // prologue screen path
     while (($s = read_byte($w3i, $cursor)));
@@ -123,12 +123,12 @@ function get_map_info($map_file_name)
     while (($s = read_byte($w3i, $cursor)));
 
     // uses terrain fog, fog start z h, fog end z h, fog density, fog r g b a, global weather
-    $x += 6 * 4;
+    $cursor += 6 * 4;
 
     // custom sound environment
     while (($s = read_byte($w3i, $cursor)));
 
-    $x += 5; // tileset id, water tinting r g b a
+    $cursor += 5; // tileset id, water tinting r g b a
 
     $max_players = read_uint32($w3i, $cursor);
 

@@ -174,7 +174,9 @@ include "js.php";
                 is_uploading_map = false;
                 uploading_progress = 0;
 
-                form.mapname = file.name;
+                setTimeout(() => {
+                    map_term = file.name;
+                }, 1000);
                 "
             />
         </label>

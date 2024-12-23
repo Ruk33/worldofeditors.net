@@ -105,7 +105,7 @@ function discord_notification(string $map_file, string $name, string $game_name,
     $map = find_one(
         "
         select * from maps
-        where map.map_file_name = :map_file
+        where maps.map_file_name = :map_file
         limit 1
         ",
         ["map_file" => $map_file]

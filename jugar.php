@@ -119,8 +119,8 @@ include "js.php";
         },
     }"
     x-effect="
-        // Load maps when the page loads and/or the term changes.
-        maps = await (await fetch('/libs/maps.php?funcion=listar&nombre=' + encodeURIComponent(map_term) + '&tipo=ALL&orden=false')).json();
+        const result = await fetch('/libs/maps.php?funcion=listar&nombre=' + encodeURIComponent(map_term) + '&tipo=ALL&orden=false');
+        maps = await result.json();
     "
 >
     <div>
@@ -173,7 +173,10 @@ include "js.php";
 
                 is_uploading_map = false;
                 uploading_progress = 0;
-                form.mapname = file.name;
+
+                setTimeout(() => {
+                    map_term = file.name;
+                }, 1000);
                 "
             />
         </label>
@@ -207,7 +210,7 @@ include "js.php";
         <select 
             name="mapname" 
             id="mapname" 
-            size="10" 
+            size="10"
             x-model="form.mapname"
             x-on:change="selected_map = maps.find(map => map.map_file_name === form.mapname)"
         >

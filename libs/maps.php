@@ -13,7 +13,7 @@ if ($funcion == "listar") {
         "
         select *
         from maps
-        where 
+        where
             maps.name           ilike :term or
             maps.description    ilike :term or
             maps.author         ilike :term or

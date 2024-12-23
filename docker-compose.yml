@@ -1,0 +1,22 @@
+services:
+  app:
+    build:
+      context: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    volumes:
+      - .:/var/www/html/public
+    environment:
+      DB_HOST: db
+      DB_NAME: postgres
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+
+  db:
+    image: supabase/postgres:15.6.1.113
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: postgres

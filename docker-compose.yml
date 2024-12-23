@@ -1,0 +1,22 @@
+services:
+  php-app:
+    build:
+      context: . # Assumes your Dockerfile is in the current directory
+    ports:
+      - "8080:8080" # Map port 3000 on the host to port 8080 in the container
+    depends_on:
+      - db # Ensure the database starts before the PHP app
+    volumes:
+      - .:/var/www/html/public # Mount the current directory to /var/www/html/public inside the container
+    environment:
+      DB_HOST: db # Use this as the hostname for PostgreSQL
+      DB_NAME: postgres
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+
+  db:
+    image: supabase/postgres:15.6.1.113
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: postgres

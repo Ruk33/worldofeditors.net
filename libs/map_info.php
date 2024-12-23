@@ -33,10 +33,10 @@ function get_map_info($map_file_name)
     $map_info_result_path = __DIR__ . "/../storage/" . $map_info_path;
     $map_info_result = $map_info_result_path . "/result.json";
 
-    if (file_exists($map_info_result)) {
-        $raw_map_info = file_get_contents($map_info_result);
-        return json_decode($raw_map_info, true);
-    }
+    // if (file_exists($map_info_result)) {
+    //     $raw_map_info = file_get_contents($map_info_result);
+    //     return json_decode($raw_map_info, true);
+    // }
 
     $command =
         "
@@ -162,9 +162,9 @@ function get_map_info($map_file_name)
         "thumbnail" => $map_id . "/thumbnail.png",
     );
 
-    $json_result = json_encode($result);
+    // $json_result = json_encode($result);
 
-    file_put_contents($map_info_result, $json_result);
+    // file_put_contents($map_info_result, $json_result);
 
     return $result;
 }

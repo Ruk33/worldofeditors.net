@@ -106,7 +106,7 @@ include "js.php";
     action="./libs/maps.php?funcion=crear"
     x-data="{ 
         maps: [], 
-        selected_map: { nombre: '', autor: '', desc: '', mapa: '', }, 
+        selected_map: { name: '', author: '', description: '', map_file_name: '', }, 
         map_preview: '',
         map_term: '',
         is_uploading_map: false,
@@ -209,10 +209,10 @@ include "js.php";
             id="mapname" 
             size="10" 
             x-model="form.mapname"
-            x-on:change="selected_map = maps.find(map => map.mapa === form.mapname)"
+            x-on:change="selected_map = maps.find(map => map.map_file_name === form.mapname)"
         >
             <template x-for="map in maps">
-                <option x-bind:id="'mapa-' + map.mapa" x-bind:value="map.mapa" x-html="map.nombre"></option>
+                <option x-bind:id="'mapa-' + map.name" x-bind:value="map.map_file_name" x-html="map.name"></option>
             </template>
         </select>
     </div>
@@ -228,7 +228,7 @@ include "js.php";
                 x-bind:src="map_preview"
                 x-effect="
                     // Set map preview when selected map gets updated
-                    map_preview = selected_map.mapa ? './storage/' + selected_map.minimap : './img/minmap.png';
+                    map_preview = selected_map.thumbnail_path ? './storage/' + selected_map.thumbnail_path : './img/minmap.png';
                 "
             >
             <button 
@@ -240,10 +240,10 @@ include "js.php";
             </button>
         </div>
 
-        <h2 id="selected_map_nombre" style="font-weight: normal;" x-html="selected_map.nombre"></h2>
-        <h3 id="selected_map_autor" style="font-weight: normal;" x-html="selected_map.autor"></h3>
+        <h2 id="selected_map_nombre" style="font-weight: normal;" x-html="selected_map.name"></h2>
+        <h3 id="selected_map_autor" style="font-weight: normal;" x-html="selected_map.author"></h3>
 
-        <p id="selected_map_desc" style="text-align: left; font-size: 16px;" x-html="selected_map.desc"></p>
+        <p id="selected_map_desc" style="text-align: left; font-size: 16px;" x-html="selected_map.description"></p>
     </div>
 </form>
 

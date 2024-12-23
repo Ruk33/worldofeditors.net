@@ -76,7 +76,7 @@ if (!any_in_post(["map_name", "uploaded_map"])) {
 if ($can_create) {
     $name  = post_value("name");
     $owner = post_value("owner");
-    $map   = post_value("map_name", post_value("uploaded_map"));
+    $map   = post_value("uploaded_map", post_value("map_name"));
 
     $bot_request = 
         "\nbot_map = " . $map . 

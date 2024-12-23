@@ -1,11 +1,11 @@
 <?php 
 
-include "map_info.php";
 include "parse_color_tags.php";
 
 $funcion = $_GET['funcion'];
 
 if ($funcion == "listar") {
+    include "map_info.php";
     header("Cache-Control: public, max-age=5, stale-while-revalidate=60");
 
     // Sanitize inputs early

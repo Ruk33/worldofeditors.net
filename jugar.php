@@ -101,7 +101,6 @@ include "js.php";
 <?php } ?>
 
 <form
-    enctype="multipart/form-data"
     method="post"
     action="./libs/maps.php?funcion=crear"
     x-data="{ 
@@ -115,7 +114,8 @@ include "js.php";
         form: {
             name: '',
             owner: '',
-            mapname: '',
+            map_name: '',
+            uploaded_map: '',
         },
     }"
     x-effect="
@@ -137,8 +137,11 @@ include "js.php";
         <label>
             Subi un mapa
             <input
+                id="uploaded_map"
+                name="uploaded_map"
                 type="file"
                 :disabled="is_uploading_map"
+                x-model="form.uploaded_map"
                 x-on:change="
                 const files = event.target.files || [];
                 const file = files[0];
@@ -173,10 +176,6 @@ include "js.php";
 
                 is_uploading_map = false;
                 uploading_progress = 0;
-
-                setTimeout(() => {
-                    map_term = file.name;
-                }, 1000);
                 "
             />
         </label>
@@ -208,11 +207,11 @@ include "js.php";
             <input id="map_term" x-model.debounce="map_term" placeholder="Islas eco..." />
         </label>
         <select 
-            name="mapname" 
-            id="mapname" 
+            name="map_name"
+            id="map_name"
             size="10"
-            x-model="form.mapname"
-            x-on:change="selected_map = maps.find(map => map.map_file_name === form.mapname)"
+            x-model="form.map_name"
+            x-on:change="selected_map = maps.find(map => map.map_file_name === form.map_name)"
         >
             <template x-for="map in maps">
                 <option x-bind:id="'mapa-' + map.name" x-bind:value="map.map_file_name" x-html="map.name"></option>
@@ -235,7 +234,7 @@ include "js.php";
                 "
             >
             <button 
-                :disabled="!(form.name && form.owner && form.mapname) || is_uploading_map"
+                :disabled="!(form.name && form.owner && (form.map_name || form.uploaded_map)) || is_uploading_map"
                 type="submit"
                 id="create_game_button"
             >

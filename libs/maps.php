@@ -4,12 +4,43 @@ include "db.php";
 include "map_info.php";
 include "parse_color_tags.php";
 
-$funcion = $_GET['funcion'];
+function in_post($param_names)
+{
+    foreach ($param_names as $param_name) {
+        if (!isset($_POST[$param_name])) {
+            return false;
+        }
+    }
 
-if ($funcion == "listar") {
+    return true;
+}
+
+function any_in_post($param_names)
+{
+    foreach ($param_names as $param_name) {
+        if (isset($_POST[$param_name])) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+function post_value($param_name, $default_value = null)
+{
+    if (isset($_POST[$param_name])) {
+        return $_POST[$param_name];
+    }
+
+    return $default_value;
+}
+
+$function = $_GET['funcion'];
+
+if ($function == "listar") {
     header("Cache-Control: public, max-age=5, stale-while-revalidate=60");
 
-    $query = run_query(
+    $maps = find(
         "
         select *
         from maps
@@ -24,16 +55,28 @@ if ($funcion == "listar") {
         ["term" => "%" . $_GET["nombre"] . "%"]
     );
 
-    $maps = $query->fetchAll();
-
     echo json_encode($maps);
     exit();
 }
 
-if ($funcion == "crear" && $_POST["name"] && $_POST["owner"] && $_POST["mapname"]) {
-    $name  = $_POST["name"];
-    $owner = $_POST["owner"];
-    $map   = $_POST["mapname"];
+$can_create = true;
+
+if ($function != "crear") {
+    $can_create = false;
+}
+
+if (!in_post(["name", "owner"])) {
+    $can_create = false;
+}
+
+if (!any_in_post(["map_name", "uploaded_map"])) {
+    $can_create = false;
+}
+
+if ($can_create) {
+    $name  = post_value("name");
+    $owner = post_value("owner");
+    $map   = post_value("map_name", post_value("uploaded_map"));
 
     $bot_request = 
         "\nbot_map = " . $map . 
@@ -41,7 +84,7 @@ if ($funcion == "crear" && $_POST["name"] && $_POST["owner"] && $_POST["mapname"
         "\nbot_game = " . $name . "\n";
     file_put_contents("../pending/pending" . time(), $bot_request);
 
-    webhookdisc($map, $name, $name, $owner, "");
+    discord_notification($map, $name, $name, $owner);
 
     $safe_name  = htmlspecialchars($name, ENT_QUOTES, 'UTF-8');
     $safe_owner = htmlspecialchars($owner, ENT_QUOTES, 'UTF-8');
@@ -57,23 +100,32 @@ if ($funcion == "crear" && $_POST["name"] && $_POST["owner"] && $_POST["mapname"
     exit();
 }
 
-function webhook_disc(string $mapa, string $nombre, string $partida, string $user, string $descripcion)
+function discord_notification(string $map_file, string $name, string $game_name, string $user)
 {
+    $map = find_one(
+        "
+        select * from maps
+        where map.map_file_name = :map_file
+        limit 1
+        ",
+        ["map_file" => $map_file]
+    );
+
     $url = "https://discord.com/api/webhooks/1278484082879103026/MaImrkWKRW5DwQESI_jmWn0MovwsSoLp9iXI-phGW-pWr1YSCGveLj41tNthJN7SvJGz";
 
     $hook_object = json_encode([
         "content" => "Partida creada <@&854822908874326026> !",
         "embeds" => [
             [
-                "title" => strip_tags($nombre),
+                "title" => strip_tags($name),
                 "description" => strip_tags($descripcion),
-                "url" => "https://worldofeditors.net/maps/" . str_replace(" ", "%20", $mapa),
+                "url" => "https://worldofeditors.net/maps/" . str_replace(" ", "%20", $map_file),
                 "color" => 1422025,
                 "author" => [
-                    "name" => strip_tags($partida)
+                    "name" => strip_tags($game_name)
                 ],
                 "image" => [
-                    "url" => "https://worldofeditors.net/PHP-MPQ/thumbnail.php?map=" . str_replace(" ", "%20", $mapa)
+                    "url" => "https://worldofeditors.net/storage/" . $map["thumbnail_path"]
                 ]
             ]
         ],

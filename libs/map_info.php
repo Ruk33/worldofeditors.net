@@ -43,9 +43,12 @@ function get_map_info($map_file_name)
         MPQExtractor -o $map_info_result_path -e war3map.wts        $map_path_escaped;
         MPQExtractor -o $map_info_result_path -e war3map.w3i        $map_path_escaped;
 
-        convert $map_info_result_path/war3mapMap.tga -flip $map_info_result_path/thumbnail.png;
         BLPConverter -o $map_info_result_path $map_info_result_path/war3mapMap.blp;
         mv $map_info_result_path/war3mapMap.png $map_info_result_path/thumbnail.png;
+
+        convert $map_info_result_path/war3mapMap.tga -flip $map_info_result_path/thumbnail.png;
+
+        convert $map_info_result_path/war3mapPreview.tga -flip $map_info_result_path/thumbnail.png;
         ";
 
     $output     = [];
@@ -136,22 +139,22 @@ function get_map_info($map_file_name)
     $players_recommended_value  = strstr($wts, $players_recommended_string);
 
     preg_match('/STRING \d+\R{\R(.*?)\R}/s', $map_name_value, $matches);
-    $map_name = $matches[1];
+    $map_name_from_wts = $matches[1];
 
     preg_match('/STRING \d+\R{\R(.*?)\R}/s', $author_value, $matches);
-    $author = $matches[1];
+    $author_from_wts = $matches[1];
 
     preg_match('/STRING \d+\R{\R(.*?)\R}/s', $description_value, $matches);
-    $description = $matches[1];
+    $description_from_wts = $matches[1];
 
     preg_match('/STRING \d+\R{\R(.*?)\R}/s', $players_recommended_value, $matches);
-    $players_recommended = $matches[1];
+    $players_recommended_from_wts = $matches[1];
 
     $result = array(
-        "name" => $map_name,
-        "author" => $author,
-        "description" => $description,
-        "players_recommended" => $players_recommended,
+        "name" => $map_name_from_wts ? $map_name_from_wts : $map_name,
+        "author" => $author_from_wts ? $author_from_wts : $author,
+        "description" => $description_from_wts ? $description_from_wts : $description,
+        "players_recommended" => $players_recommended_from_wts ? $players_recommended_from_wts : $players_recommended,
         "max_players" => $max_players,
         "is_melee" => ($map_flags & 0x0004) == 0x0004,
         "thumbnail" => $map_id . "/thumbnail.png",

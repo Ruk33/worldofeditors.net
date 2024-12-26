@@ -15,7 +15,7 @@ RUN apt-get update && apt-get install -y \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # MPQExtractor
-RUN git clone https://github.com/Kanma/MPQExtractor.git && \
+RUN git clone https://github.com/Ruk33/MPQExtractor.git && \
     cd MPQExtractor && \
     git submodule init && \
     git submodule update && \
@@ -27,8 +27,8 @@ RUN git clone https://github.com/Kanma/MPQExtractor.git && \
     chmod +x /usr/bin/MPQExtractor
 
 # BLPConverter
-COPY ./BLPConverter /var/www/html/public/BLPConverter
-RUN cd /var/www/html/public/BLPConverter && \
+RUN git clone https://github.com/Ruk33/BLPConverter.git && \
+    cd BLPConverter && \
     mkdir build && \
     cd build && \
     cmake .. && \

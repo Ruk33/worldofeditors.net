@@ -44,7 +44,7 @@ include "js.php";
         margin-bottom: 20px;
     }
 
-    #jugar button {
+    #jugar button[type="submit"] {
         display: block;
         background-image: url("./img/btn.webp");
         background-repeat: round;
@@ -66,6 +66,18 @@ include "js.php";
         bottom: -30px;
         left: 75px;
         cursor: pointer;
+    }
+
+    #jugar button[type="button"] {
+        display: block;
+        background-color: transparent;
+        border: 0;
+        cursor: pointer;
+        color: gray;
+        font-size: 16px;
+        font-family: friz;
+        width: 100%;
+        text-align: left;
     }
 
     #jugar button:hover {
@@ -206,17 +218,21 @@ include "js.php";
             O busca uno de nuestros mapas alojados:
             <input id="map_term" x-model.debounce="map_term" placeholder="Islas eco..." />
         </label>
-        <select 
-            name="map_name"
-            id="map_name"
-            size="10"
-            x-model="form.map_name"
-            x-on:change="selected_map = maps.find(map => map.map_file_name === form.map_name)"
-        >
+        <input type="hidden" name="map_name" id="map_name" x-model="form.map_name" />
+        <div style="border-radius: 2px; background-color: black; border: 1px solid gray; padding: 10px; height: 250px; overflow: auto;">
             <template x-for="map in maps">
-                <option x-bind:id="'mapa-' + map.name" x-bind:value="map.map_file_name" x-html="map.name"></option>
+                <button
+                    type="button"
+                    x-bind:id="'mapa-' + map.name"
+                    x-on:click="
+                        form.map_name = map.map_file_name;
+                        selected_map = map;
+                    "
+                    x-html="map.name"
+                >
+                </button>
             </template>
-        </select>
+        </div>
     </div>
     
     <div style="text-align: center;">

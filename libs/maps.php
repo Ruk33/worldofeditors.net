@@ -42,14 +42,14 @@ if ($function == "listar") {
 
     $maps = find(
         "
-        select *
+        select distinct on (maps.map_file_name) *
         from maps
         where
             maps.name           ilike :term or
             maps.description    ilike :term or
             maps.author         ilike :term or
             maps.map_file_name  ilike :term
-        order by maps.created_at desc
+        order by maps.map_file_name, maps.created_at desc
         limit 50
         ",
         ["term" => "%" . $_GET["nombre"] . "%"]

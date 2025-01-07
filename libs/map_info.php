@@ -1,5 +1,7 @@
 <?php
 
+include "parse_color_tags.php";
+
 function read_byte(&$string, &$num_byte) 
 {
     if (!is_string($string) || $num_byte >= strlen($string))
@@ -159,6 +161,11 @@ function get_map_info($map_file_name)
         "is_melee" => ($map_flags & 0x0004) == 0x0004,
         "thumbnail" => $map_id . "/thumbnail.png",
     );
+
+    $result["name"] = parse_color_tags($result["name"]);
+    $result["author"] = parse_color_tags($result["author"]);
+    $result["description"] = parse_color_tags($result["description"]);
+    $result["players_recommended"] = parse_color_tags($result["players_recommended"]);
 
     return $result;
 }

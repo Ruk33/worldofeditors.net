@@ -2,7 +2,6 @@
 
 include "db.php";
 include "map_info.php";
-include "parse_color_tags.php";
 
 function in_post($param_names)
 {

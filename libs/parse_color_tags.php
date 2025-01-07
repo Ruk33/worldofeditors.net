@@ -1,6 +1,7 @@
 <?php
 
-function parse_color_tags($text) {
+function parse_color_tags($text)
+{
     // Regular expression to match the custom color format
     $pattern = '/\|.{3}([0-9a-fA-F]{6})(.*?)(\|r|$)/i';
     

@@ -219,7 +219,7 @@ include "js.php";
             <input id="map_term" x-model.debounce="map_term" placeholder="Islas eco..." />
         </label>
         <input type="hidden" name="map_name" id="map_name" x-model="form.map_name" />
-        <div style="border-radius: 2px; background-color: black; border: 1px solid gray; padding: 10px; height: 250px; overflow: auto;">
+        <div style="display: flex; flex-direction: column; gap: 10px; border-radius: 2px; background-color: black; border: 1px solid gray; padding: 5px; padding-top: 10px; padding-bottom: 10px; height: 250px; overflow: auto;">
             <template x-for="map in maps">
                 <button
                     type="button"

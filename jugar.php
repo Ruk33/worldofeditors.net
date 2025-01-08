@@ -76,8 +76,9 @@ include "js.php";
         color: gray;
         font-size: 16px;
         font-family: friz;
-        width: 100%;
+        width: 650px;
         text-align: left;
+        white-space: nowrap;
     }
 
     #jugar button:hover {
@@ -219,7 +220,7 @@ include "js.php";
             <input id="map_term" x-model.debounce="map_term" placeholder="Islas eco..." />
         </label>
         <input type="hidden" name="map_name" id="map_name" x-model="form.map_name" />
-        <div style="display: flex; flex-direction: column; gap: 10px; border-radius: 2px; background-color: black; border: 1px solid gray; padding: 5px; padding-top: 10px; padding-bottom: 10px; height: 250px; overflow: auto;">
+        <div style="display: flex; flex-direction: column; gap: 10px; border-radius: 2px; background-color: black; border: 1px solid gray; padding: 5px; padding-top: 10px; padding-bottom: 10px; height: 250px; overflow-x: hidden; overflow-y: auto;">
             <template x-for="map in maps">
                 <button
                     type="button"

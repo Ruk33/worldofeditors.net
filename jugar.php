@@ -94,6 +94,18 @@ include "js.php";
         border-radius: 5px;
         box-shadow: 0px 0px 0px 1px black;
     }
+
+    #selected_map_nombre, #selected_map_autor {
+        font-weight: normal;
+        display: block;
+        width: 300px;
+        overflow: hidden;
+        text-decoration: none;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+
 </style>
 
 <div id="jugar">

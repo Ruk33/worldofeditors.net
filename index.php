@@ -1,5 +1,7 @@
 <?php
 
+header("Cache-Control: public, max-age=5, stale-while-revalidate=60");
+
 // Redirect to foroactivo if required.
 $request_uri = $_SERVER['REQUEST_URI'];
 
@@ -136,6 +138,42 @@ if (preg_match('/^\/t(\d+)-(.+)$/', $request_uri, $matches)) {
             color: white;
         }
     </style>
+
+    <script>
+        // Preload page when hovering a link.
+        document.addEventListener("mouseover", (e) => {
+            if (!e.target.href) return;
+            if (e.target.target) return;
+            fetch(e.target.href);
+        });
+
+        // Replace page's content when clicking a link preventing a full page reload.
+        document.addEventListener("click", async (e) => {
+            const link = a.target.href;
+
+            if (!link) return;
+            if (e.target.target) return;
+
+            // Don't push the same url multiple times in the history.
+            if (new URL(link).origin !== location.origin) return;
+
+            e.preventDefault();
+
+            const result = await fetch(link);
+            const content = await result.text();
+
+            history.pushState({}, "", e.target.href);
+            document.body.innerHTML = content;
+        });
+
+        // Handle history (back)
+        window.addEventListener("popstate", async (e) => {
+            const result = await fetch(window.location.href);
+            const content = await result.text();
+
+            document.body.innerHTML = content;
+        });
+    </script>
 </head>
 <body>
     <div class="container">
@@ -145,7 +183,7 @@ if (preg_match('/^\/t(\d+)-(.+)$/', $request_uri, $matches)) {
                 <div aria-hidden="true" class="chain" style="right: 0;"></div>
 
                 <header>
-                    <a href="/">
+                    <a href="/" style="display: block;">
                         <img width="250" height="152" src="./img/logo-menu.webp" alt="Logo de World of Editors">
                     </a>
                 </header>
@@ -154,7 +192,7 @@ if (preg_match('/^\/t(\d+)-(.+)$/', $request_uri, $matches)) {
                 <a id="menu-como-jugar" href="/como-jugar.php">Como Jugar</a>
                 <a id="menu-descargas" href="/descargas.php">Descargas</a>
                 <!-- <a href="/mapas.php">Mapas</a> -->
-                <a id="menu-canal" href="https://www.youtube.com/@WorldOfEditorsOficial/videos">Canal</a>
+                <a id="menu-canal" href="https://www.youtube.com/@WorldOfEditorsOficial/videos" target="_blank" rel="noopener">Canal</a>
                 <p>
                     World of Editors<br />
                     <span style="font-size: 12px; color: gray;">Original design by Shikuso</span>

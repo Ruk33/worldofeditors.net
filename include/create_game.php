@@ -2,6 +2,7 @@
 
 include "db.php";
 include "map_info.php";
+include "dev.php";
 
 function create_game($name, $owner, $map_name)
 {
@@ -15,7 +16,8 @@ function create_game($name, $owner, $map_name)
         "\nbot_game = " . $name . "\n";
     file_put_contents(__DIR__ . "/../public/pending/pending" . time(), $bot_request);
 
-    // discord_notification($map_name, $name, $name, $owner);
+    if (!is_dev())
+        discord_notification($map_name, $name, $name, $owner);
 
     $safe_name  = htmlspecialchars($name, ENT_QUOTES, 'UTF-8');
     $safe_owner = htmlspecialchars($owner, ENT_QUOTES, 'UTF-8');

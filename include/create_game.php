@@ -13,7 +13,7 @@ function create_game($name, $owner, $map_name)
         "\nbot_map = " . $map_name .
         "\nbot_owner = " . strtolower($owner) .
         "\nbot_game = " . $name . "\n";
-    file_put_contents(__DIR__ . "/../pending/pending" . time(), $bot_request);
+    file_put_contents(__DIR__ . "/../public/pending/pending" . time(), $bot_request);
 
     // discord_notification($map_name, $name, $name, $owner);
 

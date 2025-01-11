@@ -1,7 +1,8 @@
 <?php
 
-include "libs/db.php";
-include "libs/map_info.php";
+include "../include/db.php";
+include "../include/map_info.php";
+include "../include/noindex.php";
 
 $valid_request = 
     isset($_FILES["file_chunk"]) && 

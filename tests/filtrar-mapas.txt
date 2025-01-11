@@ -2,12 +2,12 @@ click [id="menu-jugar"]
 
 intervention Asegurate de que los mapas "islas eco" y "corea" esten en la lista de mapas
 
-find [id="mapa-(2)Echo Isles.w3x"]
+find [id="mapa-Islas Eco"]
 
-find [id="mapa-(2)Korea.w3x"]
+find [id="mapa-Corea"]
 
 type [islas] in [id="map_term"]
 
-find [id="mapa-(2)Echo Isles.w3x"]
+find [id="mapa-Islas Eco"]
 
-don't find [id="mapa-(2)Korea.w3x"]
+don't find [id="mapa-Corea"]

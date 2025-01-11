@@ -38,4 +38,4 @@ RUN git clone https://github.com/Ruk33/BLPConverter.git && \
 
 USER www-data
 
-COPY ./ /var/www/html/public
+COPY ./ /var/www/html/

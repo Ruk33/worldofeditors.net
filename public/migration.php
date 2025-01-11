@@ -1,6 +1,7 @@
 <?php
 
-include "db.php";
+include "../include/db.php";
+include "../include/noindex.php";
 
 run_query(
     "
@@ -17,3 +18,5 @@ run_query(
     );
     "
 );
+
+

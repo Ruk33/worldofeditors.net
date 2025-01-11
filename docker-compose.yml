@@ -7,8 +7,9 @@ services:
     depends_on:
       - db
     volumes:
-      - .:/var/www/html/public
+      - .:/var/www/html/
     environment:
+      DEV: true
       DB_HOST: db
       DB_NAME: postgres
       DB_USER: postgres

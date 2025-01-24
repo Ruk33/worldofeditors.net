@@ -2,7 +2,7 @@
 
 function get_pdo_connection()
 {
-    $dsn = "sqlite:database.sqlite";
+    $dsn = "sqlite:" . __DIR__ . "/database.sqlite";
 
     return new PDO($dsn, null, null, [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
@@ -10,7 +10,7 @@ function get_pdo_connection()
     ]);
 }
 
-function find(string $sql, array $params = [], PDO $pdo = null)
+function find(string $sql, array $params = [], ?PDO $pdo)
 {
     if ($pdo === null) {
         $pdo = get_pdo_connection();
@@ -22,7 +22,7 @@ function find(string $sql, array $params = [], PDO $pdo = null)
     return $stmt->fetchAll();
 }
 
-function find_one(string $sql, array $params = [], PDO $pdo = null)
+function find_one(string $sql, array $params = [], ?PDO $pdo)
 {
     if ($pdo === null) {
         $pdo = get_pdo_connection();
@@ -34,7 +34,7 @@ function find_one(string $sql, array $params = [], PDO $pdo = null)
     return $stmt->fetch();
 }
 
-function insert(string $table, array $data, PDO $pdo = null)
+function insert(string $table, array $data, ?PDO $pdo)
 {
     if ($pdo === null) {
         $pdo = get_pdo_connection();
@@ -56,7 +56,7 @@ function insert(string $table, array $data, PDO $pdo = null)
     return $pdo->lastInsertId();
 }
 
-function run_query(string $sql, array $params = [], PDO $pdo = null)
+function run_query(string $sql, array $params = [], ?PDO $pdo)
 {
     if ($pdo === null) {
         $pdo = get_pdo_connection();

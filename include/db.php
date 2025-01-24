@@ -10,7 +10,7 @@ function get_pdo_connection()
     ]);
 }
 
-function find(string $sql, array $params = [], ?PDO $pdo)
+function find(string $sql, array $params = [], PDO $pdo = null)
 {
     if ($pdo === null) {
         $pdo = get_pdo_connection();
@@ -22,7 +22,7 @@ function find(string $sql, array $params = [], ?PDO $pdo)
     return $stmt->fetchAll();
 }
 
-function find_one(string $sql, array $params = [], ?PDO $pdo)
+function find_one(string $sql, array $params = [], PDO $pdo = null)
 {
     if ($pdo === null) {
         $pdo = get_pdo_connection();
@@ -34,7 +34,7 @@ function find_one(string $sql, array $params = [], ?PDO $pdo)
     return $stmt->fetch();
 }
 
-function insert(string $table, array $data, ?PDO $pdo)
+function insert(string $table, array $data, PDO $pdo = null)
 {
     if ($pdo === null) {
         $pdo = get_pdo_connection();
@@ -56,7 +56,7 @@ function insert(string $table, array $data, ?PDO $pdo)
     return $pdo->lastInsertId();
 }
 
-function run_query(string $sql, array $params = [], ?PDO $pdo)
+function run_query(string $sql, array $params = [], PDO $pdo = null)
 {
     if ($pdo === null) {
         $pdo = get_pdo_connection();

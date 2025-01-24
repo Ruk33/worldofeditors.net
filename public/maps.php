@@ -16,10 +16,10 @@ $maps = find(
     from
         maps
     where
-        maps.name          ilike :term or
-        maps.description   ilike :term or
-        maps.author        ilike :term or
-        maps.map_file_name ilike :term
+        maps.name          like :term collate nocase or
+        maps.description   like :term collate nocase or
+        maps.author        like :term collate nocase or
+        maps.map_file_name like :term collate nocase
     group by
         maps.map_file_name
     order by

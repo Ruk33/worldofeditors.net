@@ -2,7 +2,7 @@
 
 1 - Descargar docker
 2 - Correr con `docker-compose up`
-3 - Correr migraciones visitando http://localhost:8080/libs/migration.php
+3 - Correr migraciones visitando http://localhost:8080/migration.php
 
 ## Carpetas
 
@@ -13,3 +13,4 @@
 - public    : Paginas accesibles por los usuarios
 - include   : Archivos no accesibles por los usuarios donde podemos almacenar
               funciones utiles (ejemplo: obtener informacion de los mapas)
+

@@ -10,7 +10,9 @@ function get_pdo_connection()
     ]);
 }
 
-function find(string $sql, array $params = [], PDO $pdo = get_pdo_connection())
+$conn = get_pdo_connection();
+
+function find(string $sql, array $params = [], PDO $pdo = $conn)
 {
     $stmt = $pdo->prepare($sql);
     $stmt->execute($params);
@@ -18,7 +20,7 @@ function find(string $sql, array $params = [], PDO $pdo = get_pdo_connection())
     return $stmt->fetchAll();
 }
 
-function find_one(string $sql, array $params = [], PDO $pdo = get_pdo_connection())
+function find_one(string $sql, array $params = [], PDO $pdo = $conn)
 {
     $stmt = $pdo->prepare($sql);
     $stmt->execute($params);
@@ -26,7 +28,7 @@ function find_one(string $sql, array $params = [], PDO $pdo = get_pdo_connection
     return $stmt->fetch();
 }
 
-function insert(string $table, array $data, PDO $pdo = get_pdo_connection())
+function insert(string $table, array $data, PDO $pdo = $conn)
 {
     $columns = array_keys($data);
     $placeholders = array_map(fn($column) => ":$column", $columns);
@@ -44,7 +46,7 @@ function insert(string $table, array $data, PDO $pdo = get_pdo_connection())
     return $pdo->lastInsertId();
 }
 
-function run_query(string $sql, array $params = [], PDO $pdo = get_pdo_connection())
+function run_query(string $sql, array $params = [], PDO $pdo = $conn)
 {
     $stmt = $pdo->prepare($sql);
     $stmt->execute($params);

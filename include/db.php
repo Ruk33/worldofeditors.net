@@ -2,14 +2,9 @@
 
 function get_pdo_connection()
 {
-    $host       = getenv("DB_HOST");
-    $dbname     = getenv("DB_NAME");
-    $user       = getenv("DB_USER");
-    $password   = getenv("DB_PASSWORD");
+    $dsn = "sqlite:database.sqlite";
 
-    $dsn = "pgsql:host=$host;dbname=$dbname";
-
-    return new PDO($dsn, $user, $password, [
+    return new PDO($dsn, null, null, [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
     ]);

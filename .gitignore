@@ -11,3 +11,4 @@ composer.lock
 *.tga
 *.w3x
 *.w3m
+include/database.sqlite

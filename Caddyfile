@@ -1,0 +1,9 @@
+{
+    frankenphp
+}
+
+worldofeditors.net {
+    root * /public
+    encode zstd br gzip
+    php_server
+}

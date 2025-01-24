@@ -1,7 +1,7 @@
-maps/*
-pending/*
-processed/*
-storage/*
+public/maps/*
+public/pending/*
+public/processed/*
+public/storage/*
 log.txt
 composer.lock
 *.w3m.png

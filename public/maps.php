@@ -11,15 +11,20 @@ $term = $_GET["nombre"];
 
 $maps = find(
     "
-    select distinct on (maps.map_file_name) *
-    from maps
+    select
+        maps.*
+    from
+        maps
     where
-        maps.name           ilike :term or
-        maps.description    ilike :term or
-        maps.author         ilike :term or
-        maps.map_file_name  ilike :term
-    order by maps.map_file_name, maps.created_at desc
-    limit 50
+        maps.name          ilike :term or
+        maps.description   ilike :term or
+        maps.author        ilike :term or
+        maps.map_file_name ilike :term
+    group by
+        maps.map_file_name
+    order by
+        maps.created_at desc
+    limit 50;
     ",
     ["term" => "%" . $term . "%"]
 );

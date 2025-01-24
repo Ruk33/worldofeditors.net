@@ -7,3 +7,9 @@ function is_dev()
 
 	return false;
 }
+
+function is_prod()
+{
+	return !is_dev();
+}
+

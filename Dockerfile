@@ -1,41 +1,42 @@
-FROM serversideup/php:8.2-fpm-nginx
-
-ENV PHP_MAX_EXECUTION_TIME=600
-ENV PHP_MAX_INPUT_TIME=600
-ENV PHP_MEMORY_LIMIT=1G
-ENV PHP_POST_MAX_SIZE=1G
-ENV PHP_UPLOAD_MAX_FILE_SIZE=1G
-ENV UNIT_MAX_BODY_SIZE=1073741824
-
-USER root
+FROM ubuntu:22.04
 
 # Update and install required dependencies
-RUN apt-get update && apt-get install -y \
-    git build-essential cmake imagemagick libmagickwand-dev --no-install-recommends && \
-    apt-get clean && rm -rf /var/lib/apt/lists/*
+RUN apt update && apt install -y \
+    git build-essential cmake imagemagick libmagickwand-dev sqlite3 libsqlite3-dev curl
+
+WORKDIR /home/
 
 # MPQExtractor
-RUN git clone https://github.com/Ruk33/MPQExtractor.git && \
-    cd MPQExtractor && \
-    git submodule init && \
-    git submodule update && \
-    mkdir build && \
-    cd build && \
-    cmake .. && \
-    cmake --build . && \
-    mv bin/MPQExtractor /usr/bin/ && \
-    chmod +x /usr/bin/MPQExtractor
+RUN git clone https://github.com/Ruk33/MPQExtractor.git
+
+WORKDIR MPQExtractor
+
+RUN git submodule init
+RUN git submodule update
+RUN cmake .
+RUN cmake --build .
+RUN mv bin/MPQExtractor /usr/local/bin/
+RUN chmod +x /usr/local/bin/MPQExtractor
+
+WORKDIR /home/
 
 # BLPConverter
-RUN git clone https://github.com/Ruk33/BLPConverter.git && \
-    cd BLPConverter && \
-    mkdir build && \
-    cd build && \
-    cmake .. && \
-    make && \
-    mv bin/BLPConverter /usr/bin/ && \
-    chmod +x /usr/bin/BLPConverter
+RUN git clone https://github.com/Ruk33/BLPConverter.git
 
-USER www-data
+WORKDIR BLPConverter
 
-COPY ./ /var/www/html/
+RUN cmake .
+RUN make
+RUN mv bin/BLPConverter /usr/local/bin/
+RUN chmod +x /usr/local/bin/BLPConverter
+
+WORKDIR /home/app
+
+COPY ./ ./
+
+# Install FrankenPHP
+RUN curl https://frankenphp.dev/install.sh | sh && \
+    mv frankenphp /usr/local/bin/ && \
+    chmod +x /usr/local/bin/frankenphp
+
+CMD ["frankenphp", "run"]

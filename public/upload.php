@@ -50,17 +50,25 @@ file_put_contents($file_path . ".part" . $chunk_index, file_get_contents($chunk_
 
 // Check if all chunks are uploaded
 if ($chunk_index + 1 == $total_chunks) {
-    // Combine the chunks into the final file
-    $final_file_data = "";
+    $final_file = fopen($file_path, "wb");
+
+    // Append each chunk to the final file
     for ($i = 0; $i < $total_chunks; $i++) {
-        $chunk_data = file_get_contents($file_path . ".part" . $i);
-        $final_file_data .= $chunk_data;
-        // Remove the chunk after merging
-        unlink($file_path . ".part" . $i);
+        $chunk_file_path = $file_path . ".part" . $i;
+
+        // Open the chunk file in read mode
+        $chunk_file = fopen($chunk_file_path, "rb");
+
+        if ($chunk_file) {
+            stream_copy_to_stream($chunk_file, $final_file);
+
+            fclose($chunk_file);
+
+            unlink($chunk_file_path);
+        }
     }
 
-    // Write the final merged data
-    file_put_contents($file_path, $final_file_data);
+    fclose($final_file);
 
     $info = get_map_info($file_name);
 

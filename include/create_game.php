@@ -1,14 +1,54 @@
 <?php 
 
-include "db.php";
-include "map_info.php";
-include "env.php";
-
 function create_game($name, $owner, $map_name)
 {
-    if (!$name || !$owner || !$map_name) {
+    if (!$name || !$owner || !$map_name)
+        return;
+
+    if (!discord_is_logged_in()) {
+        $query_params = http_build_query([
+            'success' => 'false',
+            'message' => 'Necesitas estar logueado con Discord para crear partidas.',
+        ]);
+        header("Location: /jugar.php?$query_params");
         return;
     }
+
+    $user = discord_get_user();
+
+    if (!$user->verified) {
+        $query_params = http_build_query([
+            'success' => 'false',
+            'message' => 'Tu cuenta de Discord necesita estar verificada para crear partidas.',
+        ]);
+        header("Location: /jugar.php?$query_params");
+        return;
+    }
+
+    $in_cd = find_one(
+        "
+        select *
+        from games
+        where
+        user = :user and created_at > datetime('now', '-60 seconds')
+        limit 1;
+        ",
+        ["user" => $user->email]
+    );
+
+    if ($in_cd) {
+        $query_params = http_build_query([
+            'success' => 'false',
+            'message' => 'Necesitas esperar un poco para crear otra partida.',
+        ]);
+        header("Location: /jugar.php?$query_params");
+        return;
+    }
+
+    insert("games", [
+        "user" => $user->email,
+        "map" => $map_name,
+    ]);
 
     $bot_request =
         "\nbot_map = " . $map_name .
@@ -19,16 +59,12 @@ function create_game($name, $owner, $map_name)
     if (is_prod())
         discord_notification($map_name, $name, $name, $owner);
 
-    $safe_name  = htmlspecialchars($name, ENT_QUOTES, 'UTF-8');
     $safe_owner = htmlspecialchars($owner, ENT_QUOTES, 'UTF-8');
 
-    // Build the query string safely
     $query_params = http_build_query([
         'success' => 'true',
-        'name' => $safe_name,
-        'owner' => $safe_owner
+        'message' => 'La partida ha sido creada. El jugador ' . $safe_owner . ' puede iniciar la partida con el comando !start',
     ]);
-
     header("Location: /jugar.php?$query_params");
 }
 

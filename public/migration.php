@@ -19,4 +19,14 @@ run_query(
     "
 );
 
+run_query(
+    "
+    CREATE TABLE IF NOT EXISTS games (
+        user TEXT NOT NULL,
+        map TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+    "
+);
+
 

@@ -16,15 +16,18 @@ $maps = find(
     from
         maps
     where
-        maps.name          like :term collate nocase or
-        maps.description   like :term collate nocase or
-        maps.author        like :term collate nocase or
-        maps.map_file_name like :term collate nocase
+        maps.name != '' and
+        (
+            maps.name          like :term collate nocase or
+            maps.description   like :term collate nocase or
+            maps.author        like :term collate nocase or
+            maps.map_file_name like :term collate nocase
+        )
     group by
         maps.map_file_name
     order by
         maps.created_at desc
-    limit 50;
+    limit 150;
     ",
     ["term" => "%" . $term . "%"]
 );

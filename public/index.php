@@ -1,6 +1,6 @@
 <?php
 
-header("Cache-Control: public, max-age=5, stale-while-revalidate=60");
+header("Cache-Control: public, max-age=5, stale-while-revalidate=5");
 
 // Redirect to foroactivo if required.
 $request_uri = $_SERVER['REQUEST_URI'];
@@ -206,10 +206,6 @@ if (preg_match('/^\/t(\d+)-(.+)$/', $request_uri, $matches)) {
         </main>
         <?php } ?>
     </div>
-
-    <?php if (getenv("DEV")) { ?>
-    <script src="https://raw.githack.com/Ruk33/dani/master/dani.js"></script>
-    <?php } ?>
 
 </body>
 </html>

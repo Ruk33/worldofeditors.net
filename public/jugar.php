@@ -1,12 +1,18 @@
 <?php 
 
+session_start();
+
 $page_title = "Jugar";
 
 ob_start();
 
 include "../include/js.php";
-include "../include/create_game.php";
 include "../include/request.php";
+include "../include/discord.php";
+include "../include/db.php";
+include "../include/map_info.php";
+include "../include/env.php";
+include "../include/create_game.php";
 
 if (isset($_POST["submit"])) {
     create_game(
@@ -19,7 +25,7 @@ if (isset($_POST["submit"])) {
 ?>
 
 <style>
-    #jugar form {
+    #jugar .jugar-form {
         display: grid;
         grid-template-columns: 700px 300px;
         gap: 20px;
@@ -54,7 +60,7 @@ if (isset($_POST["submit"])) {
         margin-bottom: 20px;
     }
 
-    #jugar button[type="submit"] {
+    #jugar .jugar-form button[type="submit"] {
         display: block;
         background-image: url("./img/btn.webp");
         background-repeat: round;
@@ -78,7 +84,7 @@ if (isset($_POST["submit"])) {
         cursor: pointer;
     }
 
-    #jugar button[type="button"] {
+    #jugar .jugar-form button[type="button"] {
         display: block;
         background-color: transparent;
         border: 0;
@@ -91,15 +97,15 @@ if (isset($_POST["submit"])) {
         white-space: nowrap;
     }
 
-    #jugar button:hover {
+    #jugar .jugar-form button:hover {
         color: white;
     }
 
-    #jugar button:disabled {
+    #jugar .jugar-form button:disabled {
         filter: grayscale(100%);
     }
 
-    #jugar form img {
+    #jugar .jugar-form img {
         border: 1px solid gray; 
         border-radius: 5px;
         box-shadow: 0px 0px 0px 1px black;
@@ -118,22 +124,40 @@ if (isset($_POST["submit"])) {
 
 <div id="jugar">
 
+<?php
+if (discord_is_logged_in()) {
+?>
+    Bienvenido <?php echo discord_get_user()->username; ?>!
+    <form action="/logout.php" method="POST">
+        <button type="submit" style="background-color: transparent; border: 0; color: white; font-size: 16px; padding: 0; margin: 0; cursor: pointer;">Salir</button>
+    </form>
+    <?php
+}
+?>
+
+<?php
+if (!discord_is_logged_in()) {
+?>
+    <a href="<?php echo discord_login_url(); ?>">Ingresar con Discord</a>
+<?php
+}
+?>
+
 <h1>Jugar</h1>
 
 <?php
-    $game_created       = isset($_GET["success"]);
-    $game_created_name  = isset($_GET["name"]) ? htmlspecialchars($_GET["name"]) : "???";
-    $game_created_owner = isset($_GET["owner"]) ? htmlspecialchars($_GET["owner"]) : "Unknown";
+    $game_created = isset($_GET["success"]);
+    $game_message = isset($_GET["message"]) ? htmlspecialchars($_GET["message"]) : "???";
 ?>
 
 <?php if ($game_created) { ?>
     <div style="margin-bottom: 50px;"> 
-        <h2 id="partida_creada">Partida creada!</h2>
-        <p id="partida_creada_detalles">La partida <?php echo $game_created_name ?> ha sido creada. <?php echo $game_created_owner ?> puede iniciar el juego con el comando <code>!start</code>.</code></p>
+        <p id="partida_creada_detalles"><?php echo $game_message ?></p>
     </div>
 <?php } ?>
 
 <form
+    class="jugar-form"
     method="post"
     x-data="{
         maps: [], 

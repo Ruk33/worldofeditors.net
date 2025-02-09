@@ -14,3 +14,9 @@
 - include   : Archivos no accesibles por los usuarios donde podemos almacenar
               funciones utiles (ejemplo: obtener informacion de los mapas)
 
+## Discord
+
+Para vincular discord se necesita crear una app desde https://discord.com/developers/applications
+
+Una vez creada la aplicacion, debemos obtener el CLIENT ID y CLIENT SECRET desde
+la seccion OAuth2.

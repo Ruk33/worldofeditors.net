@@ -3,6 +3,7 @@
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	session_start();
 
+	include "../include/env.php";
 	include "../include/discord.php";
 
 	discord_logout();

@@ -2,6 +2,7 @@
 
 session_start();
 
+include "../include/env.php";
 include "../include/discord.php";
 
 discord_complete_login();

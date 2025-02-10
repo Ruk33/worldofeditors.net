@@ -29,4 +29,18 @@ run_query(
     "
 );
 
+run_query(
+    "
+    CREATE TABLE IF NOT EXISTS vips (
+        user TEXT NOT NULL
+    );
+    "
+);
 
+run_query(
+    "
+    CREATE TABLE IF NOT EXISTS bans (
+        user TEXT NOT NULL
+    );
+    "
+);

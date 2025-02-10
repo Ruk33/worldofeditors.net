@@ -30,7 +30,9 @@ function create_game($name, $owner, $map_name)
         select *
         from games
         where
-        user = :user and created_at > datetime('now', '-60 seconds')
+        user = :user and
+        created_at > datetime('now', '-180 seconds') and
+        not exists (select 1 from vips where vips.user = games.user)
         limit 1;
         ",
         ["user" => $user->email]
@@ -41,7 +43,9 @@ function create_game($name, $owner, $map_name)
             'success' => 'false',
             'message' => 'Necesitas esperar un poco para crear otra partida.',
         ]);
+
         header("Location: /jugar.php?$query_params");
+
         return;
     }
 
@@ -49,6 +53,22 @@ function create_game($name, $owner, $map_name)
         "user" => $user->email,
         "map" => $map_name,
     ]);
+
+    $banned = find_one(
+        "select * from bans where user = :user limit 1;",
+        ["user" => $user->email]
+    );
+
+    $safe_owner = htmlspecialchars($owner, ENT_QUOTES, 'UTF-8');
+
+    if ($banned) {
+        $query_params = http_build_query([
+            'success' => 'true',
+            'message' => 'La partida ha sido creada. El jugador ' . $safe_owner . ' puede iniciar la partida con el comando !start',
+        ]);
+        header("Location: /jugar.php?$query_params");
+        return;
+    }
 
     $bot_request =
         "\nbot_map = " . $map_name .
@@ -58,8 +78,6 @@ function create_game($name, $owner, $map_name)
 
     if (is_prod())
         discord_notification($map_name, $name, $name, $owner);
-
-    $safe_owner = htmlspecialchars($owner, ENT_QUOTES, 'UTF-8');
 
     $query_params = http_build_query([
         'success' => 'true',

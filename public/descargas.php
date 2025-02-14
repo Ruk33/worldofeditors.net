@@ -27,7 +27,7 @@ ob_start();
 </p>
 
 <ul>
-    <li><a href="./storage/w3l_127b_pg3.zip">W3l 1.4.2</a> (36KB)</li>
+    <li><a href="./storage/w3l_1_4_2_by_Keres.zip">W3l 1.4.2</a> (21KB, password: pvpgn)</li>
 </ul>
 
 <h2>BATTLENET EDITOR</h2>

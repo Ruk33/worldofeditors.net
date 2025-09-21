@@ -28,11 +28,11 @@ function get_map_info($map_file_name)
 {
     // $map_file_name = "(2)EchoIsles.w3x";
     $map_id           = md5($map_file_name);
-    $map_path         = __DIR__ . "/../maps/" . $map_file_name;
+    $map_path         = __DIR__ . "/../public/maps/" . $map_file_name;
     $map_path_escaped = escapeshellarg($map_path);
     $map_info_path    = $map_id;
 
-    $map_info_result_path = __DIR__ . "/../storage/" . $map_info_path;
+    $map_info_result_path = __DIR__ . "/../public/storage/" . $map_info_path;
     $map_info_result = $map_info_result_path . "/result.json";
 
     $command =

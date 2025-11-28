@@ -13,13 +13,22 @@ include "../include/db.php";
 include "../include/map_info.php";
 include "../include/env.php";
 include "../include/create_game.php";
+include "../include/create_game_new_bot.php";
 
 if (isset($_POST["submit"])) {
-    create_game(
-        post_value("name"),
-        post_value("owner"),
-        post_value("uploaded_map", post_value("map_name"))
-    );
+    if (isset($_POST["bot"] && $_POST["bot"] == "new")) {
+        create_game_new_bot(
+            post_value("name"),
+            post_value("owner"),
+            post_value("uploaded_map", post_value("map_name"))
+        );
+    } else {
+        create_game(
+            post_value("name"),
+            post_value("owner"),
+            post_value("uploaded_map", post_value("map_name"))
+        );
+    }
 }
 
 ?>
@@ -188,6 +197,15 @@ if (!discord_is_logged_in()) {
         <label>
             Usuario
             <input id="owner" name="owner" x-model="form.owner" placeholder="El nombre del usuario que esta creando la partida" />
+        </label>
+
+        <label>
+            Bot
+            <select name="bot" id="bot">
+              <option value="old">Estable</option>
+              <option value="new">Nueva version BETA</option>
+            </select>
+            <p>Ayudanos a probar el bot nuevo! Agradecemos todo el feedback que nos puedan enviar por Discord</p>
         </label>
 
         <label>

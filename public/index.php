@@ -149,7 +149,7 @@ if (preg_match('/^\/t(\d+)-(.+)$/', $request_uri, $matches)) {
 
         // Replace page's content when clicking a link preventing a full page reload.
         document.addEventListener("click", async (e) => {
-            const link = a.target.href;
+            const link = e.target.href;
 
             if (!link) return;
             if (e.target.target) return;

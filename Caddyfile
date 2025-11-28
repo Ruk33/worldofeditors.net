@@ -4,7 +4,7 @@
 }
 
 worldofeditors.net {
-       root * /public
+       root * ./public
        encode zstd br gzip
        php_server
 }

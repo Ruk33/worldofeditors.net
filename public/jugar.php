@@ -16,7 +16,7 @@ include "../include/create_game.php";
 include "../include/create_game_new_bot.php";
 
 if (isset($_POST["submit"])) {
-    if (isset($_POST["bot"] && $_POST["bot"] == "new")) {
+    if (isset($_POST["bot"]) && $_POST["bot"] == "new") {
         create_game_new_bot(
             post_value("name"),
             post_value("owner"),

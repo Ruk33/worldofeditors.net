@@ -1,0 +1,29 @@
+create a new Caddyfile with:
+
+# in case there are other services/webs
+some.url {
+	reverse_proxy unix//tmp/trackear.sock
+	encode zstd gzip
+}
+
+worldofeditors.net {
+       root * /root/worldofeditors.net/public
+       encode zstd br gzip
+       php_server
+}
+
+
+install frankenphp version 1.4.4, since this
+one comes with sqlite out of the box for php.
+
+it's quite easy, we can just get it from 
+github with:
+
+wget https://github.com/php/frankenphp/releases/download/v1.4.4/frankenphp-linux-x86_64
+mv frankenphp-linux-x86_64 frankenphp
+chmod +x frankenphp
+
+and then you can run it with frankenphp run 
+as a blocking process or, frankenphp start
+so it runs in the background. run is good
+to quickly test and see the logs.

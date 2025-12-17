@@ -192,7 +192,8 @@ if (preg_match('/^\/t(\d+)-(.+)$/', $request_uri, $matches)) {
                 <a id="menu-como-jugar" href="/como-jugar.php">Como Jugar</a>
                 <a id="menu-descargas" href="/descargas.php">Descargas</a>
                 <!-- <a href="/mapas.php">Mapas</a> -->
-                <a id="menu-canal" href="https://www.youtube.com/@WorldOfEditorsOficial/videos" target="_blank" rel="noopener">Canal</a>
+                <a id="menu-canal" href="https://www.youtube.com/@WorldOfEditorsOficial/videos" target="_blank" rel="noopener">Youtube</a>
+                <a id="menu-discord" href="https://discord.gg/wKrYPqWJCg" target="_blank" rel="noopener">Discord</a>
                 <p>
                     World of Editors<br />
                     <span style="font-size: 12px; color: gray;">Original design by Shikuso</span>

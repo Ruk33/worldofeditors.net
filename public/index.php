@@ -157,6 +157,9 @@ if (preg_match('/^\/t(\d+)-(.+)$/', $request_uri, $matches)) {
             // Don't push the same url multiple times in the history.
             if (new URL(link).origin !== location.origin) return;
 
+            // Only php link/pages.
+            if (!link.endsWith(".php")) return;
+
             e.preventDefault();
 
             const result = await fetch(link);

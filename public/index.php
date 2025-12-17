@@ -148,34 +148,34 @@ if (preg_match('/^\/t(\d+)-(.+)$/', $request_uri, $matches)) {
         });
 
         // Replace page's content when clicking a link preventing a full page reload.
-        document.addEventListener("click", async (e) => {
-            const link = e.target.href;
+        // document.addEventListener("click", async (e) => {
+        //     const link = e.target.href;
 
-            if (!link) return;
-            if (e.target.target) return;
+        //     if (!link) return;
+        //     if (e.target.target) return;
 
-            // Don't push the same url multiple times in the history.
-            if (new URL(link).origin !== location.origin) return;
+        //     // Don't push the same url multiple times in the history.
+        //     if (new URL(link).origin !== location.origin) return;
 
-            // Only php link/pages.
-            if (!link.endsWith(".php")) return;
+        //     // Only php link/pages.
+        //     if (!link.endsWith(".php")) return;
 
-            e.preventDefault();
+        //     e.preventDefault();
 
-            const result = await fetch(link);
-            const content = await result.text();
+        //     const result = await fetch(link);
+        //     const content = await result.text();
 
-            history.pushState({}, "", e.target.href);
-            document.body.innerHTML = content;
-        });
+        //     history.pushState({}, "", e.target.href);
+        //     document.body.innerHTML = content;
+        // });
 
         // Handle history (back)
-        window.addEventListener("popstate", async (e) => {
-            const result = await fetch(window.location.href);
-            const content = await result.text();
+        // window.addEventListener("popstate", async (e) => {
+        //     const result = await fetch(window.location.href);
+        //     const content = await result.text();
 
-            document.body.innerHTML = content;
-        });
+        //     document.body.innerHTML = content;
+        // });
     </script>
 </head>
 <body>

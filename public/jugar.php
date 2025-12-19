@@ -202,8 +202,8 @@ if (!discord_is_logged_in()) {
         <label>
             Bot
             <select name="bot" id="bot">
-              <option value="new">Nueva version BETA</option>
-              <option value="old">Estable</option>
+              <option value="new">Nueva version</option>
+              <option value="old">Version vieja (solo usuarios VIP)</option>
             </select>
             <p>Ayudanos a probar el bot nuevo! Agradecemos todo el feedback que nos puedan enviar por Discord</p>
         </label>

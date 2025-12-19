@@ -25,6 +25,24 @@ function create_game($name, $owner, $map_name)
         return;
     }
 
+    $is_vip = find_one(
+        "
+        select 1 from vips where vips.user = :user limit 1;
+        ",
+        ["user" => $user->email]
+    );
+
+    if (!$is_vip) {
+        $query_params = http_build_query([
+            'success' => 'false',
+            'message' => 'El bot viejo esta reservado solo para usuarios VIP.',
+        ]);
+
+        header("Location: /jugar.php?$query_params");
+
+        return;
+    }
+
     $in_cd = find_one(
         "
         select *

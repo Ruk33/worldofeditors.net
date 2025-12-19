@@ -203,9 +203,9 @@ if (!discord_is_logged_in()) {
             Bot
             <select name="bot" id="bot">
               <option value="new">Nueva version</option>
-              <option value="old">Version vieja (solo usuarios VIP)</option>
+              <option value="old">Version vieja (solo staff)</option>
             </select>
-            <p>Ayudanos a probar el bot nuevo! Agradecemos todo el feedback que nos puedan enviar por Discord</p>
+            <p>Estamos retirando el bot viejo para transicionar a utilizar el bot nuevo (ya deberia estar bastante estable) Se recuerda que el bot viejo utiliza muchos recursos del servidor y debemos utilizar dichos recursos de la manera mas eficiente para que todos podamos jugar. Cualquier inconveniente por favor reportarlo en Discord. Gracias!</p>
         </label>
 
         <label>

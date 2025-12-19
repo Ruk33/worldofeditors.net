@@ -35,7 +35,7 @@ function create_game($name, $owner, $map_name)
     if (!$is_vip) {
         $query_params = http_build_query([
             'success' => 'false',
-            'message' => 'El bot viejo esta reservado solo para usuarios VIP.',
+            'message' => 'El bot viejo esta reservado solo para miembros del staff.',
         ]);
 
         header("Location: /jugar.php?$query_params");

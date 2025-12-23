@@ -140,19 +140,8 @@ if (discord_is_logged_in()) {
     <form action="/logout.php" method="POST">
         <button type="submit" style="background-color: transparent; border: 0; color: white; font-size: 16px; padding: 0; margin: 0; cursor: pointer;">Salir</button>
     </form>
-    <?php
-}
-?>
 
-<?php
-if (!discord_is_logged_in()) {
-?>
-    <a href="<?php echo discord_login_url(); ?>">Ingresar con Discord</a>
-<?php
-}
-?>
-
-<h1>Jugar</h1>
+    <h1>Jugar</h1>
 
 <?php
     $game_created = isset($_GET["success"]);
@@ -165,168 +154,178 @@ if (!discord_is_logged_in()) {
     </div>
 <?php } ?>
 
-<form
-    class="jugar-form"
-    method="post"
-    x-data="{
-        maps: [], 
-        selected_map: { name: '', author: '', description: '', map_file_name: '', }, 
-        map_preview: '',
-        map_term: '',
-        is_uploading_map: false,
-        uploading_progress: 0,
+    <form
+        class="jugar-form"
+        method="post"
+        x-data="{
+            maps: [], 
+            selected_map: { name: '', author: '', description: '', map_file_name: '', }, 
+            map_preview: '',
+            map_term: '',
+            is_uploading_map: false,
+            uploading_progress: 0,
 
-        form: {
-            name: '',
-            owner: '',
-            map_name: '',
-            uploaded_map: '',
-        },
-    }"
-    x-effect="
-        const result = await fetch('maps.php?nombre=' + encodeURIComponent(map_term) + '&tipo=ALL&orden=false');
-        maps = await result.json();
-    "
->
-    <div>
-        <label>
-            Nombre de la partida
-            <input id="name" name="name" x-model="form.name" placeholder="Nombre de la partida" />
-        </label>
-
-        <label>
-            Usuario
-            <input id="owner" name="owner" x-model="form.owner" placeholder="El nombre del usuario que esta creando la partida" />
-        </label>
-
-        <label>
-            Bot
-            <select name="bot" id="bot">
-              <option value="new">Nueva version</option>
-              <option value="old">Version vieja (solo staff)</option>
-            </select>
-            <p>Estamos retirando el bot viejo para transicionar a utilizar el bot nuevo (ya deberia estar bastante estable) Se recuerda que el bot viejo utiliza muchos recursos del servidor y debemos utilizar dichos recursos de la manera mas eficiente para que todos podamos jugar. Cualquier inconveniente por favor reportarlo en Discord. Gracias!</p>
-        </label>
-
-        <label>
-            Subi un mapa
-            <input
-                id="uploaded_map"
-                name="uploaded_map"
-                type="file"
-                :disabled="is_uploading_map"
-                x-model="form.uploaded_map"
-                x-on:change="
-                const files = event.target.files || [];
-                const file = files[0];
-                if (!file)
-                    return;
-
-                is_uploading_map = true;
-                uploading_progress = 0;
-                
-                const chunk_size = 1 * 1024 * 1024;
-                // const chunk_size = 1024;
-                const total_chunks = Math.ceil(file.size / chunk_size);
-                
-                for (let current_chunk = 0; current_chunk < total_chunks; current_chunk++) {
-                    const start = current_chunk * chunk_size;
-                    const end = Math.min(start + chunk_size, file.size);
-                    const chunk = file.slice(start, end);
-
-                    const form_data = new FormData();
-                    form_data.append('file_chunk', chunk);
-                    form_data.append('file_name', file.name);
-                    form_data.append('chunk', current_chunk);
-                    form_data.append('total_chunks', total_chunks);
-
-                    await fetch('./upload.php', {
-                        method: 'POST',
-                        body: form_data,
-                    });
-
-                    uploading_progress = (current_chunk + 1) * 100 / total_chunks;
-                }
-
-                is_uploading_map = false;
-                uploading_progress = 0;
-                "
-            />
-        </label>
-
+            form: {
+                name: localStorage.getItem('name') ? 'Partida de ' + localStorage.getItem('name') : '',
+                owner: localStorage.getItem('name') ? localStorage.getItem('name') : '',
+                map_name: '',
+                uploaded_map: '',
+            },
+        }"
+        x-effect="
+            const result = await fetch('maps.php?nombre=' + encodeURIComponent(map_term) + '&tipo=ALL&orden=false');
+            maps = await result.json();
+        "
+        x-on:submit="localStorage.setItem('name', form.name)"
+    >
         <div>
-            <div 
-                style="
-                background-color: #9b9b9b;
-                height: 2px;
-                border: 1px solid black;
-                border-radius: 2px;
-                "
-            > 
-                <div
-                    :style="
-                    `transition: width 1s; 
-                    width: ${uploading_progress}%; 
-                    height: 2px; 
-                    background-color: gold;`
+            <label>
+                Nombre de la partida
+                <input id="name" name="name" x-model="form.name" placeholder="Nombre de la partida" />
+            </label>
+
+            <label>
+                Usuario
+                <input id="owner" name="owner" x-model="form.owner" placeholder="El nombre del usuario que esta creando la partida" />
+            </label>
+
+            <label>
+                Bot
+                <select name="bot" id="bot">
+                  <option value="new">Nueva version</option>
+                  <option value="old">Version vieja (solo staff)</option>
+                </select>
+                <p>Estamos retirando el bot viejo para transicionar a utilizar el bot nuevo (ya deberia estar bastante estable) Se recuerda que el bot viejo utiliza muchos recursos del servidor y debemos utilizar dichos recursos de la manera mas eficiente para que todos podamos jugar. Cualquier inconveniente por favor reportarlo en Discord. Gracias!</p>
+            </label>
+
+            <label>
+                Subi un mapa
+                <input
+                    id="uploaded_map"
+                    name="uploaded_map"
+                    type="file"
+                    :disabled="is_uploading_map"
+                    x-model="form.uploaded_map"
+                    x-on:change="
+                    const files = event.target.files || [];
+                    const file = files[0];
+                    if (!file)
+                        return;
+
+                    is_uploading_map = true;
+                    uploading_progress = 0;
+                    
+                    const chunk_size = 1 * 1024 * 1024;
+                    // const chunk_size = 1024;
+                    const total_chunks = Math.ceil(file.size / chunk_size);
+                    
+                    for (let current_chunk = 0; current_chunk < total_chunks; current_chunk++) {
+                        const start = current_chunk * chunk_size;
+                        const end = Math.min(start + chunk_size, file.size);
+                        const chunk = file.slice(start, end);
+
+                        const form_data = new FormData();
+                        form_data.append('file_chunk', chunk);
+                        form_data.append('file_name', file.name);
+                        form_data.append('chunk', current_chunk);
+                        form_data.append('total_chunks', total_chunks);
+
+                        await fetch('./upload.php', {
+                            method: 'POST',
+                            body: form_data,
+                        });
+
+                        uploading_progress = (current_chunk + 1) * 100 / total_chunks;
+                    }
+
+                    is_uploading_map = false;
+                    uploading_progress = 0;
                     "
-                    x-show="is_uploading_map"
-                >
+                />
+            </label>
+
+            <div>
+                <div 
+                    style="
+                    background-color: #9b9b9b;
+                    height: 2px;
+                    border: 1px solid black;
+                    border-radius: 2px;
+                    "
+                > 
+                    <div
+                        :style="
+                        `transition: width 1s; 
+                        width: ${uploading_progress}%; 
+                        height: 2px; 
+                        background-color: gold;`
+                        "
+                        x-show="is_uploading_map"
+                    >
+                    </div>
                 </div>
+            </div>
+            
+            <label>
+                O busca uno de nuestros mapas alojados:
+                <input id="map_term" x-model.debounce="map_term" placeholder="Islas eco..." />
+            </label>
+            <input type="hidden" name="map_name" id="map_name" x-model="form.map_name" />
+            <div style="display: flex; flex-direction: column; gap: 10px; border-radius: 2px; background-color: black; border: 1px solid gray; padding: 5px; padding-top: 10px; padding-bottom: 10px; height: 250px; overflow-x: hidden; overflow-y: auto;">
+                <template x-for="map in maps">
+                    <button
+                        type="button"
+                        x-bind:id="'mapa-' + map.name"
+                        x-on:click="
+                            form.map_name = map.map_file_name;
+                            selected_map = map;
+                        "
+                        x-html="map.name"
+                    >
+                    </button>
+                </template>
             </div>
         </div>
         
-        <label>
-            O busca uno de nuestros mapas alojados:
-            <input id="map_term" x-model.debounce="map_term" placeholder="Islas eco..." />
-        </label>
-        <input type="hidden" name="map_name" id="map_name" x-model="form.map_name" />
-        <div style="display: flex; flex-direction: column; gap: 10px; border-radius: 2px; background-color: black; border: 1px solid gray; padding: 5px; padding-top: 10px; padding-bottom: 10px; height: 250px; overflow-x: hidden; overflow-y: auto;">
-            <template x-for="map in maps">
-                <button
-                    type="button"
-                    x-bind:id="'mapa-' + map.name"
-                    x-on:click="
-                        form.map_name = map.map_file_name;
-                        selected_map = map;
+        <div style="text-align: center;">
+            <div style="position: relative; margin-bottom: 50px;">
+                <img
+                    id="map_preview"
+                    width="302px" 
+                    src="./img/minmap.png"
+                    alt="Vista previa del mapa seleccionado"
+                    x-on:error="event.target.src = './img/minmap.png'"
+                    x-bind:src="map_preview"
+                    x-effect="
+                        // Set map preview when selected map gets updated
+                        map_preview = selected_map.thumbnail_path ? './storage/' + selected_map.thumbnail_path : './img/minmap.png';
                     "
-                    x-html="map.name"
                 >
+                <button 
+                    :disabled="!(form.name && form.owner && (form.map_name || form.uploaded_map)) || is_uploading_map"
+                    type="submit"
+                    id="submit"
+                    name="submit"
+                >
+                    Crear
                 </button>
-            </template>
-        </div>
-    </div>
-    
-    <div style="text-align: center;">
-        <div style="position: relative; margin-bottom: 50px;">
-            <img
-                id="map_preview"
-                width="302px" 
-                src="./img/minmap.png"
-                alt="Vista previa del mapa seleccionado"
-                x-on:error="event.target.src = './img/minmap.png'"
-                x-bind:src="map_preview"
-                x-effect="
-                    // Set map preview when selected map gets updated
-                    map_preview = selected_map.thumbnail_path ? './storage/' + selected_map.thumbnail_path : './img/minmap.png';
-                "
-            >
-            <button 
-                :disabled="!(form.name && form.owner && (form.map_name || form.uploaded_map)) || is_uploading_map"
-                type="submit"
-                id="submit"
-                name="submit"
-            >
-                Crear
-            </button>
-        </div>
+            </div>
 
-        <h2 id="selected_map_nombre" style="font-weight: normal;" x-html="selected_map.name"></h2>
-        <h3 id="selected_map_autor" style="font-weight: normal;" x-html="selected_map.author"></h3>
+            <h2 id="selected_map_nombre" style="font-weight: normal;" x-html="selected_map.name"></h2>
+            <h3 id="selected_map_autor" style="font-weight: normal;" x-html="selected_map.author"></h3>
 
-        <p id="selected_map_desc" style="text-align: left; font-size: 16px;" x-html="selected_map.description"></p>
-    </div>
-</form>
+            <p id="selected_map_desc" style="text-align: left; font-size: 16px;" x-html="selected_map.description"></p>
+        </div>
+    </form>
+<?php
+} else {
+?>
+    <h1>Primero ingresa con tu cuenta de Discord</h1>
+    <p>Lamentablemente tenemos que hacer esto para prevenir que spammers creen muchas partidas en nuestro servidor...</p>
+    <a href="<?php echo discord_login_url(); ?>">Ingresar con Discord</a>
+<?php
+}
+?>
 
 </div>
 

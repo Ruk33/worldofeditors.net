@@ -47,9 +47,13 @@ if (preg_match('/^\/t(\d+)-(.+)$/', $request_uri, $matches)) {
             font-display: swap;
         }
 
+        * {
+            cursor: url("./img/cursor.png"), auto;
+        }
+
         body {
             font-family: friz;
-            background-image: url("./img/backlow.webp");
+            background-image: url("./img/background-2.jpg");
             background-repeat: no-repeat;
             background-size: cover;
             background-attachment: fixed;
@@ -137,6 +141,92 @@ if (preg_match('/^\/t(\d+)-(.+)$/', $request_uri, $matches)) {
         h2 {
             color: white;
         }
+
+        @keyframes fall {
+
+          0% {
+
+            opacity: 0;
+
+          }
+
+          50% {
+
+            opacity: 1;
+
+          }
+
+          100% {
+
+            top: 100vh;
+
+            opacity: 1;
+
+          }
+
+        }
+
+        @keyframes sway {
+
+          0% {
+
+            margin-left: 0;
+
+          }
+
+          25% {
+
+            margin-left: 50px;
+
+          }
+
+          50% {
+
+            margin-left: -50px;
+
+          }
+
+          75% {
+
+            margin-left: 50px;
+
+          }
+
+          100% {
+
+            margin-left: 0;
+
+          }
+
+        }
+
+        #snow-container {  
+
+          height: 100vh;
+
+          overflow: hidden;
+
+          position: absolute;
+
+          top: 0;
+          left: 0;
+
+          transition: opacity 500ms;
+
+          width: 100%;
+
+        }
+
+        .snow {
+
+          animation: fall ease-in infinite, sway ease-in-out infinite;
+
+          position: absolute;
+
+          user-select: none;
+
+        }
+
     </style>
 
     <script>
@@ -176,9 +266,76 @@ if (preg_match('/^\/t(\d+)-(.+)$/', $request_uri, $matches)) {
 
         //     document.body.innerHTML = content;
         // });
+
+
+        const snowContent = ['&#10052', '&#10053', '&#10054']
+
+        const randomForSnow = (num) => {
+
+          return Math.floor(Math.random() * num);
+
+        }
+
+        const getRandomStyles = () => {
+
+          const top = randomForSnow(100);
+
+          const left = randomForSnow(100);
+
+          const dur = randomForSnow(10) + 10;
+
+          const size = randomForSnow(25);
+
+          const colorOptions = ["#cbfffa", "white", "skyblue", "cyan"];
+
+          const color = colorOptions[randomForSnow(4)]
+
+
+          return `
+
+            top: -${top}%;
+
+            left: ${left}%;
+            color: ${color};
+
+            font-size: ${size}px;
+
+            animation-duration: ${dur}s;
+
+            `;
+
+        }
+
+        const createSnow = (num) => {
+            const snowContainer =document.getElementById("snow-container");
+
+          for (var i = num; i > 0; i--) {
+
+            var snow = document.createElement("div");
+
+            snow.className = "snow";
+
+            snow.style.cssText = getRandomStyles();
+
+            snow.innerHTML = snowContent[randomForSnow(2)]
+
+            snowContainer.append(snow);
+
+          }
+
+        }
+
+        window.addEventListener("load", () => {
+
+          createSnow(300)
+
+        });
+
+
     </script>
 </head>
 <body>
+    <div id="snow-container"></div>
     <div class="container">
         <div>
             <nav>
@@ -187,7 +344,7 @@ if (preg_match('/^\/t(\d+)-(.+)$/', $request_uri, $matches)) {
 
                 <header>
                     <a href="/" style="display: block;">
-                        <img width="250" height="152" src="./img/logo-menu.webp" alt="Logo de World of Editors">
+                        <img width="250" height="152" src="./img/logo-menu-2.webp" alt="Logo de World of Editors">
                     </a>
                 </header>
 

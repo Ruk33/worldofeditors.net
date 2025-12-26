@@ -16,19 +16,11 @@ include "../include/create_game.php";
 include "../include/create_game_new_bot.php";
 
 if (isset($_POST["submit"])) {
-    if (isset($_POST["bot"]) && $_POST["bot"] == "new") {
-        create_game_new_bot(
-            post_value("name"),
-            post_value("owner"),
-            post_value("uploaded_map", post_value("map_name"))
-        );
-    } else {
-        create_game(
-            post_value("name"),
-            post_value("owner"),
-            post_value("uploaded_map", post_value("map_name"))
-        );
-    }
+    create_game_new_bot(
+        post_value("name"),
+        post_value("owner"),
+        post_value("uploaded_map", post_value("map_name"))
+    );
 }
 
 ?>
@@ -181,21 +173,12 @@ if (discord_is_logged_in()) {
         <div>
             <label>
                 Nombre de la partida
-                <input id="name" name="name" x-model="form.name" placeholder="Nombre de la partida" />
+                <input id="name" name="name" x-model="form.name" placeholder="Nombre de la partida" maxlength="30" />
             </label>
 
             <label>
                 Usuario
                 <input id="owner" name="owner" x-model="form.owner" placeholder="El nombre del usuario que esta creando la partida" />
-            </label>
-
-            <label>
-                Bot
-                <select name="bot" id="bot">
-                  <option value="new">Nueva version</option>
-                  <option value="old">Version vieja (solo staff)</option>
-                </select>
-                <p>Estamos retirando el bot viejo para transicionar a utilizar el bot nuevo (ya deberia estar bastante estable) Se recuerda que el bot viejo utiliza muchos recursos del servidor y debemos utilizar dichos recursos de la manera mas eficiente para que todos podamos jugar. Cualquier inconveniente por favor reportarlo en Discord. Gracias!</p>
             </label>
 
             <label>

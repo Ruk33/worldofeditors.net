@@ -158,8 +158,8 @@ if (discord_is_logged_in()) {
             uploading_progress: 0,
 
             form: {
-                name: localStorage.getItem('name') ? 'Partida de ' + localStorage.getItem('name') : '',
-                owner: localStorage.getItem('name') ? localStorage.getItem('name') : '',
+                name: '',
+                owner: localStorage.getItem('owner') ? localStorage.getItem('owner') : '',
                 map_name: '',
                 uploaded_map: '',
             },
@@ -168,7 +168,7 @@ if (discord_is_logged_in()) {
             const result = await fetch('maps.php?nombre=' + encodeURIComponent(map_term) + '&tipo=ALL&orden=false');
             maps = await result.json();
         "
-        x-on:submit="localStorage.setItem('name', form.name)"
+        x-on:submit="localStorage.setItem('owner', form.owner)"
     >
         <div>
             <label>

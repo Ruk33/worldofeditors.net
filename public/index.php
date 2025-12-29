@@ -56,7 +56,6 @@ if (preg_match('/^\/t(\d+)-(.+)$/', $request_uri, $matches)) {
             background-image: url("./img/background-2.jpg");
             background-repeat: no-repeat;
             background-size: cover;
-            background-attachment: fixed;
             font-size: 18px;
         }
 

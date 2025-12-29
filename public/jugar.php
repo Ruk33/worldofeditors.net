@@ -202,18 +202,20 @@ if (isset($_POST["submit"])) {
                     <div style="margin-top: 10px; margin-bottom: 10px;">
                         <div 
                             style="
-                            background-color: #9b9b9b;
-                            height: 2px;
+                            background-color: #161c1e;
+                            height: 23px;
                             border: 1px solid black;
                             border-radius: 2px;
+                            box-shadow: 0 0 5px #0a141a inset;
                             "
                         > 
                             <div
                                 :style="
                                 `transition: width 1s; 
                                 width: ${uploading_progress}%; 
-                                height: 2px; 
-                                background-color: gold;`
+                                height: 23px; 
+                                background-image: url('./img/loading.png');
+                                box-shadow: 0 0 5px #2b7fb0 inset;`
                                 "
                                 x-show="is_uploading_map"
                             >
@@ -224,7 +226,7 @@ if (isset($_POST["submit"])) {
                     <div>
                         <label>
                             <div style="color: gold; text-transform: uppercase; font-size: 16px;">Tambien podes buscar uno de nuestros mapas alojados:</div>
-                            <input class="jugar-input" style="width: calc(100% - 15px)" id="map_term" x-model.debounce="map_term" placeholder="Islas eco..." />
+                            <input class="jugar-input" style="width: calc(100% - 18px)" id="map_term" x-model.debounce="map_term" placeholder="Islas eco..." />
                         </label>
                     </div>
                     <input type="hidden" name="map_name" id="map_name" x-model="form.map_name" />

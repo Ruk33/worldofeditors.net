@@ -62,10 +62,10 @@ if (preg_match('/^\/t(\d+)-(.+)$/', $request_uri, $matches)) {
 
         .container {
             display: grid;
-            grid-template-columns: 420px 1180px;
-            margin: 50px auto;
-            max-width: 1600px;
-            gap: 50px;
+            grid-template-columns: 365px 1380px;
+            margin: 50px auto 0 auto;
+            max-width: 1770px;
+            gap: 25px;
         }
 
         .chain {
@@ -335,7 +335,7 @@ if (preg_match('/^\/t(\d+)-(.+)$/', $request_uri, $matches)) {
     </script>
 </head>
 <body>
-    <div id="snow-container"></div>
+    <div id="ssnow-container"></div>
     <div class="container">
         <div>
             <nav>
@@ -361,12 +361,13 @@ if (preg_match('/^\/t(\d+)-(.+)$/', $request_uri, $matches)) {
             </nav>
         </div>
 
-        <?php if (isset($content)) { ?>
+        <?php if (isset($just_content)) { ?>
+            <?php echo $just_content ?>
+        <?php } else if (isset($content)) { ?>
         <main>
             <?php echo $content ?>
         </main>
         <?php } ?>
     </div>
-
 </body>
 </html>

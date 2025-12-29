@@ -44,3 +44,9 @@ run_query(
     );
     "
 );
+
+run_query(
+    "
+    ALTER TABLE maps ADD COLUMN uploaded_by TEXT
+    "
+);

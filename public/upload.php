@@ -1,8 +1,13 @@
 <?php
 
+session_start();
+
 include "../include/db.php";
 include "../include/map_info.php";
 include "../include/noindex.php";
+
+// we need this so we can tell which user uploaded the map
+include "../include/discord.php";
 
 $valid_request = 
     isset($_FILES["file_chunk"]) && 
@@ -40,6 +45,7 @@ if ($total_chunks == 1) {
         "thumbnail_path" => $info["thumbnail"],
         "map_path" => $file_path,
         "map_file_name" => $file_name,
+        "uploaded_by" => discord_get_user()->username,
     ]);
 
     exit();

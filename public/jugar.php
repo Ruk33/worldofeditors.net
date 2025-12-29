@@ -221,6 +221,11 @@ if (discord_is_logged_in()) {
                         uploading_progress = (current_chunk + 1) * 100 / total_chunks;
                     }
 
+                    // refetch the maps
+                    maps = [];
+                    const result = await fetch('maps.php?nombre=' + encodeURIComponent(map_term) + '&tipo=ALL&orden=false');
+                    maps = await result.json();
+
                     is_uploading_map = false;
                     uploading_progress = 0;
                     "
@@ -256,16 +261,35 @@ if (discord_is_logged_in()) {
             <input type="hidden" name="map_name" id="map_name" x-model="form.map_name" />
             <div style="display: flex; flex-direction: column; gap: 10px; border-radius: 2px; background-color: black; border: 1px solid gray; padding: 5px; padding-top: 10px; padding-bottom: 10px; height: 250px; overflow-x: hidden; overflow-y: auto;">
                 <template x-for="map in maps">
-                    <button
-                        type="button"
-                        x-bind:id="'mapa-' + map.name"
-                        x-on:click="
-                            form.map_name = map.map_file_name;
-                            selected_map = map;
-                        "
-                        x-html="map.name"
-                    >
-                    </button>
+                    <div style="display: flex;">
+                        <button
+                            type="button"
+                            x-bind:id="'mapa-' + map.name"
+                            x-on:click="
+                                form.map_name = map.map_file_name;
+                                selected_map = map;
+                            "
+                            x-html="map.name"
+                        >
+                        </button>
+                        <button
+                            type="button"
+                            x-on:click="
+                                const form_data = new FormData();
+                                const id = map.rowid;
+                                form_data.append('id', id);
+                                await fetch('./delete_map.php', {
+                                    method: 'POST',
+                                    body: form_data,
+                                });
+                                // if the map was deleted, update the map list
+                                // so we don't see it anymore
+                                maps = maps.filter((x) => x.rowid !== id);
+                            "
+                            x-show="map.can_delete"
+                            style="flex: 1;"
+                        >Borrar</button>
+                    </div>
                 </template>
             </div>
         </div>

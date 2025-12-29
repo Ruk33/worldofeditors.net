@@ -228,7 +228,7 @@ if (isset($_POST["submit"])) {
                         </label>
                     </div>
                     <input type="hidden" name="map_name" id="map_name" x-model="form.map_name" />
-                    <div style="display: flex; flex-direction: column; gap: 10px; border-radius: 2px; background-color: black; border: 1px solid gray; padding: 5px; padding-top: 5px; padding-bottom: 10px; height: 360px; overflow-x: hidden; overflow-y: auto; border-radius: 2px;">
+                    <div style="display: flex; flex-direction: column; border-radius: 2px; background-color: black; border: 1px solid gray; padding: 5px; padding-top: 5px; padding-bottom: 10px; height: 360px; overflow-x: hidden; overflow-y: auto; border-radius: 2px;">
                         <template x-for="map in maps">
                             <div style="display: flex; border: 1px solid #393737; margin-bottom: 5px; padding: 10px; border-radius: 2px;">
                                 <button

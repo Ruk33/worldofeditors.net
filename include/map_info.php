@@ -48,9 +48,9 @@ function get_map_info($map_file_name)
         BLPConverter -o $map_info_result_path $map_info_result_path/war3mapMap.blp;
         mv $map_info_result_path/war3mapMap.png $map_info_result_path/thumbnail.png;
 
-        convert $map_info_result_path/war3mapMap.tga -flip $map_info_result_path/thumbnail.png;
+        convert $map_info_result_path/war3mapMap.tga +orient $map_info_result_path/thumbnail.png;
 
-        convert $map_info_result_path/war3mapPreview.tga -flip $map_info_result_path/thumbnail.png;
+        convert $map_info_result_path/war3mapPreview.tga +orient $map_info_result_path/thumbnail.png;
         ";
 
     $output     = [];

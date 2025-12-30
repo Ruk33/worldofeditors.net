@@ -84,7 +84,7 @@ if (isset($_POST["submit"])) {
 }
 
 .jugar-map-option:hover {
-    background-color: #26211d;
+    background-color: #111;
 }
 </style>
 
@@ -158,6 +158,7 @@ if (isset($_POST["submit"])) {
                             id="uploaded_map"
                             name="uploaded_map"
                             type="file"
+                            accept=".w3x,.w3m"
                             :disabled="is_uploading_map"
                             x-model="form.uploaded_map"
                             x-on:change="
@@ -237,7 +238,7 @@ if (isset($_POST["submit"])) {
                     <div style="display: flex; flex-direction: column; border-radius: 2px; background-color: black; border: 1px solid gray; padding: 5px; padding-top: 5px; padding-bottom: 10px; height: 360px; overflow-x: hidden; overflow-y: auto; border-radius: 2px;">
                         <template x-for="map in maps">
                             <div 
-                                style="display: flex; border: 1px solid #393737; margin-bottom: 5px; padding: 10px; border-radius: 2px;"
+                                style="display: flex; border: 1px solid #393737; margin-bottom: 5px; border-radius: 2px;"
                                 x-bind:style="selected_map == map ? {border: '1px solid #0d92cb', boxShadow: '0 0 5px #2298ff inset'} : {}"
                                 class="jugar-map-option"
                             >
@@ -250,7 +251,7 @@ if (isset($_POST["submit"])) {
                                         selected_map = map;
                                     "
                                     x-html="map.name"
-                                    style="font-family: friz; color: white; text-transform: uppercase; background-color: transparent; border: 0; font-size: 18px; flex: 1; text-align: left;"
+                                    style="font-family: friz; color: white; text-transform: uppercase; background-color: transparent; border: 0; font-size: 18px; flex: 1; text-align: left; padding: 10px;"
                                 >
                                 </button>
                                 <button

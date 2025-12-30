@@ -28,6 +28,7 @@ $maps = find(
         maps.map_path,
         maps.map_file_name,
         maps.created_at,
+        maps.max_players,
         CASE WHEN maps.uploaded_by = :uploaded_by THEN true ELSE false END AS can_delete
     from
         maps

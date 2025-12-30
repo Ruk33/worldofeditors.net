@@ -82,6 +82,10 @@ if (isset($_POST["submit"])) {
 .jugar-button:disabled {
     filter: grayscale(100%);
 }
+
+.jugar-map-option:hover {
+    background-color: #26211d;
+}
 </style>
 
 <div class="jugar-container">
@@ -232,7 +236,12 @@ if (isset($_POST["submit"])) {
                     <input type="hidden" name="map_name" id="map_name" x-model="form.map_name" />
                     <div style="display: flex; flex-direction: column; border-radius: 2px; background-color: black; border: 1px solid gray; padding: 5px; padding-top: 5px; padding-bottom: 10px; height: 360px; overflow-x: hidden; overflow-y: auto; border-radius: 2px;">
                         <template x-for="map in maps">
-                            <div style="display: flex; border: 1px solid #393737; margin-bottom: 5px; padding: 10px; border-radius: 2px;">
+                            <div 
+                                style="display: flex; border: 1px solid #393737; margin-bottom: 5px; padding: 10px; border-radius: 2px;"
+                                x-bind:style="selected_map == map ? {border: '1px solid #0d92cb', boxShadow: '0 0 5px #2298ff inset'} : {}"
+                                class="jugar-map-option"
+                            >
+                                <img x-show="(map.max_players || 0) >= 1 && (map.max_players || 0) <= 12" width="32" x-bind:src="'./img/nun/' + map.max_players + '.png'" />
                                 <button
                                     type="button"
                                     x-bind:id="'mapa-' + map.name"
@@ -241,7 +250,7 @@ if (isset($_POST["submit"])) {
                                         selected_map = map;
                                     "
                                     x-html="map.name"
-                                    style="font-family: friz; color: white; text-transform: uppercase; background-color: black; border: 0; font-size: 18px; flex: 1; text-align: left;"
+                                    style="font-family: friz; color: white; text-transform: uppercase; background-color: transparent; border: 0; font-size: 18px; flex: 1; text-align: left;"
                                 >
                                 </button>
                                 <button

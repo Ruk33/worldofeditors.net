@@ -46,6 +46,8 @@ if ($total_chunks == 1) {
         "map_path" => $file_path,
         "map_file_name" => $file_name,
         "uploaded_by" => discord_get_user()->username,
+        "players_recommended" => $info["players_recommended"],
+        "max_players" => $info["max_players"],
     ]);
 
     exit();

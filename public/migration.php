@@ -45,8 +45,26 @@ run_query(
     "
 );
 
-run_query(
-    "
-    ALTER TABLE maps ADD COLUMN uploaded_by TEXT
-    "
-);
+try {
+    run_query(
+        "
+        ALTER TABLE maps ADD COLUMN uploaded_by TEXT
+        "
+    );
+} catch (Exception $e) {}
+
+try {
+    run_query(
+        "
+        ALTER TABLE maps ADD COLUMN players_recommended TEXT
+        "
+    );
+} catch (Exception $e) {}
+
+try {
+    run_query(
+        "
+        ALTER TABLE maps ADD COLUMN max_players INTEGER
+        "
+    );
+} catch (Exception $e) {}

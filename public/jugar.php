@@ -263,7 +263,7 @@ if (isset($_POST["submit"])) {
                         <label style="position: relative; display: block">
                             <div style="color: gold; text-transform: uppercase; font-size: 14px;">Tambien podes buscar uno de nuestros mapas alojados:</div>
                             <input class="jugar-input" style="width: calc(100% - 18px)" id="map_term" x-model.debounce="map_term" placeholder="Islas eco..." />
-                            <button type="buton" class="map-filter-button" x-bind:class="{ 'map-filter-melee': map_filter === 'MELEE' }" type="button" x-on:click="map_filter = map_filter === 'ALL' ? 'MELEE' : 'ALL'">MELEE</button>
+                            <button type="button" class="map-filter-button" x-bind:class="{ 'map-filter-melee': map_filter === 'MELEE' }" type="button" x-on:click="map_filter = map_filter === 'ALL' ? 'MELEE' : 'ALL'">MELEE</button>
                         </label>
                     </div>
                     <input type="hidden" name="map_name" id="map_name" x-model="form.map_name" />

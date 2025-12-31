@@ -15,6 +15,18 @@ include "../include/discord.php";
 // header("Cache-Control: public, max-age=5, stale-while-revalidate=60");
 
 $term = $_GET["nombre"];
+$type = $_GET["tipo"];
+$type_filter = 'maps.is_melee in ("true", "false")';
+
+if ($type == "ALL") {
+    
+} else if ($type == "MELEE") {
+    $type_filter = 'maps.is_melee = "true"';
+} else if ($type == "CUSTOM") {
+    $type_filter = 'maps.is_melee = "false"';
+} else {
+    
+}
 
 $maps = find(
     "
@@ -33,13 +45,21 @@ $maps = find(
     from
         maps
     where
-        maps.name != '' and
         (
-            maps.name          like :term collate nocase or
-            maps.description   like :term collate nocase or
-            maps.author        like :term collate nocase or
-            maps.map_file_name like :term collate nocase
-        )
+            maps.name != '' and
+            (
+                maps.name          like :term collate nocase or
+                maps.description   like :term collate nocase or
+                maps.author        like :term collate nocase or
+                maps.map_file_name like :term collate nocase
+            )
+        ) 
+        and
+    "
+        .
+        $type_filter
+        .
+    "
     group by
         maps.map_file_name
     order by

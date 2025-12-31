@@ -38,6 +38,10 @@ if (preg_match('/^\/t(\d+)-(.+)$/', $request_uri, $matches)) {
     
     <link rel="shortcut icon" href="./img/favicon.png" type="image/x-icon">
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mea+Culpa&display=swap" rel="stylesheet">
+
     <style>
         @font-face {
             font-family: "friz";
@@ -59,7 +63,7 @@ if (preg_match('/^\/t(\d+)-(.+)$/', $request_uri, $matches)) {
 
         body {
             font-family: friz;
-            background-image: url("./img/background-2.jpg");
+            background-image: url("./img/background-3.jpg");
             background-repeat: no-repeat;
             background-size: cover;
             font-size: 18px;
@@ -363,6 +367,10 @@ if (preg_match('/^\/t(\d+)-(.+)$/', $request_uri, $matches)) {
                     World of Editors<br />
                     <span style="font-size: 12px; color: gray;">Original design by Shikuso</span>
                 </p>
+                <div style="font-family: 'Mea Culpa', cursive;">
+                    <div style="font-size: 32px; color: white; text-transform: none;">Feliz</div>
+                    <div style="font-size: 52px; color: gold; margin-top: -30px; text-shadow: 0 0 5px gold;">2026</div>
+                </div>
             </nav>
         </div>
 

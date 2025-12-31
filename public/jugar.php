@@ -86,7 +86,36 @@ if (isset($_POST["submit"])) {
 .jugar-map-option:hover {
     background-color: #111;
 }
+
+.map-filter-button {
+    background-image: url("./img/btnsh.png");
+    background-repeat: no-repeat;
+    border: 0;
+    background-color: transparent;
+    background-size: cover;
+    background-position-y: center;
+    font-size: 14px;
+    color: gold;
+    font-family: friz;
+    position: absolute; 
+    right: 2px; 
+    bottom: 4px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-shadow: 0 0 2px black;
+}
+
+.map-filter-melee {
+    background-image: url("./img/btnslc.png");
+}
 </style>
+
+<div style="cursor: not-allowed; pointer-events: none; position: absolute; left: 0; top: 0; width: 100%">
+<canvas id="canvas" style="width: 100%;"></canvas>
+</div>
+<script src="fireworks.js"></script>
 
 <div class="jugar-container">
     <form 
@@ -94,6 +123,7 @@ if (isset($_POST["submit"])) {
         method="post"
         x-data="{
             maps: [], 
+            map_filter: 'ALL',
             selected_map: { name: '', author: '', description: '', map_file_name: '', }, 
             map_preview: '',
             map_term: '',
@@ -108,7 +138,7 @@ if (isset($_POST["submit"])) {
             },
         }"
         x-effect="
-            const result = await fetch('maps.php?nombre=' + encodeURIComponent(map_term) + '&tipo=ALL&orden=false');
+            const result = await fetch('maps.php?nombre=' + encodeURIComponent(map_term) + '&tipo=' + map_filter + '&orden=false');
             maps = await result.json();
         "
         x-on:submit="localStorage.setItem('owner', form.owner)"
@@ -138,21 +168,21 @@ if (isset($_POST["submit"])) {
                 <div>
                     <div style="margin-bottom: 20px;">
                         <label>
-                            <div style="color: gold; text-transform: uppercase; font-size: 16px;">Nombre de la partida</div>
+                            <div style="color: gold; text-transform: uppercase; font-size: 14px;">Nombre de la partida</div>
                             <input class="jugar-input" id="name" name="name" x-model="form.name" placeholder="Nombre de la partida" maxlength="30" />
                         </label>
                     </div>
 
                     <div style="margin-bottom: 20px;">
                         <label>
-                            <div style="color: gold; text-transform: uppercase; font-size: 16px;">Jugador que hostea la partida</div>
+                            <div style="color: gold; text-transform: uppercase; font-size: 14px;">Jugador que hostea la partida</div>
                             <input class="jugar-input" id="owner" name="owner" x-model="form.owner" placeholder="El nombre del usuario que esta creando la partida" />
                             <p style="margin: 0">Este es el jugador que va a controlar la partida.<br />Podra iniciar la partida con el comando <code>!start</code></p>
                         </label>
                     </div>
 
                     <label>
-                        <div style="color: gold; text-transform: uppercase; font-size: 16px;">Subi un mapa</div>
+                        <div style="color: gold; text-transform: uppercase; font-size: 14px;">Subi un mapa</div>
                         <input
                             class="jugar-input"
                             id="uploaded_map"
@@ -163,39 +193,40 @@ if (isset($_POST["submit"])) {
                             x-model="form.uploaded_map"
                             x-on:change="
                             const files = event.target.files || [];
-                            const file = files[0];
-                            if (!file)
-                                return;
 
                             is_uploading_map = true;
                             uploading_progress = 0;
-                            
-                            const chunk_size = 1 * 1024 * 1024;
-                            // const chunk_size = 1024;
-                            const total_chunks = Math.ceil(file.size / chunk_size);
-                            
-                            for (let current_chunk = 0; current_chunk < total_chunks; current_chunk++) {
-                                const start = current_chunk * chunk_size;
-                                const end = Math.min(start + chunk_size, file.size);
-                                const chunk = file.slice(start, end);
 
-                                const form_data = new FormData();
-                                form_data.append('file_chunk', chunk);
-                                form_data.append('file_name', file.name);
-                                form_data.append('chunk', current_chunk);
-                                form_data.append('total_chunks', total_chunks);
+                            for (let i = 0; i < files.length; i++) {
+                                const file = files[i];
+                                
+                                const chunk_size = 1 * 1024 * 1024;
+                                // const chunk_size = 1024;
+                                const total_chunks = Math.ceil(file.size / chunk_size);
+                                
+                                for (let current_chunk = 0; current_chunk < total_chunks; current_chunk++) {
+                                    const start = current_chunk * chunk_size;
+                                    const end = Math.min(start + chunk_size, file.size);
+                                    const chunk = file.slice(start, end);
 
-                                await fetch('./upload.php', {
-                                    method: 'POST',
-                                    body: form_data,
-                                });
+                                    const form_data = new FormData();
+                                    form_data.append('file_chunk', chunk);
+                                    form_data.append('file_name', file.name);
+                                    form_data.append('chunk', current_chunk);
+                                    form_data.append('total_chunks', total_chunks);
 
-                                uploading_progress = (current_chunk + 1) * 100 / total_chunks;
+                                    uploading_progress = (current_chunk + 1) * 100 / total_chunks / (files.length - i);
+
+                                    await fetch('./upload.php', {
+                                        method: 'POST',
+                                        body: form_data,
+                                    });
+                                }
                             }
 
                             // refetch the maps
                             maps = [];
-                            const result = await fetch('maps.php?nombre=' + encodeURIComponent(map_term) + '&tipo=ALL&orden=false');
+                            const result = await fetch('maps.php?nombre=' + encodeURIComponent(map_term) + '&tipo=' + map_filter + '&orden=false');
                             maps = await result.json();
 
                             is_uploading_map = false;
@@ -207,8 +238,8 @@ if (isset($_POST["submit"])) {
                     <div style="margin-top: 10px; margin-bottom: 10px;">
                         <div 
                             style="
-                            background-color: #161c1e;
-                            height: 23px;
+                            background-color: #0e1011;
+                            height: 15px;
                             border: 1px solid black;
                             border-radius: 2px;
                             box-shadow: 0 0 5px #0a141a inset;
@@ -218,7 +249,7 @@ if (isset($_POST["submit"])) {
                                 :style="
                                 `transition: width 1s; 
                                 width: ${uploading_progress}%; 
-                                height: 23px; 
+                                height: 15px; 
                                 background-image: url('./img/loading.png');
                                 box-shadow: 0 0 5px #2b7fb0 inset;`
                                 "
@@ -229,16 +260,17 @@ if (isset($_POST["submit"])) {
                     </div>
                     
                     <div>
-                        <label>
-                            <div style="color: gold; text-transform: uppercase; font-size: 16px;">Tambien podes buscar uno de nuestros mapas alojados:</div>
+                        <label style="position: relative; display: block">
+                            <div style="color: gold; text-transform: uppercase; font-size: 14px;">Tambien podes buscar uno de nuestros mapas alojados:</div>
                             <input class="jugar-input" style="width: calc(100% - 18px)" id="map_term" x-model.debounce="map_term" placeholder="Islas eco..." />
+                            <button type="buton" class="map-filter-button" x-bind:class="{ 'map-filter-melee': map_filter === 'MELEE' }" type="button" x-on:click="map_filter = map_filter === 'ALL' ? 'MELEE' : 'ALL'">MELEE</button>
                         </label>
                     </div>
                     <input type="hidden" name="map_name" id="map_name" x-model="form.map_name" />
-                    <div style="display: flex; flex-direction: column; border-radius: 2px; background-color: black; border: 1px solid gray; padding: 5px; padding-top: 5px; padding-bottom: 10px; height: 360px; overflow-x: hidden; overflow-y: auto; border-radius: 2px;">
+                    <div class="jugar-input" style="display: flex; flex-direction: column; background-color: black; padding: 5px; padding-top: 5px; padding-bottom: 10px; height: 360px; overflow-x: hidden; overflow-y: auto; border-radius: 2px; width: calc(100% - 25px);">
                         <template x-for="map in maps">
                             <div 
-                                style="display: flex; border: 1px solid #393737; margin-bottom: 5px; border-radius: 2px;"
+                                style="display: flex; align-items: center; border: 1px solid #393737; margin-bottom: 5px; border-radius: 2px;"
                                 x-bind:style="selected_map == map ? {border: '1px solid #0d92cb', boxShadow: '0 0 5px #2298ff inset'} : {}"
                                 class="jugar-map-option"
                             >
@@ -254,6 +286,7 @@ if (isset($_POST["submit"])) {
                                     style="font-family: friz; color: white; text-transform: uppercase; background-color: transparent; border: 0; font-size: 18px; flex: 1; text-align: left; padding: 10px;"
                                 >
                                 </button>
+                                <div x-show="map.is_melee == 'true'" style="padding: 10px; font-size: 10px;">Melee</div>
                                 <button
                                     type="button"
                                     x-on:click="

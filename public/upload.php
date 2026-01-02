@@ -33,11 +33,13 @@ $file_path      = $target_dir . $file_name;
 
 // Check if only 1 chunk required, if so, just move the file.
 if ($total_chunks == 1) {
+    $uploaded_by = discord_get_user()->username;
+
     move_uploaded_file($chunk_tmp_name, $file_path);
 
     $info = get_map_info($file_name);
 
-    insert("maps", [
+    $data = [
         "name" => $info["name"],
         "author" => $info["author"],
         "description" => $info["description"],
@@ -45,10 +47,12 @@ if ($total_chunks == 1) {
         "thumbnail_path" => $info["thumbnail"],
         "map_path" => $file_path,
         "map_file_name" => $file_name,
-        "uploaded_by" => discord_get_user()->username,
         "players_recommended" => $info["players_recommended"],
         "max_players" => $info["max_players"],
-    ]);
+        "uploaded_by" => $uploaded_by,
+    ];
+
+    insert("maps", $data);
 
     exit();
 }
@@ -78,9 +82,11 @@ if ($chunk_index + 1 == $total_chunks) {
 
     fclose($final_file);
 
+    $uploaded_by = discord_get_user()->username;
+
     $info = get_map_info($file_name);
 
-    insert("maps", [
+    $data = [
         "name" => $info["name"],
         "author" => $info["author"],
         "description" => $info["description"],
@@ -88,5 +94,10 @@ if ($chunk_index + 1 == $total_chunks) {
         "thumbnail_path" => $info["thumbnail"],
         "map_path" => $file_path,
         "map_file_name" => $file_name,
-    ]);
+        "players_recommended" => $info["players_recommended"],
+        "max_players" => $info["max_players"],
+        "uploaded_by" => $uploaded_by,
+    ];
+
+    insert("maps", $data);
 }

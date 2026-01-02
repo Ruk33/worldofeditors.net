@@ -112,11 +112,6 @@ if (isset($_POST["submit"])) {
 }
 </style>
 
-<div style="cursor: not-allowed; pointer-events: none; position: absolute; left: 0; top: 0; width: 100%">
-<canvas id="canvas" style="width: 100%;"></canvas>
-</div>
-<script src="fireworks.js"></script>
-
 <div class="jugar-container">
     <form 
         style="color: white; display: grid; grid-template-columns: 890px 460px; gap: 10px;"

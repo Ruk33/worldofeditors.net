@@ -157,7 +157,10 @@ if (isset($_POST["submit"])) {
                 <?php } else { ?>
                     <h1 style="margin: 0;">Crear partida</h1>
                     <div>
-                        <p style="margin: 0">Bienvenido <?php echo discord_get_user()->username; ?>!</p>
+                        <p style="margin: 0">
+                            Bienvenido <?php echo discord_get_user()->username; ?>!
+                            <button onclick="fetch('/logout.php', {method: 'POST'}).then(function() {window.location.reload()})" type="button" style="background-color: transparent; border: 0; color: white; font-size: 16px; padding: 0; margin: 0; cursor: pointer;">Desconectarse</button>
+                        </p>
                     </div>
                 <?php } ?>
             </div>

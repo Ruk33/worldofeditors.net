@@ -1,5 +1,8 @@
 <?php
 
+// 5 days
+ini_set('session.gc_maxlifetime', 432000);
+session_set_cookie_params(432000);
 session_start();
 
 // List maps.

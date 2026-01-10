@@ -338,6 +338,7 @@ if (isset($_POST["submit"])) {
                     <img
                         id="map_preview"
                         width="435px" 
+                        height="435px"
                         src="./img/minmap.png"
                         alt="Vista previa del mapa seleccionado"
                         x-on:error="event.target.src = './img/minmap.png'"

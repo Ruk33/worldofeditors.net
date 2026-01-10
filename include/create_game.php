@@ -49,7 +49,7 @@ function create_game($name, $owner, $map_name)
         from games
         where
         user = :user and
-        created_at > datetime('now', '-180 seconds') and
+        created_at > datetime('now', '-30 seconds') and
         not exists (select 1 from vips where vips.user = games.user)
         limit 1;
         ",

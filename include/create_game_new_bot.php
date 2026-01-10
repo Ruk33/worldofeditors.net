@@ -1,6 +1,6 @@
 <?php
 
-function create_game_new_bot($name, $owner, $map_name)
+function create_game_new_bot($name, $owner, $map_name, $obs, $hcl)
 {
     if (!$name || !$owner || !$map_name)
         return;
@@ -31,7 +31,7 @@ function create_game_new_bot($name, $owner, $map_name)
         from games
         where
         user = :user and
-        created_at > datetime('now', '-180 seconds') and
+        created_at > datetime('now', '-30 seconds') and
         not exists (select 1 from vips where vips.user = games.user)
         limit 1;
         ",
@@ -73,7 +73,9 @@ function create_game_new_bot($name, $owner, $map_name)
     $bot_request =
         "\nbot_map = " . $map_name .
         "\nbot_owner = " . strtolower($owner) .
-        "\nbot_game = " . $name . "\n";
+        "\nbot_game = " . $name . 
+        "\nbot_observer = " . ($obs ? "true" : "false") . 
+        "\nbot_hcl = " . $hcl . "\n";
     file_put_contents(__DIR__ . "/../public/new_pending/pending" . time(), $bot_request);
 
     if (is_prod())

@@ -22,7 +22,9 @@ if (isset($_POST["submit"])) {
     create_game_new_bot(
         post_value("name"),
         post_value("owner"),
-        post_value("uploaded_map", post_value("map_name"))
+        post_value("uploaded_map", post_value("map_name")),
+        post_value("obs"),
+        post_value("hcl")
     );
 }
 
@@ -133,6 +135,8 @@ if (isset($_POST["submit"])) {
                 owner: localStorage.getItem('owner') ? localStorage.getItem('owner') : '',
                 map_name: '',
                 uploaded_map: '',
+                obs: false,
+                hcl: '',
             },
         }"
         x-effect="
@@ -167,18 +171,33 @@ if (isset($_POST["submit"])) {
 
             <div style="margin-top: 25px; padding: 10px;">
                 <div>
-                    <div style="margin-bottom: 20px;">
+                    <div style="margin-bottom: 15px;">
                         <label>
                             <div style="color: gold; text-transform: uppercase; font-size: 14px;">Nombre de la partida</div>
                             <input class="jugar-input" id="name" name="name" x-model="form.name" placeholder="Nombre de la partida" maxlength="30" />
                         </label>
                     </div>
 
-                    <div style="margin-bottom: 20px;">
+                    <div style="margin-bottom: 15px;">
                         <label>
                             <div style="color: gold; text-transform: uppercase; font-size: 14px;">Jugador que hostea la partida</div>
                             <input class="jugar-input" id="owner" name="owner" x-model="form.owner" placeholder="El nombre del usuario que esta creando la partida" />
-                            <p style="margin: 0">Este es el jugador que va a controlar la partida.<br />Podra iniciar la partida con el comando <code>!start</code></p>
+                            <p style="margin: 0">Este jugador podra iniciar la partida con el comando <code>!start</code></p>
+                        </label>
+                    </div>
+
+                    <div style="margin-bottom: 15px;">
+                        <label>
+                            <div style="color: gold; text-transform: uppercase; font-size: 14px;">Comando HCL (opcional)</div>
+                            <input class="jugar-input" id="hcl" name="hcl" x-model="form.hcl" placeholder="Crea la partida con este comando HCL si el mapa lo soporta (opcional)" />
+                        </label>
+                    </div>
+
+                    <div style="margin-bottom: 15px;">
+                        <label>
+                            <div style="color: gold; text-transform: uppercase; font-size: 14px;">Espectadores (opcional)</div>
+                            <input type="checkbox" id="obs" name="obs" x-model="form.obs" />
+                            Habilitar espectadores en la partida (solo si el mapa lo soporta)
                         </label>
                     </div>
 
@@ -240,7 +259,7 @@ if (isset($_POST["submit"])) {
                         <div 
                             style="
                             background-color: #0e1011;
-                            height: 15px;
+                            height: 10px;
                             border: 1px solid black;
                             border-radius: 2px;
                             box-shadow: 0 0 5px #0a141a inset;
@@ -250,7 +269,7 @@ if (isset($_POST["submit"])) {
                                 :style="
                                 `transition: width 1s; 
                                 width: ${uploading_progress}%; 
-                                height: 15px; 
+                                height: 10px; 
                                 background-image: url('./img/loading.png');
                                 box-shadow: 0 0 5px #2b7fb0 inset;`
                                 "
@@ -268,7 +287,7 @@ if (isset($_POST["submit"])) {
                         </label>
                     </div>
                     <input type="hidden" name="map_name" id="map_name" x-model="form.map_name" />
-                    <div class="jugar-input" style="display: flex; flex-direction: column; background-color: black; padding: 5px; padding-top: 5px; padding-bottom: 10px; height: 360px; overflow-x: hidden; overflow-y: auto; border-radius: 2px; width: calc(100% - 25px);">
+                    <div class="jugar-input" style="display: flex; flex-direction: column; background-color: black; padding: 5px; padding-top: 5px; padding-bottom: 10px; height: 310px; overflow-x: hidden; overflow-y: auto; border-radius: 2px; width: calc(100% - 25px);">
                         <template x-for="map in maps">
                             <div 
                                 style="display: flex; align-items: center; border: 1px solid #393737; margin-bottom: 5px; border-radius: 2px;"

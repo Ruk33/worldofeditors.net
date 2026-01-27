@@ -204,6 +204,7 @@ if (isset($_POST["submit"])) {
                             class="jugar-input"
                             id="uploaded_map"
                             name="uploaded_map"
+                            multiple
                             type="file"
                             accept=".w3x,.w3m"
                             :disabled="is_uploading_map"
@@ -302,7 +303,7 @@ if (isset($_POST["submit"])) {
                                         selected_map = map;
                                     "
                                     x-html="map.name"
-                                    style="font-family: friz; color: white; text-transform: uppercase; background-color: transparent; border: 0; font-size: 18px; flex: 1; text-align: left; padding: 10px;"
+                                    style="font-family: friz; color: white; text-transform: uppercase; background-color: transparent; border: 0; font-size: 18px; flex: 1; text-align: left; padding: 10px;  text-overflow: ellipsis; overflow: hidden;   white-space: nowrap;"
                                 >
                                 </button>
                                 <div style="padding: 10px; font-size: 10px;">

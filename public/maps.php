@@ -27,6 +27,9 @@ if ($type == "ALL") {
     $type_filter = 'maps.is_melee = "true"';
 } else if ($type == "CUSTOM") {
     $type_filter = 'maps.is_melee = "false"';
+} else if ($type == "EVERGREEN") {
+    $type_filter = 'maps.is_melee = "false"';
+    $term = "evergreen";
 } else {
     
 }

@@ -186,6 +186,10 @@ if (preg_match('/^\/t(\d+)-(.+)$/', $request_uri, $matches)) {
         //     document.body.innerHTML = content;
         // });
     </script>
+
+    <script src="moment.js"></script>
+    <script src="moment-with-locales.js"></script>
+    <script>moment.locale("es");</script>
 </head>
 <body>
     <div id="ssnow-container"></div>

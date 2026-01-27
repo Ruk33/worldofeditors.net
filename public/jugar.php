@@ -102,9 +102,6 @@ if (isset($_POST["submit"])) {
     font-size: 14px;
     color: gold;
     font-family: friz;
-    position: absolute; 
-    right: 2px; 
-    bottom: 4px;
     padding-top: 5px;
     padding-bottom: 5px;
     padding-left: 10px;
@@ -283,11 +280,13 @@ if (isset($_POST["submit"])) {
                         <label style="position: relative; display: block">
                             <div style="color: gold; text-transform: uppercase; font-size: 14px;">Tambien podes buscar uno de nuestros mapas alojados:</div>
                             <input class="jugar-input" style="width: calc(100% - 18px)" id="map_term" x-model.debounce="map_term" placeholder="Islas eco..." />
-                            <button type="button" class="map-filter-button" x-bind:class="{ 'map-filter-melee': map_filter === 'MELEE' }" type="button" x-on:click="map_filter = map_filter === 'ALL' ? 'MELEE' : 'ALL'">MELEE</button>
+                            <div style="position: absolute; right: 2px; bottom: 4px; display: flex;">
+                                <button type="button" class="map-filter-button" x-bind:class="{ 'map-filter-melee': map_filter === 'EVERGREEN' }" type="button" x-on:click="map_filter = map_filter === 'ALL' ? 'EVERGREEN' : 'ALL'">EVERGREEN</button>
+                            </div>
                         </label>
                     </div>
                     <input type="hidden" name="map_name" id="map_name" x-model="form.map_name" />
-                    <div class="jugar-input" style="display: flex; flex-direction: column; background-color: black; padding: 5px; padding-top: 5px; padding-bottom: 10px; height: 310px; overflow-x: hidden; overflow-y: auto; border-radius: 2px; width: calc(100% - 25px);">
+                    <div class="jugar-input" style="display: flex; flex-direction: column; background-color: black; padding: 5px; padding-top: 5px; padding-bottom: 10px; height: 270px; overflow-x: hidden; overflow-y: auto; border-radius: 2px; width: calc(100% - 25px);">
                         <template x-for="map in maps">
                             <div 
                                 style="display: flex; align-items: center; border: 1px solid #393737; margin-bottom: 5px; border-radius: 2px;"
@@ -306,7 +305,11 @@ if (isset($_POST["submit"])) {
                                     style="font-family: friz; color: white; text-transform: uppercase; background-color: transparent; border: 0; font-size: 18px; flex: 1; text-align: left; padding: 10px;"
                                 >
                                 </button>
+                                <div style="padding: 10px; font-size: 10px;">
+                                    Subido <span x-text="moment.utc(map.created_at).fromNow()"></span>
+                                </div>
                                 <div x-show="map.is_melee == 'true'" style="padding: 10px; font-size: 10px;">Melee</div>
+                                <div x-show="map.is_melee != 'true'" style="padding: 10px; font-size: 10px;">Custom</div>
                                 <button
                                     type="button"
                                     x-on:click="
@@ -322,7 +325,7 @@ if (isset($_POST["submit"])) {
                                         maps = maps.filter((x) => x.rowid !== id);
                                     "
                                     x-show="map.can_delete"
-                                    style="border: 0; background-color: transparent; color: red;"
+                                    style="border: 0; background-color: transparent; color: red; font-size: 10px; padding-top: 0;"
                                 >Borrar</button>
                             </div>
                         </template>

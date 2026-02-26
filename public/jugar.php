@@ -18,11 +18,13 @@ include "../include/env.php";
 include "../include/create_game.php";
 include "../include/create_game_new_bot.php";
 
+$create_game_request = array();
+
 if (isset($_POST["submit"])) {
-    create_game_new_bot(
+    $create_game_request = create_game_new_bot(
         post_value("name"),
         post_value("owner"),
-        post_value("uploaded_map", post_value("map_name")),
+        post_value("map_name"),
         post_value("obs"),
         post_value("hcl")
     );
@@ -123,22 +125,26 @@ if (isset($_POST["submit"])) {
             map_filter: 'ALL',
             selected_map: { name: '', author: '', description: '', map_file_name: '', }, 
             map_preview: '',
-            map_term: '',
+            map_term: '<?echo post_value("map_name", ""); ?>',
             is_uploading_map: false,
             uploading_progress: 0,
 
             form: {
-                name: '',
-                owner: localStorage.getItem('owner') ? localStorage.getItem('owner') : '',
-                map_name: '',
-                uploaded_map: '',
-                obs: false,
-                hcl: '',
+                name: '<?php echo post_value("name", ""); ?>',
+                owner: '<?php echo post_value("owner", ""); ?>',
+                map_name: '<?php echo post_value("map_name", ""); ?>',
+                // uploaded_map: '',
+                obs: <?php echo post_value("obs") ? "true" : "false"; ?>,
+                hcl: '<?php echo post_value("hcl", ""); ?>',
             },
         }"
         x-effect="
             const result = await fetch('maps.php?nombre=' + encodeURIComponent(map_term) + '&tipo=' + map_filter + '&orden=false');
             maps = await result.json();
+            if (maps.length === 1) {
+                form.map_name = maps[0].map_file_name;
+                selected_map = maps[0];
+            }
         "
         x-on:submit="localStorage.setItem('owner', form.owner)"
     >
@@ -146,8 +152,8 @@ if (isset($_POST["submit"])) {
         <div style="padding-left: 40px; padding-right: 10px; padding-top: 50px; padding-bottom: 20px;">
             <div style="padding: 10px;">
                 <?php
-                    $game_created = isset($_GET["success"]);
-                    $game_message = isset($_GET["message"]) ? htmlspecialchars($_GET["message"]) : "???";
+                    $game_created = isset($create_game_request["success"]);
+                    $game_message = isset($create_game_request["message"]) ? htmlspecialchars($create_game_request["message"]) : "???";
                 ?>
 
                 <?php if ($game_created) { ?>
@@ -212,6 +218,10 @@ if (isset($_POST["submit"])) {
                             x-on:change="
                             const files = event.target.files || [];
 
+                            if (!files.length) {
+                                return;
+                            }
+
                             is_uploading_map = true;
                             uploading_progress = 0;
 
@@ -242,11 +252,7 @@ if (isset($_POST["submit"])) {
                                 }
                             }
 
-                            // refetch the maps
-                            maps = [];
-                            const result = await fetch('maps.php?nombre=' + encodeURIComponent(map_term) + '&tipo=' + map_filter + '&orden=false');
-                            maps = await result.json();
-
+                            map_term = files[0].name;
                             is_uploading_map = false;
                             uploading_progress = 0;
                             "
@@ -291,7 +297,7 @@ if (isset($_POST["submit"])) {
                         <template x-for="map in maps">
                             <div 
                                 style="display: flex; align-items: center; border: 1px solid #393737; margin-bottom: 5px; border-radius: 2px;"
-                                x-bind:style="selected_map == map ? {border: '1px solid #0d92cb', boxShadow: '0 0 5px #2298ff inset'} : {}"
+                                x-bind:style="JSON.stringify(selected_map) === JSON.stringify(map) ? {border: '1px solid #0d92cb', boxShadow: '0 0 5px #2298ff inset'} : {}"
                                 class="jugar-map-option"
                             >
                                 <img x-show="(map.max_players || 0) >= 1 && (map.max_players || 0) <= 12" width="32" x-bind:src="'./img/nun/' + map.max_players + '.png'" />

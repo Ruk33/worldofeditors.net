@@ -2,27 +2,27 @@
 
 function create_game_new_bot($name, $owner, $map_name, $obs, $hcl)
 {
-    if (!$name || !$owner || !$map_name)
-        return;
+    if (!$name || !$owner || !$map_name) {
+        return array(
+            "success" => false,
+            "message" => "Peticion invalida"
+        );
+    }
 
     if (!discord_is_logged_in()) {
-        $query_params = http_build_query([
-            'success' => 'false',
-            'message' => 'Necesitas estar logueado con Discord para crear partidas.',
-        ]);
-        header("Location: /jugar.php?$query_params");
-        return;
+        return array(
+            "success" => false,
+            "message" => "Necesitas estar logueado con Discord para crear partidas."
+        );
     }
 
     $user = discord_get_user();
 
     if (!$user->verified) {
-        $query_params = http_build_query([
-            'success' => 'false',
-            'message' => 'Tu cuenta de Discord necesita estar verificada para crear partidas.',
-        ]);
-        header("Location: /jugar.php?$query_params");
-        return;
+        return array(
+            "success" => false,
+            "message" => "Tu cuenta de Discord necesita estar verificada para crear partidas."
+        );
     }
 
     $in_cd = find_one(
@@ -39,14 +39,10 @@ function create_game_new_bot($name, $owner, $map_name, $obs, $hcl)
     );
 
     if ($in_cd) {
-        $query_params = http_build_query([
-            'success' => 'false',
-            'message' => 'Necesitas esperar un poco para crear otra partida.',
-        ]);
-
-        header("Location: /jugar.php?$query_params");
-
-        return;
+        return array(
+            "success" => false,
+            "message" => "Necesitas esperar un poco para crear otra partida."
+        );
     }
 
     insert("games", [
@@ -62,12 +58,10 @@ function create_game_new_bot($name, $owner, $map_name, $obs, $hcl)
     $safe_owner = htmlspecialchars($owner, ENT_QUOTES, 'UTF-8');
 
     if ($banned) {
-        $query_params = http_build_query([
-            'success' => 'true',
-            'message' => 'La partida ha sido creada. El jugador ' . $safe_owner . ' puede iniciar la partida con el comando !start',
-        ]);
-        header("Location: /jugar.php?$query_params");
-        return;
+        return array(
+            "success" => true,
+            "message" => "La partida ha sido creada. El jugador " . $safe_owner . " puede iniciar la partida con el comando !start"
+        );
     }
 
     $bot_request =
@@ -81,11 +75,10 @@ function create_game_new_bot($name, $owner, $map_name, $obs, $hcl)
     if (is_prod())
         discord_notification_new_bot($map_name, $name, $name, $owner);
 
-    $query_params = http_build_query([
-        'success' => 'true',
-        'message' => 'La partida ha sido creada. El jugador ' . $safe_owner . ' puede iniciar la partida con el comando !start',
-    ]);
-    header("Location: /jugar.php?$query_params");
+    return array(
+        "success" => true,
+        "message" => "La partida ha sido creada. El jugador " . $safe_owner . " puede iniciar la partida con el comando !start"
+    );
 }
 
 function discord_notification_new_bot($map_file, $name, $game_name, $user)

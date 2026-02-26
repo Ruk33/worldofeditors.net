@@ -25,7 +25,7 @@ RUN git clone https://github.com/Ruk33/BLPConverter.git
 
 WORKDIR BLPConverter
 
-RUN cmake .
+RUN cmake . -DCMAKE_CXX_FLAGS="-Wno-narrowing" -DCMAKE_C_FLAGS="-Wno-narrowing"
 RUN make
 RUN mv bin/BLPConverter /usr/local/bin/
 RUN chmod +x /usr/local/bin/BLPConverter

@@ -68,7 +68,7 @@ function create_game_new_bot($name, $owner, $map_name, $obs, $hcl)
         "\nbot_map = " . $map_name .
         "\nbot_owner = " . strtolower($owner) .
         "\nbot_game = " . $name . 
-        "\nbot_observer = " . ($obs ? "true" : "false") . 
+        "\nbot_observer = " . $obs . 
         "\nbot_hcl = " . $hcl . "\n";
     file_put_contents(__DIR__ . "/../public/new_pending/pending" . time(), $bot_request);
 

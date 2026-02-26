@@ -134,7 +134,7 @@ if (isset($_POST["submit"])) {
                 owner: '<?php echo post_value("owner", ""); ?>',
                 map_name: '<?php echo post_value("map_name", ""); ?>',
                 // uploaded_map: '',
-                obs: <?php echo post_value("obs") ? "true" : "false"; ?>,
+                obs: '<?php echo post_value("obs", "false"); ?>',
                 hcl: '<?php echo post_value("hcl", ""); ?>',
             },
         }"
@@ -199,8 +199,11 @@ if (isset($_POST["submit"])) {
                     <div style="margin-bottom: 15px;">
                         <label>
                             <div style="color: gold; text-transform: uppercase; font-size: 14px;">Espectadores (opcional)</div>
-                            <input type="checkbox" id="obs" name="obs" x-model="form.obs" />
-                            Habilitar espectadores en la partida (solo si el mapa lo soporta)
+                            <select class="jugar-input" id="obs" name="obs" x-model="form.obs">
+                                <option value="false">No</option>
+                                <option value="obs">Espectador (no puede escribir, no puede pausar)</option>
+                                <option value="referee">Arbitro (puede escribir, puede pausar)</option>
+                            </select>
                         </label>
                     </div>
 

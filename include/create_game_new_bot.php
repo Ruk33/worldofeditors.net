@@ -102,7 +102,7 @@ function discord_notification_new_bot($map_file, $name, $game_name, $user)
         "embeds" => [
             [
                 "title" => strip_tags($name),
-                "description" => strip_tags($descripcion),
+                "description" => "",
                 "url" => "https://worldofeditors.net/maps/" . str_replace(" ", "%20", $map_file),
                 "color" => 1422025,
                 "author" => [

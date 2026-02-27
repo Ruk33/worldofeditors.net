@@ -9,7 +9,6 @@ $page_title = "Crear partida de Warcraft 3";
 
 ob_start();
 
-include "../include/js.php";
 include "../include/request.php";
 include "../include/discord.php";
 include "../include/db.php";

@@ -190,6 +190,7 @@ if (preg_match('/^\/t(\d+)-(.+)$/', $request_uri, $matches)) {
     <script src="moment.js"></script>
     <script src="moment-with-locales.js"></script>
     <script>moment.locale("es");</script>
+    <?php include "../include/js.php"; ?>
 </head>
 <body>
     <div id="ssnow-container"></div>
@@ -215,6 +216,32 @@ if (preg_match('/^\/t(\d+)-(.+)$/', $request_uri, $matches)) {
                     World of Editors<br />
                     <span style="font-size: 12px; color: gray;">Original design by Shikuso</span>
                 </p>
+
+                <script>
+                    function calculate_server_lifetime()
+                    {
+                        const starttime = moment('2022-10-11')
+                        const lifetime = moment.duration(moment().diff(starttime))
+                        return lifetime
+                    }
+                    function format_server_limetime()
+                    {
+                        const lifetime = calculate_server_lifetime()
+
+                        const minutes = lifetime.minutes()
+                        const days = lifetime.days()
+                        const months = lifetime.months()
+                        const years = lifetime.years()
+
+                        const minutes_text = minutes == 1 ? `minuto` : `minutos`
+                        const days_text = days == 1 ? `dia` : `dias`
+                        const months_text = months == 1 ? `mes` : `meses`
+                        const years_text = years == 1 ? `año` : `años`
+
+                        return `${years} ${years_text}, ${months} ${months_text}, ${days} ${days_text} y ${minutes} ${minutes_text}`
+                    }
+                </script>
+                <p style="text-transform: none; font-size: 12px;">Nuestro servidor lleva activo <span x-text="format_server_limetime()"></span></p>
             </nav>
         </div>
 

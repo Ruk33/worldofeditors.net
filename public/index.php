@@ -47,16 +47,6 @@ if (preg_match('/^\/t(\d+)-(.+)$/', $request_uri, $matches)) {
             font-display: swap;
         }
 
-        * {
-            cursor: url("./img/cursor.png"), auto;
-        }
-
-        button:hover,
-        a:hover,
-        input:hover {
-            cursor: url("./img/cursor-hover.png"), auto;
-        }
-
         body {
             font-family: friz;
             background-image: url("./img/background-3.jpg");

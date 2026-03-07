@@ -172,6 +172,10 @@ if (isset($_POST["submit"])) {
             </div>
 
             <div style="margin-top: 25px; padding: 10px;">
+                <a href="https://www.youtube.com/@WorldOfEditorsOficial" target="_blank" rel="nofollow" style="display: inline-flex; border: 2px solid #ff5959;">
+                    <img src="./img/torneo3.png" alt="Torneo T2000 - Torneo de Warcraft 3 Melee" />
+                </a>
+
                 <div>
                     <div style="margin-bottom: 15px;">
                         <label>
@@ -295,7 +299,7 @@ if (isset($_POST["submit"])) {
                         </label>
                     </div>
                     <input type="hidden" name="map_name" id="map_name" x-model="form.map_name" />
-                    <div class="jugar-input" style="display: flex; flex-direction: column; background-color: black; padding: 5px; padding-top: 5px; padding-bottom: 10px; height: 270px; overflow-x: hidden; overflow-y: auto; border-radius: 2px; width: calc(100% - 25px);">
+                    <div class="jugar-input" style="display: flex; flex-direction: column; background-color: black; padding: 5px; padding-top: 5px; padding-bottom: 10px; height: 185px; overflow-x: hidden; overflow-y: auto; border-radius: 2px; width: calc(100% - 25px);">
                         <template x-for="map in maps">
                             <div 
                                 style="display: flex; align-items: center; border: 1px solid #393737; margin-bottom: 5px; border-radius: 2px;"

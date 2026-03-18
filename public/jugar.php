@@ -172,9 +172,11 @@ if (isset($_POST["submit"])) {
             </div>
 
             <div style="margin-top: 25px; padding: 10px;">
+                <!--
                 <a href="https://www.youtube.com/@WorldOfEditorsOficial" target="_blank" rel="nofollow" style="display: block; text-align: center;">
                     <img src="./img/torneo5.png" alt="Torneo T2000 - Torneo de Warcraft 3 Melee" style="border: 2px solid #ff5959;" />
                 </a>
+                -->
 
                 <div>
                     <div style="margin-bottom: 15px;">

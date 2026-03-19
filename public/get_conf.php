@@ -9,7 +9,7 @@ $client_priv = trim(shell_exec("wg genkey"));
 $client_pub = trim(shell_exec("echo " . escapeshellarg($client_priv) . " | wg pubkey"));
 $psk = trim(shell_exec("wg genpsk"));
 
-$player_id = insert("vpn_client", []) + 10;
+$player_id = insert("vpn_clients", []) + 10;
 
 $base_ip_long = ip2long("10.7.0.0");
 $client_ip = long2ip($base_ip_long + $player_id);

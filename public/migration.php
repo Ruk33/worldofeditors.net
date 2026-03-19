@@ -45,6 +45,15 @@ run_query(
     "
 );
 
+run_query(
+    "
+    CREATE TABLE vpn_clients (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
+    "
+);
+
 try {
     run_query(
         "

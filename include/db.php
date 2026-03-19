@@ -40,15 +40,21 @@ function insert(string $table, array $data, ?PDO $pdo = null)
     $columns = array_keys($data);
     $placeholders = array_map(fn($column) => ":$column", $columns);
 
-    $sql = "INSERT INTO $table (" . implode(', ', $columns) . ") VALUES (" . implode(', ', $placeholders) . ")";
-    $stmt = $pdo->prepare($sql);
+    if (empty($data)) {
+        $sql = "INSERT INTO $table DEFAULT VALUES;";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+    } else {
+        $sql = "INSERT INTO $table (" . implode(', ', $columns) . ") VALUES (" . implode(', ', $placeholders) . ")";
+        $stmt = $pdo->prepare($sql);
 
-    $params = [];
-    foreach ($data as $column => $value) {
-        $params[":$column"] = $value;
+        $params = [];
+        foreach ($data as $column => $value) {
+            $params[":$column"] = $value;
+        }
+
+        $stmt->execute($params);
     }
-
-    $stmt->execute($params);
 
     return $pdo->lastInsertId();
 }

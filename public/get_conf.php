@@ -1,5 +1,7 @@
 <?php
 
+include "../include/db.php";
+
 if (($_GET["key"] ?? '') !== "SOME-PASSWORD") {
     header('HTTP/1.0 403 Forbidden');
     die("nok");
@@ -25,18 +27,20 @@ $server_pub = trim(shell_exec("wg show wg0 public-key"));
 $server_endpoint = "SERVER_IP:51820";
 
 $conf = "[Interface]
-PrivateKey = $client_priv
 Address = $client_ip/22
+DNS = 8.8.8.8, 8.8.4.4
+PrivateKey = $client_priv
 
 [Peer]
 PublicKey = $server_pub
 PresharedKey = $psk
-Endpoint = $server_endpoint
 AllowedIPs = 10.7.0.0/22
+Endpoint = $server_endpoint
 PersistentKeepalive = 25";
 
-// make this new change permanent
-shell_exec("wg showconf wg0 > /etc/wireguard/wg0.conf");
+// Append the new client
+$peer_block = "\n[Peer]\nPublicKey = $client_pub\nPresharedKey = $psk\nAllowedIPs = $client_ip/32\n";
+file_put_contents('/etc/wireguard/wg0.conf', $peer_block, FILE_APPEND);
 
 header("X-Robots-Tag: noindex, nofollow");
 header('Content-Type: application/octet-stream');
